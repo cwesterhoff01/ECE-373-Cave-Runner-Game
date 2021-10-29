@@ -7,10 +7,17 @@ public abstract class GameScreen extends JPanel {
 	
 	//Fields for a GameScreen
 	protected Window window;
+	
+	//Default no-arg constructor
+	public GameScreen() {
+		this(new Window());
+	}
 
-	//Default constructor
+	//Constructor that requires one argument
 	public GameScreen(Window w) {
 		
+		//For clarity
+		super();
 		//Every GameScreen belongs to a Window
 		this.window = w;
 		

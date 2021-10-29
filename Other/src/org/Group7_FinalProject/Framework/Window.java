@@ -15,8 +15,13 @@ public class Window {
    	private CardLayout cl;
    	private HashMap<String, GameScreen> gameScreenList;
    	private GameScreen currentScreen;
+   	
+   	//Default no-arg constructor
+   	public Window() {
+   		this(new Game(), 700, 500);
+   	}
 
-   	//Constructor requires a few parameters
+   	//Constructor that requires three arguments
    	public Window(Game g, Integer width, Integer height) {
 	   
 		//Every window belongs to a Game
@@ -28,28 +33,29 @@ public class Window {
 		this.frame = new JFrame("Cave Runner");
 		this.frame.setSize(width, height);
 		  
-		//Initialize GameScreens
+		//Initialize the game screens
 		this.mainPanel = new JPanel();
 		gameScreenList.put("Menu Screen", new MenuScreen(this));
 		gameScreenList.put("Account Screen", new AccountScreen(this));
 		gameScreenList.put("Highscore Screen", new HighscoreScreen(this));
 		gameScreenList.put("Running Screen", new RunningScreen(this));
 		
-		//Create the card layout
+		//Create the CardLayout
 		this.cl = new CardLayout();
 		this.mainPanel.setLayout(cl);
 		  
-		//Add game screens to the card layout
+		//Add the game screens to the CardLayout
 		this.mainPanel.add(gameScreenList.get("Menu Screen"), "Menu Screen");
 		this.mainPanel.add(gameScreenList.get("Account Screen"), "Account Screen");
 		this.mainPanel.add(gameScreenList.get("Highscore Screen"), "Highscore Screen");
 		this.mainPanel.add(gameScreenList.get("Running Screen"), "Running Screen");
 		  
-		//Start by showing the account screen
+		//Start the game on the Account Screen
 		this.currentScreen = gameScreenList.get("Account Screen");
 		
 		//Setup and show the JFrame
 		this.frame.add(mainPanel);
+		//Make sure of a clean exit if the JFrame is closed
 		this.frame.addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e){
                 game.terminate();

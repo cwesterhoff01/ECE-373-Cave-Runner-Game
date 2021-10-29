@@ -6,7 +6,7 @@ public class Game {
 	//Fields for a Game
 	private Window gameWindow;
 
-	//Default constructor
+	//Default no-arg constructor
 	public Game() {
 		
 		//Create a new game window associated with this Game

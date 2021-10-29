@@ -7,11 +7,18 @@ import javax.swing.*;
 
 public class MenuScreen extends GameScreen {
 	
+	//Fields for the Menu Screen
 	JButton accountbtn;
 	JButton highscorebtn;
 	JButton runningbtn;
 	JButton exitbtn;
+	
+	//Default no-arg constructor
+	public MenuScreen() {
+		this(new Window());
+	}
 
+	//Constructor that requires one argument
 	public MenuScreen(Window w) {
 		
 		super(w);

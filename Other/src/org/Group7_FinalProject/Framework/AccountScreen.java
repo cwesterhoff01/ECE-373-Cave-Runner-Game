@@ -6,8 +6,15 @@ import javax.swing.*;
 
 public class AccountScreen extends GameScreen {
 	
+	//Fields for the Account Screen
 	JButton menubtn;
+	
+	//Default no-arg constructor
+	public AccountScreen() {
+		this(new Window());
+	}
 
+	//Constructor that requires one argument
 	public AccountScreen(Window w) {
 		
 		super(w);

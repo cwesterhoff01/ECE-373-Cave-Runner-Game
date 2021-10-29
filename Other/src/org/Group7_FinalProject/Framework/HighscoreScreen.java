@@ -8,9 +8,15 @@ import javax.swing.*;
 
 public class HighscoreScreen extends GameScreen {
 
-	//Fields for the Highscore screen
+	//Fields for the Highscore Screen
 	private JButton menubtn;
 	
+	//Default no-arg constructor
+	public HighscoreScreen() {
+		this(new Window());
+	}
+	
+	//Constructor that requires one argument
 	public HighscoreScreen(Window w) {
 		
 		super(w);
