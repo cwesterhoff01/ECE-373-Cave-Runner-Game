@@ -10,6 +10,7 @@ public class HighscoreScreen extends GameScreen {
 
 	//Fields for the Highscore Screen
 	private JButton menubtn;
+	private JButton togglebtn;
 	
 	//Default no-arg constructor
 	public HighscoreScreen() {
@@ -32,6 +33,21 @@ public class HighscoreScreen extends GameScreen {
 			}
 		});
 		add(menubtn, BorderLayout.SOUTH);
+		
+		//Create a toggle button to switch between personal and all-time highscores display
+		this.togglebtn = new JButton("Personal Highscores");
+		this.togglebtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (togglebtn.getText() == "All-time Highscores") {
+					togglebtn.setText("Personal Highscores");
+				}
+				else {
+					togglebtn.setText("All-time Highscores");
+				}
+			}
+		});
+		add(togglebtn, BorderLayout.SOUTH);
 		
 	}
 
