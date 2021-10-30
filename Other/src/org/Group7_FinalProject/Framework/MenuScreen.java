@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class MenuScreen extends GameScreen {
+public final class MenuScreen extends GameScreen {
 	
 	//Fields for the Menu Screen
 	JButton accountbtn;

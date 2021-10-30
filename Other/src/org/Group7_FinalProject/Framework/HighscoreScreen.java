@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class HighscoreScreen extends GameScreen {
+public final class HighscoreScreen extends GameScreen {
 
 	//Fields for the Highscore Screen
 	private JButton menubtn;
@@ -39,7 +39,7 @@ public class HighscoreScreen extends GameScreen {
 		this.togglebtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (togglebtn.getText() == "All-time Highscores") {
+				if (togglebtn.getText().equals("All-time Highscores")) {
 					togglebtn.setText("Personal Highscores");
 				}
 				else {

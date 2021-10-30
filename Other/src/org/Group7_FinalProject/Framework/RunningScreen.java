@@ -1,6 +1,6 @@
 package org.Group7_FinalProject.Framework;
 
-public class RunningScreen extends GameScreen {
+public final class RunningScreen extends GameScreen {
 
 	//Default no-arg constructor
 	public RunningScreen() {
