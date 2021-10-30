@@ -1,16 +1,28 @@
 package org.Group7_FinalProject.Framework;
 
+import java.util.ArrayList;
+
+import org.Group7_FinalProject.Utilities.Account;
+
 //Game class contains and controls all objects related to a Game
 public class Game {
 	
 	//Fields for a Game
 	private Window gameWindow;
+	private ArrayList<Account> gameAccounts;
+	private Account currAccount;
 
 	//Default no-arg constructor
 	public Game() {
 		
 		//Create a new game window associated with this Game
 		this.gameWindow = new Window(this, 700, 500);
+		
+		this.gameAccounts = new ArrayList<Account>();
+		//TO DO: Load in accounts from txt file here
+		
+		//Open the game with no account logged in
+		this.currAccount = null;
 		
 	}
 	
@@ -26,6 +38,34 @@ public class Game {
 	 */
 	public void setGameWindow(Window gameWindow) {
 		this.gameWindow = gameWindow;
+	}
+
+	/**
+	 * @return the gameAccounts
+	 */
+	public ArrayList<Account> getGameAccounts() {
+		return gameAccounts;
+	}
+
+	/**
+	 * @param gameAccounts the gameAccounts to set
+	 */
+	public void setGameAccounts(ArrayList<Account> gameAccounts) {
+		this.gameAccounts = gameAccounts;
+	}
+
+	/**
+	 * @return the currAccount
+	 */
+	public Account getCurrAccount() {
+		return currAccount;
+	}
+
+	/**
+	 * @param currAccount the currAccount to set
+	 */
+	public void setCurrAccount(Account currAccount) {
+		this.currAccount = currAccount;
 	}
 
 	//Main method for controlling the game
