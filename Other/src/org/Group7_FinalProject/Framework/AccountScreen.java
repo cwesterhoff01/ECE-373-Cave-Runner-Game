@@ -8,6 +8,8 @@ public class AccountScreen extends GameScreen {
 	
 	//Fields for the Account Screen
 	JButton menubtn;
+	JButton selectacctbtn;
+	JButton createacctbtn;
 	
 	//Default no-arg constructor
 	public AccountScreen() {
@@ -30,6 +32,26 @@ public class AccountScreen extends GameScreen {
 			}
 		});
 		add(menubtn, BorderLayout.SOUTH);
+		
+		//Create a select account button
+		this.selectacctbtn = new JButton("Select Account");
+		this.selectacctbtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		add(selectacctbtn, BorderLayout.NORTH);
+		
+		//Create a create account button
+		this.createacctbtn = new JButton("Create Account");
+		this.createacctbtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		add(createacctbtn, BorderLayout.EAST);
 		
 	}
 	
