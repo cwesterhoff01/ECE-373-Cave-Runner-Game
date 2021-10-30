@@ -10,6 +10,7 @@ public class AccountScreen extends GameScreen {
 	JButton menubtn;
 	JButton selectacctbtn;
 	JButton createacctbtn;
+	JTextField accnttxtbox;
 	
 	//Default no-arg constructor
 	public AccountScreen() {
@@ -28,6 +29,16 @@ public class AccountScreen extends GameScreen {
 		this.menubtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//If the user has entered a new account name in the textbox but not saved it to create a new account, display a warning
+				if (!accnttxtbox.getText().equals("")) {
+					//The user can continue without saving the changes, or return to the account screen
+					int result = JOptionPane.showConfirmDialog(window.getFrame(), "The account name you entered has not been saved. Continue to menu anyway?", "Return to Menu", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (result == JOptionPane.NO_OPTION) {
+						return;
+					}
+					//If the user does decide to continue, empty the textbox
+					accnttxtbox.setText(null);
+				}
 				window.setCurrentScreen(w.getGameScreenList().get("Menu Screen"));
 			}
 		});
@@ -38,7 +49,8 @@ public class AccountScreen extends GameScreen {
 		this.selectacctbtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				//TO DO:
+				//Fill out the select account behavior here
 			}
 		});
 		add(selectacctbtn, BorderLayout.NORTH);
@@ -48,10 +60,16 @@ public class AccountScreen extends GameScreen {
 		this.createacctbtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				accnttxtbox.setText("");
+				//TO DO:
+				//Fill out the account creation behavior here
 			}
 		});
 		add(createacctbtn, BorderLayout.EAST);
+		
+		//Create a textbox for the user to enter a new account name in
+		this.accnttxtbox = new JTextField("", 20);
+		add(accnttxtbox, BorderLayout.WEST);
 		
 	}
 	

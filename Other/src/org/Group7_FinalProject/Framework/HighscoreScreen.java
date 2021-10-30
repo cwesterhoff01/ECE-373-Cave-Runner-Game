@@ -39,7 +39,7 @@ public class HighscoreScreen extends GameScreen {
 		this.togglebtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (togglebtn.getText() == "All-time Highscores") {
+				if (togglebtn.getText().equals("All-time Highscores")) {
 					togglebtn.setText("Personal Highscores");
 				}
 				else {
