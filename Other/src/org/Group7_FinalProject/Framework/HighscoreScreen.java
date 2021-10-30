@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class HighscoreScreen extends GameScreen {
+public final class HighscoreScreen extends GameScreen {
 
 	//Fields for the Highscore Screen
 	private JButton menubtn;
