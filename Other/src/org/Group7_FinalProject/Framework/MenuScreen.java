@@ -60,7 +60,11 @@ public class MenuScreen extends GameScreen {
 		this.exitbtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				window.getGame().terminate();
+				//Confirm the user's choice of action with a yes/no popup
+				int result = JOptionPane.showConfirmDialog(window.getFrame(), "Are you sure you want to exit the game?", "Exit Cave Runner", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (result == JOptionPane.YES_OPTION) {
+					window.getGame().terminate();
+				}
 			}
 		});
 		add(exitbtn, BorderLayout.WEST);
