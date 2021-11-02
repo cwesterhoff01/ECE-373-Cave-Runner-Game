@@ -3,7 +3,7 @@ package org.Group7_FinalProject.Framework;
 import javax.swing.*;
 
 //GameScreen is an abstract class that should be implemented by individual screen types
-public abstract class GameScreen extends JPanel {
+public class GameScreen extends JPanel {
 	
 	//Fields for a GameScreen
 	protected Window window;
