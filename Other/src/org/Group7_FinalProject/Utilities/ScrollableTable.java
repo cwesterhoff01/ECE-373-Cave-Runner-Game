@@ -34,19 +34,23 @@ public final class ScrollableTable extends JScrollPane {
 		
 		super();
 		
-		//Create a new scrollable table
+		//Create a new regular table
 		this.model = new DefaultTableModel();
 		this.table = new JTable(this.model);
+		//Load the data into the table
 		for (int i = 0; i < head.length; i++) {
 			this.model.addColumn(head[i].toString());
 		}
 		for (int i = 0; i < data.length; i++) {
 			this.model.addRow(data[i]);
 		}
+		//Set the table to fill the entire parent element
 		this.table.setPreferredScrollableViewportSize(new Dimension(width, height));
 		this.table.setFillsViewportHeight(true);
+		//Start with the first element in the table selected, and limit the table to one selection at a time
 		this.table.setRowSelectionInterval(0, 0);
-		
+		this.table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		//Add the table to the JScrollPane. This creates the ScrollableTable
 		this.getViewport().add(this.table);
 
 	}

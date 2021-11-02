@@ -123,6 +123,14 @@ public final class AccountScreen extends GameScreen {
 		
 		//Create a textbox for the user to enter a new account name in
 		this.accttxtbox = new JTextField("", 20);
+		//Limit account names to 20 characters max
+		accttxtbox.addKeyListener(new KeyAdapter() {
+	        @Override
+	        public void keyTyped(KeyEvent e) {
+	            if (accttxtbox.getText().length() >= 20 )
+	                e.consume();
+	        }
+	    });
 		add(accttxtbox, BorderLayout.WEST);
 		
 		//Create a JLabel to display the current account at all times
