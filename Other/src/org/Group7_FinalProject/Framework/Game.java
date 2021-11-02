@@ -15,14 +15,15 @@ public class Game {
 	//Default no-arg constructor
 	public Game() {
 		
-		//Create a new game window associated with this Game
-		this.gameWindow = new Window(this, 700, 500);
-		
 		this.gameAccounts = new ArrayList<Account>();
 		//TO DO: Load in accounts from txt file here
+		this.gameAccounts.add(new Account("guest"));  //FIX ME: Should there be a guest?
 		
-		//Open the game with no account logged in
-		this.currAccount = null;
+		//Open the game with the guest account logged in
+		this.currAccount = this.gameAccounts.get(0);
+		
+		//Create a new game window associated with this Game
+		this.gameWindow = new Window(this, 700, 500);
 		
 	}
 	

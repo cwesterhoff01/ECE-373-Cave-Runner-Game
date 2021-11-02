@@ -8,10 +8,10 @@ import javax.swing.*;
 public final class MenuScreen extends GameScreen {
 	
 	//Fields for the Menu Screen
-	JButton accountbtn;
-	JButton highscorebtn;
-	JButton runningbtn;
-	JButton exitbtn;
+	private JButton accountbtn;
+	private JButton highscorebtn;
+	private JButton runningbtn;
+	private JButton exitbtn;
 	
 	//Default no-arg constructor
 	public MenuScreen() {
