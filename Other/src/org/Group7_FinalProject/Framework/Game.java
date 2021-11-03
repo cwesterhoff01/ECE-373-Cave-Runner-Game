@@ -17,13 +17,14 @@ public class Game {
 		
 		this.gameAccounts = new ArrayList<Account>();
 		//TO DO: Load in accounts from txt file here
-		this.gameAccounts.add(new Account("guest"));  //FIX ME: Should there be a guest?
-		
-		//Open the game with the guest account logged in
+		//this.gameAccounts.add(new Account("guest"));  <- no longer need guest as it is loaded from file
+		this.loadAccounts();
 		this.currAccount = this.gameAccounts.get(0);
+		//Open the game with the guest account logged in
+		
 		
 		//Create a new game window associated with this Game
-		this.gameWindow = new Window(this, 700, 500);
+		this.gameWindow = new Window(this, 1400, 850);
 		
 	}
 	
@@ -116,9 +117,47 @@ public class Game {
 	private void updateRunningScreen() {
 		//TO DO: Fill out running screen tasks
 	}
-	
+		private void loadAccounts() {
+		try {
+			File accData = new File("src/resources/account_data.txt");
+			Scanner scanner = new Scanner(accData);
+			while (scanner.hasNextLine()) {
+				Account acc = new Account();
+				ArrayList<Integer> accScores= new ArrayList<Integer>();
+				String data = scanner.nextLine();
+					acc.setName(data);
+					while(scanner.hasNextInt()) {
+						Integer score = scanner.nextInt();
+						accScores.add(score);
+					}
+					acc.setHighscores(accScores);
+					gameAccounts.add(acc);
+				}
+		} catch(FileNotFoundException e) {
+			System.out.println("An error occurred in loading the account data");
+			e.printStackTrace();
+		}
+	}
+	private void saveAccounts() {
+		try {
+			System.out.println("PRINTING DATA");
+			File accData = new File("src/resources/account_data.txt");
+			PrintWriter writer = new PrintWriter(accData);
+			for(Account acc : gameAccounts) {
+				writer.println(acc.getName());
+				for(Integer i : acc.getHighscores()) {
+					writer.print(i + " ");
+				}
+			}
+			writer.close();
+		} catch (IOException e) {
+			System.out.println("An error occured in saving the account data");
+			e.printStackTrace();
+		}
+	}
 	//Method that sends the termination signal to the program
 	public void terminate() {
+		this.saveAccounts();
 		System.exit(0);
 	}
 
