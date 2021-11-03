@@ -3,14 +3,17 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.ArrayList;
+import java.util.Collections;
 import javax.swing.*;
+import org.Group7_FinalProject.Utilities.Account;
 
 public final class HighscoreScreen extends GameScreen {
 
 	//Fields for the Highscore Screen
 	private JButton menubtn;
 	private JButton togglebtn;
+	private JTable scoretable;
 	
 	//Default no-arg constructor
 	public HighscoreScreen() {
@@ -18,7 +21,7 @@ public final class HighscoreScreen extends GameScreen {
 	}
 	
 	//Constructor that requires one argument
-	public HighscoreScreen(Window w) {
+public HighscoreScreen(Window w) {
 		
 		super(w);
 		
@@ -33,7 +36,7 @@ public final class HighscoreScreen extends GameScreen {
 			}
 		});
 		add(menubtn, BorderLayout.SOUTH);
-		
+		displayPersonal(w);
 		//Create a toggle button to switch between personal and all-time highscores display
 		this.togglebtn = new JButton("Personal Highscores");
 		this.togglebtn.addActionListener(new ActionListener() {
@@ -41,14 +44,56 @@ public final class HighscoreScreen extends GameScreen {
 			public void actionPerformed(ActionEvent e) {
 				if (togglebtn.getText().equals("All-time Highscores")) {
 					togglebtn.setText("Personal Highscores");
+					remove(scoretable);
+					displayPersonal(w);
 				}
 				else {
 					togglebtn.setText("All-time Highscores");
+					remove(scoretable);
+					displayAllTime(w);
 				}
 			}
 		});
 		add(togglebtn, BorderLayout.SOUTH);
 		
+	}
+	private void displayPersonal(Window w) {
+		//gets the current account top scores then displays
+		String[] title = {"Personal Highscores"};
+		Integer[][] scores = new Integer[10][10];
+		for (int i = 0; i < 10; i++) {
+				if(i < w.getGame().getCurrAccount().getHighscores().size()) {
+					scores[i][0] =  w.getGame().getCurrAccount().getHighscores().get(i);
+				}
+				else {
+					scores[i][0] = 0;
+				}
+		}
+		this.scoretable = new JTable(scores, title);
+
+		add(scoretable, BorderLayout.SOUTH);
+	}
+	private void displayAllTime(Window w) {
+		//Colects top highscores then displays
+		String[] title = {"All-Time Highscores"};
+		Integer[][] scores = new Integer[10][10];
+		ArrayList<Integer> allscores = new ArrayList<Integer>();
+		for(Account acc : w.getGame().getGameAccounts()) {
+			allscores.addAll(acc.getHighscores());
+		}
+		Collections.sort(allscores);
+		Collections.reverse(allscores);
+		for(int i = 0; i < 10; i++) {
+			if(i < allscores.size()) {
+				scores[i][0] = allscores.get(i);
+			}
+			else {
+				scores[i][0] = 0;
+			}
+			
+		}
+		this.scoretable = new JTable(scores, title);
+		add(scoretable, BorderLayout.SOUTH);
 	}
 
 }
