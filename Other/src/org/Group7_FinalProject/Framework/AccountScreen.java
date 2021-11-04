@@ -15,7 +15,7 @@ public final class AccountScreen extends GameScreen {
 	private JButton selectacctbtn;
 	private JButton createacctbtn;
 	private JTextField accttxtbox;
-	private ScrollableTable accttable;
+	private AccountTable accttable;
 	private JLabel curracctlabel;
 	
 	
@@ -143,7 +143,7 @@ public final class AccountScreen extends GameScreen {
 			accounts[i][0] = window.getGame().getGameAccounts().get(i).getName();
 		}
 		String[] head = {"Accounts"};
-		this.accttable = new ScrollableTable(head, accounts, 200, 200);
+		this.accttable = new AccountTable(head, accounts, 200, 200);
 		add(accttable, BorderLayout.EAST);
 		
 	}
@@ -207,14 +207,14 @@ public final class AccountScreen extends GameScreen {
 	/**
 	 * @return the accttable
 	 */
-	public ScrollableTable getAccttable() {
+	public AccountTable getAccttable() {
 		return accttable;
 	}
 
 	/**
 	 * @param accttable the accttable to set
 	 */
-	public void setAccttable(ScrollableTable accttable) {
+	public void setAccttable(AccountTable accttable) {
 		this.accttable = accttable;
 	}
 
