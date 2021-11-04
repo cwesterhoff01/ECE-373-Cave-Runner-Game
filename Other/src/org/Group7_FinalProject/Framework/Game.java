@@ -138,10 +138,11 @@ public class Game {
 					Integer score = scanner.nextInt();
 					accScores.add(score);
 				}
-				scanner.nextLine();  //Get rid of newline character
+				String garbage = scanner.nextLine();  //Get rid of newline character
 				acc.setHighscores(accScores);
 				gameAccounts.add(acc);
 			}
+			scanner.close();
 		} catch(FileNotFoundException e) {
 			System.out.println("An error occurred in loading the account data");
 			e.printStackTrace();
@@ -160,6 +161,7 @@ public class Game {
 				for(Integer i : acc.getHighscores()) {
 					writer.print(i + " ");
 				}
+				writer.println();
 			}
 			writer.close();
 		} catch (IOException e) {

@@ -37,7 +37,7 @@ public final class HighscoreScreen extends GameScreen {
 		});
 		add(menubtn, BorderLayout.SOUTH);
 		
-		//Create a table for highscores
+		//Add a table to display highscores
 		displayPersonal();
 		
 		//Create a toggle button to switch between personal and all-time highscores display
