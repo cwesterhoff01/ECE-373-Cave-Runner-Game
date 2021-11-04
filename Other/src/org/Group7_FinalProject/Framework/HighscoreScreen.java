@@ -21,7 +21,7 @@ public final class HighscoreScreen extends GameScreen {
 	}
 	
 	//Constructor that requires one argument
-public HighscoreScreen(Window w) {
+	public HighscoreScreen(Window w) {
 		
 		super(w);
 		
@@ -36,7 +36,10 @@ public HighscoreScreen(Window w) {
 			}
 		});
 		add(menubtn, BorderLayout.SOUTH);
-		displayPersonal(w);
+		
+		//Create a table for highscores
+		displayPersonal();
+		
 		//Create a toggle button to switch between personal and all-time highscores display
 		this.togglebtn = new JButton("Personal Highscores");
 		this.togglebtn.addActionListener(new ActionListener() {
@@ -45,25 +48,26 @@ public HighscoreScreen(Window w) {
 				if (togglebtn.getText().equals("All-time Highscores")) {
 					togglebtn.setText("Personal Highscores");
 					remove(scoretable);
-					displayPersonal(w);
+					displayPersonal();
 				}
 				else {
 					togglebtn.setText("All-time Highscores");
 					remove(scoretable);
-					displayAllTime(w);
+					displayAllTime();
 				}
 			}
 		});
 		add(togglebtn, BorderLayout.SOUTH);
 		
 	}
-	private void displayPersonal(Window w) {
+	
+	private void displayPersonal() {
 		//gets the current account top scores then displays
 		String[] title = {"Personal Highscores"};
 		Integer[][] scores = new Integer[10][10];
 		for (int i = 0; i < 10; i++) {
-				if(i < w.getGame().getCurrAccount().getHighscores().size()) {
-					scores[i][0] =  w.getGame().getCurrAccount().getHighscores().get(i);
+				if(i < window.getGame().getCurrAccount().getHighscores().size()) {
+					scores[i][0] =  window.getGame().getCurrAccount().getHighscores().get(i);
 				}
 				else {
 					scores[i][0] = 0;
@@ -73,12 +77,13 @@ public HighscoreScreen(Window w) {
 
 		add(scoretable, BorderLayout.SOUTH);
 	}
-	private void displayAllTime(Window w) {
-		//Colects top highscores then displays
+	
+	private void displayAllTime() {
+		//Collects top highscores then displays
 		String[] title = {"All-Time Highscores"};
 		Integer[][] scores = new Integer[10][10];
 		ArrayList<Integer> allscores = new ArrayList<Integer>();
-		for(Account acc : w.getGame().getGameAccounts()) {
+		for(Account acc : window.getGame().getGameAccounts()) {
 			allscores.addAll(acc.getHighscores());
 		}
 		Collections.sort(allscores);
