@@ -1,0 +1,190 @@
+package org.Group7_FinalProject.Framework;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.HashMap;
+import java.util.Timer;
+
+import javax.swing.*;
+
+import org.Group7_FinalProject.Runner.Board;
+import org.Group7_FinalProject.Runner.Difficulty;
+import org.Group7_FinalProject.Runner.MovingSpriteEx;
+
+//Window class contains and controls all objects related to a Window
+public class Window extends JFrame{
+
+	//Fields for a Window
+	private Game game;
+	//private JFrame frame;
+	private JPanel mainPanel;
+   	private CardLayout cl;
+   	private HashMap<String, GameScreen> gameScreenList;
+   	private GameScreen currentScreen;
+   	
+   	//Default no-arg constructor
+   	public Window() {
+   		this(new Game(), 700, 500);
+   	}
+   	
+   	
+   	/* public void enterGame() {
+   		
+   		//EventQueue.invokeLater(() -> {
+            
+            add(new Board());
+
+            setTitle("Moving sprite");
+            setSize(1400, 850);
+            
+            setLocationRelativeTo(null);
+            setResizable(false);
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+             
+        //});
+
+        /* Timer timer = new Timer();
+    	timer.schedule(new Difficulty(), 0, 5000); */
+   		
+   	//} 
+   	/* frame.add(new Board());
+
+    frame.setTitle("Moving sprite");
+    frame.setSize(1400, 850);
+    
+    frame.setLocationRelativeTo(null);
+    frame.setResizable(false);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); */
+
+   	//Constructor that requires three arguments
+   	public Window(Game g, Integer width, Integer height) {
+	   
+		//Every window belongs to a Game
+		this.game = g;
+		//Initialize the list of GameScreens
+		this.gameScreenList = new HashMap<String, GameScreen>();
+		
+		//Initialize JFrame
+		//this = new JFrame("Cave Runner");
+		setSize(width, height);
+		  
+		//Initialize the game screens
+		this.mainPanel = new JPanel();
+		gameScreenList.put("Menu Screen", new MenuScreen(this));
+		gameScreenList.put("Account Screen", new AccountScreen(this));
+		gameScreenList.put("Highscore Screen", new HighscoreScreen(this));
+		//gameScreenList.put("Running Screen", new RunningScreen(this));
+		gameScreenList.put("Running Screen", new RunningScreen(this));
+		
+		//Create the CardLayout
+		this.cl = new CardLayout();
+		this.mainPanel.setLayout(cl);
+		  
+		//Add the game screens to the CardLayout
+		this.mainPanel.add(gameScreenList.get("Menu Screen"), "Menu Screen");
+		this.mainPanel.add(gameScreenList.get("Account Screen"), "Account Screen");
+		this.mainPanel.add(gameScreenList.get("Highscore Screen"), "Highscore Screen");
+		this.mainPanel.add(gameScreenList.get("Running Screen"), "Running Screen");
+		  
+		//Start the game on the Account Screen
+		this.currentScreen = gameScreenList.get("Account Screen");
+		
+		//Setup and show the JFrame
+		add(mainPanel);
+		//Make sure of a clean exit if the JFrame is closed
+		addWindowListener(new WindowAdapter(){
+            public void windowClosing(WindowEvent e){
+                game.terminate();
+            }
+        });
+		setVisible(true);
+		
+   	}
+
+	/**
+	 * @return the game
+	 */
+	public Game getGame() {
+		return game;
+	}
+
+	/**
+	 * @param game the game to set
+	 */
+	public void setGame(Game game) {
+		this.game = game;
+	}
+
+	/**
+	 * @return the frame
+	 */
+	public JFrame getFrame() {
+		return this;
+	}
+
+	/**
+	 * @param frame the frame to set
+	 */
+	/* public void setFrame(JFrame frame) {
+		this = frame;
+	} */
+
+	/**
+	 * @return the mainPanel
+	 */
+	public JPanel getMainPanel() {
+		return mainPanel;
+	}
+
+	/**
+	 * @param mainPanel the mainPanel to set
+	 */
+	public void setMainPanel(JPanel mainPanel) {
+		this.mainPanel = mainPanel;
+	}
+
+	/**
+	 * @return the cl
+	 */
+	public CardLayout getCl() {
+		return cl;
+	}
+
+	/**
+	 * @param cl the cl to set
+	 */
+	public void setCl(CardLayout cl) {
+		this.cl = cl;
+	}
+
+	/**
+	 * @return the gameScreenList
+	 */
+	public HashMap<String, GameScreen> getGameScreenList() {
+		return gameScreenList;
+	}
+
+	/**
+	 * @param gameScreenList the gameScreenList to set
+	 */
+	public void setGameScreenList(HashMap<String, GameScreen> gameScreenList) {
+		this.gameScreenList = gameScreenList;
+	}
+
+	/**
+	 * @return the currentScreen
+	 */
+	public GameScreen getCurrentScreen() {
+		return currentScreen;
+	}
+
+	/**
+	 * @param currentScreen the currentScreen to set
+	 */
+	public void setCurrentScreen(GameScreen currentScreen) {
+		this.currentScreen = currentScreen;
+	}
+
+
+}
