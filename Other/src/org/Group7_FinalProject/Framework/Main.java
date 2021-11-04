@@ -5,8 +5,6 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		System.out.println("Program Starting.");
-		
 		//Create a new game
 		Game game1 = new Game();
 		//Run the game

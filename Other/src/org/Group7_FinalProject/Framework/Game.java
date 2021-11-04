@@ -133,13 +133,14 @@ public class Game {
 				Account acc = new Account();
 				ArrayList<Integer> accScores= new ArrayList<Integer>();
 				String data = scanner.nextLine();
-					acc.setName(data);
-					while(scanner.hasNextInt()) {
-						Integer score = scanner.nextInt();
-						accScores.add(score);
-					}
-					acc.setHighscores(accScores);
-					gameAccounts.add(acc);
+				acc.setName(data);
+				while(scanner.hasNextInt()) {
+					Integer score = scanner.nextInt();
+					accScores.add(score);
+				}
+				scanner.nextLine();  //Get rid of newline character
+				acc.setHighscores(accScores);
+				gameAccounts.add(acc);
 			}
 		} catch(FileNotFoundException e) {
 			System.out.println("An error occurred in loading the account data");
