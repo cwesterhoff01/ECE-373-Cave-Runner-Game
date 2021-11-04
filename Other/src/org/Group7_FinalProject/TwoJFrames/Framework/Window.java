@@ -1,61 +1,26 @@
 package org.Group7_FinalProject.Framework;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
-import java.util.Timer;
-
 import javax.swing.*;
 
-import org.Group7_FinalProject.Runner.Board;
-import org.Group7_FinalProject.Runner.Difficulty;
-import org.Group7_FinalProject.Runner.MovingSpriteEx;
-
 //Window class contains and controls all objects related to a Window
-public class Window extends JFrame{
+public class Window {
 
 	//Fields for a Window
 	private Game game;
-	//private JFrame frame;
+	private JFrame frame;
 	private JPanel mainPanel;
    	private CardLayout cl;
    	private HashMap<String, GameScreen> gameScreenList;
    	private GameScreen currentScreen;
+   	private RunningScreen runningscreen;
    	
    	//Default no-arg constructor
    	public Window() {
    		this(new Game(), 700, 500);
    	}
-   	
-   	
-   	/* public void enterGame() {
-   		
-   		//EventQueue.invokeLater(() -> {
-            
-            add(new Board());
-
-            setTitle("Moving sprite");
-            setSize(1400, 850);
-            
-            setLocationRelativeTo(null);
-            setResizable(false);
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-             
-        //});
-
-        /* Timer timer = new Timer();
-    	timer.schedule(new Difficulty(), 0, 5000); */
-   		
-   	//} 
-   	/* frame.add(new Board());
-
-    frame.setTitle("Moving sprite");
-    frame.setSize(1400, 850);
-    
-    frame.setLocationRelativeTo(null);
-    frame.setResizable(false);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); */
 
    	//Constructor that requires three arguments
    	public Window(Game g, Integer width, Integer height) {
@@ -66,16 +31,16 @@ public class Window extends JFrame{
 		this.gameScreenList = new HashMap<String, GameScreen>();
 		
 		//Initialize JFrame
-		//this = new JFrame("Cave Runner");
-		setSize(width, height);
+		this.frame = new JFrame("Cave Runner");
+		this.frame.setSize(width, height);
 		  
 		//Initialize the game screens
+		this.runningscreen = new RunningScreen(this);
 		this.mainPanel = new JPanel();
 		gameScreenList.put("Menu Screen", new MenuScreen(this));
 		gameScreenList.put("Account Screen", new AccountScreen(this));
 		gameScreenList.put("Highscore Screen", new HighscoreScreen(this));
-		//gameScreenList.put("Running Screen", new RunningScreen(this));
-		gameScreenList.put("Running Screen", new RunningScreen(this));
+		gameScreenList.put("Running Screen", runningscreen);
 		
 		//Create the CardLayout
 		this.cl = new CardLayout();
@@ -91,14 +56,14 @@ public class Window extends JFrame{
 		this.currentScreen = gameScreenList.get("Account Screen");
 		
 		//Setup and show the JFrame
-		add(mainPanel);
+		this.frame.add(mainPanel);
 		//Make sure of a clean exit if the JFrame is closed
-		addWindowListener(new WindowAdapter(){
+		this.frame.addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e){
                 game.terminate();
             }
         });
-		setVisible(true);
+		this.frame.setVisible(true);
 		
    	}
 
@@ -120,15 +85,15 @@ public class Window extends JFrame{
 	 * @return the frame
 	 */
 	public JFrame getFrame() {
-		return this;
+		return frame;
 	}
 
 	/**
 	 * @param frame the frame to set
 	 */
-	/* public void setFrame(JFrame frame) {
-		this = frame;
-	} */
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
 
 	/**
 	 * @return the mainPanel
@@ -184,6 +149,10 @@ public class Window extends JFrame{
 	 */
 	public void setCurrentScreen(GameScreen currentScreen) {
 		this.currentScreen = currentScreen;
+	}
+	
+	public RunningScreen getRunningScreen() {
+		return this.runningscreen;
 	}
 
 
