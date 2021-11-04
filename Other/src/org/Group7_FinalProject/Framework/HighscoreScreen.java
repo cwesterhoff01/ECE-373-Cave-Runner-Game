@@ -38,7 +38,7 @@ public final class HighscoreScreen extends GameScreen {
 		add(menubtn, BorderLayout.SOUTH);
 		
 		//Add a table to display highscores
-		displayPersonal();
+		displayAllTime();
 		
 		//Create a toggle button to switch between personal and all-time highscores display
 		this.togglebtn = new JButton("Personal Highscores");
@@ -48,12 +48,12 @@ public final class HighscoreScreen extends GameScreen {
 				if (togglebtn.getText().equals("All-time Highscores")) {
 					togglebtn.setText("Personal Highscores");
 					remove(scoretable);
-					displayPersonal();
+					displayAllTime();
 				}
 				else {
 					togglebtn.setText("All-time Highscores");
 					remove(scoretable);
-					displayAllTime();
+					displayPersonal();
 				}
 			}
 		});
