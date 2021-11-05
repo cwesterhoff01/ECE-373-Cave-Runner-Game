@@ -61,7 +61,7 @@ public final class MenuScreen extends GameScreen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Confirm the user's choice of action with a yes/no popup
-				int result = JOptionPane.showConfirmDialog(window.getFrame(), "Are you sure you want to exit the game?", "Exit Cave Runner", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				int result = JOptionPane.showConfirmDialog(window, "Are you sure you want to exit the game?", "Exit Cave Runner", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if (result == JOptionPane.YES_OPTION) {
 					window.getGame().terminate();
 				}

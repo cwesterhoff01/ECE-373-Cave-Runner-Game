@@ -64,9 +64,7 @@ public final class HighscoreScreen extends GameScreen {
 	private void displayPersonal() {
 		//gets the current account top scores then displays
 		String[] title = {"Personal Highscores"};
-		Integer[][] scores = new Integer[10][1];
-		Collections.sort(window.getGame().getCurrAccount().getHighscores());
-		Collections.reverse(window.getGame().getCurrAccount().getHighscores());
+		Integer[][] scores = new Integer[10][10];
 		for (int i = 0; i < 10; i++) {
 				if(i < window.getGame().getCurrAccount().getHighscores().size()) {
 					scores[i][0] =  window.getGame().getCurrAccount().getHighscores().get(i);
@@ -83,7 +81,7 @@ public final class HighscoreScreen extends GameScreen {
 	private void displayAllTime() {
 		//Collects top highscores then displays
 		String[] title = {"All-Time Highscores"};
-		Integer[][] scores = new Integer[10][1];
+		Integer[][] scores = new Integer[10][10];
 		ArrayList<Integer> allscores = new ArrayList<Integer>();
 		for(Account acc : window.getGame().getGameAccounts()) {
 			allscores.addAll(acc.getHighscores());

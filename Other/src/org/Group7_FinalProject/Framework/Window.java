@@ -6,11 +6,10 @@ import java.util.HashMap;
 import javax.swing.*;
 
 //Window class contains and controls all objects related to a Window
-public class Window {
+public class Window extends JFrame {
 
 	//Fields for a Window
 	private Game game;
-	private JFrame frame;
 	private JPanel mainPanel;
    	private CardLayout cl;
    	private HashMap<String, GameScreen> gameScreenList;
@@ -29,9 +28,9 @@ public class Window {
 		//Initialize the list of GameScreens
 		this.gameScreenList = new HashMap<String, GameScreen>();
 		
-		//Initialize JFrame
-		this.frame = new JFrame("Cave Runner");
-		this.frame.setSize(width, height);
+		//Initialize the window
+		this.setTitle("Cave Runner");
+		this.setSize(width, height);
 		  
 		//Initialize the game screens
 		this.mainPanel = new JPanel();
@@ -54,14 +53,14 @@ public class Window {
 		this.currentScreen = gameScreenList.get("Account Screen");
 		
 		//Setup and show the JFrame
-		this.frame.add(mainPanel);
+		this.add(mainPanel);
 		//Make sure of a clean exit if the JFrame is closed
-		this.frame.addWindowListener(new WindowAdapter(){
+		this.addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e){
                 game.terminate();
             }
         });
-		this.frame.setVisible(true);
+		this.setVisible(true);
 		
    	}
 
@@ -77,20 +76,6 @@ public class Window {
 	 */
 	public void setGame(Game game) {
 		this.game = game;
-	}
-
-	/**
-	 * @return the frame
-	 */
-	public JFrame getFrame() {
-		return frame;
-	}
-
-	/**
-	 * @param frame the frame to set
-	 */
-	public void setFrame(JFrame frame) {
-		this.frame = frame;
 	}
 
 	/**

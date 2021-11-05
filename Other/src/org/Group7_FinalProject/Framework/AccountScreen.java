@@ -18,7 +18,6 @@ public final class AccountScreen extends GameScreen {
 	private AccountTable accttable;
 	private JLabel curracctlabel;
 	
-	
 	//Default no-arg constructor
 	public AccountScreen() {
 		this(new Window());
@@ -38,13 +37,13 @@ public final class AccountScreen extends GameScreen {
 			public void actionPerformed(ActionEvent e) {
 				//Check to make sure the user is logged into an account, otherwise they can't play the game
 				if (window.getGame().getCurrAccount() == null) {
-					JOptionPane.showMessageDialog(window.getFrame(), "Please select or create an account!", "Account Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(window, "Please select or create an account!", "Account Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				//If the user has entered a new account name in the textbox but not saved it to create a new account, display a warning
 				else if (!accttxtbox.getText().equals("")) {
 					//The user can continue without saving the changes, or return to the account screen
-					int result = JOptionPane.showConfirmDialog(window.getFrame(), "The account name you entered has not been saved. Continue to menu anyway?", "Return to Menu", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					int result = JOptionPane.showConfirmDialog(window, "The account name you entered has not been saved. Continue to menu anyway?", "Return to Menu", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (result == JOptionPane.NO_OPTION) {
 						return;
 					}
@@ -65,7 +64,7 @@ public final class AccountScreen extends GameScreen {
 				//When the user clicks the selectacctbtn, the current account should be set to the account currently selected in the table
 				//But first, check to make sure that the account selected in the table is not already the current account
 				if (window.getGame().getCurrAccount().equals(window.getGame().getGameAccounts().get(accttable.getSelectedRow()))) {
-					JOptionPane.showMessageDialog(window.getFrame(), "You're already logged in, " + window.getGame().getCurrAccount().getName() + "!", "Oops", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(window, "You're already logged in, " + window.getGame().getCurrAccount().getName() + "!", "Oops", JOptionPane.PLAIN_MESSAGE);
 				}
 				else {
 					//Login the selected account
@@ -73,7 +72,7 @@ public final class AccountScreen extends GameScreen {
 					//Update the JLabel to reflect the change
 					curracctlabel.setText("Currently Logged In As: " + window.getGame().getCurrAccount().getName());
 					//Display a message welcoming the account back to the game
-					JOptionPane.showMessageDialog(window.getFrame(), "Welcome back to Cave Runner, " + window.getGame().getCurrAccount().getName() + "!", "Welcome", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(window, "Welcome back to Cave Runner, " + window.getGame().getCurrAccount().getName() + "!", "Welcome", JOptionPane.PLAIN_MESSAGE);
 				}
 			}
 		});
@@ -90,18 +89,18 @@ public final class AccountScreen extends GameScreen {
 				Matcher m = p.matcher(accttxtbox.getText());
 				boolean b = m.find();
 				if (b) {
-					JOptionPane.showMessageDialog(window.getFrame(), "The account name you entered is invalid. Account names cannot contain any special characters or spaces.", "Account Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(window, "The account name you entered is invalid. Account names cannot contain any special characters or spaces.", "Account Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				//Next, check to make sure that the textbox is not empty
 				if (accttxtbox.getText().equals("")) {
-					JOptionPane.showMessageDialog(window.getFrame(), "The account name you entered is invalid. Account names cannot be empty.", "Account Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(window, "The account name you entered is invalid. Account names cannot be empty.", "Account Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				//Finally, check to make sure the account name has not already been taken
 				for (Account a : window.getGame().getGameAccounts()) {
 					if (a.getName().equals(accttxtbox.getText())) {
-						JOptionPane.showMessageDialog(window.getFrame(), "The account name you entered has already been taken. Please enter a unique account name.", "Account Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(window, "The account name you entered has already been taken. Please enter a unique account name.", "Account Error", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
 				}
@@ -116,7 +115,7 @@ public final class AccountScreen extends GameScreen {
 				accttable.addRow(row);
 				accttable.setSelectedRow(window.getGame().getGameAccounts().size() - 1);
 				//Display a message welcoming the new account to the game
-				JOptionPane.showMessageDialog(window.getFrame(), "Welcome to Cave Runner, " + window.getGame().getCurrAccount().getName() + "!", "Welcome", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(window, "Welcome to Cave Runner, " + window.getGame().getCurrAccount().getName() + "!", "Welcome", JOptionPane.PLAIN_MESSAGE);
 			}
 		});
 		add(createacctbtn, BorderLayout.EAST);
