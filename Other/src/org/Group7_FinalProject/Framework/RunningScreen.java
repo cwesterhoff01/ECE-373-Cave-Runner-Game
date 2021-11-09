@@ -67,14 +67,14 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     	
     }
     
-    //In addition to drawing a background image, a RunningScreen must draw all the sprites
+    //In addition to drawing a background image, a RunningScreen must draw sprites
     @Override
     public void paintComponent(Graphics g) {
     	
     	//Draw the background image
         super.paintComponent(g);
         
-        //Draw all the sprites as long as the game is running
+        //Draw all the sprites as long as the player is not dead
         if (!runnerDead)
             drawObjects(g);
         else
@@ -122,11 +122,13 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
             obstaclesLeft.add(new ObstacleLeft(p[0], p[1]));
         }
         
+        //Place the runner in the upper left hand corner
         runner.setPosition(40, 60);
         runner.setVisible(true);
         
     }
 
+	//Method that draws all visible sprite objects on the screen
     private void drawObjects(Graphics g) {
 
         if (runner.isVisible()) {
@@ -153,6 +155,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         
     }
 
+    //Method that draws the "Game Over" message on the screen
     private void drawGameOver(Graphics g) {
 
         String msg = "Game Over";
@@ -165,9 +168,11 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         
     }
 	
+    //Method that implements the ActionListener
     @Override
     public void actionPerformed(ActionEvent e) {
     	
+    	//Run all methods that should occur every timer period
         checkRunnerDead();
         updateRunner();
         updateCeiling();
@@ -181,40 +186,33 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         
     }
     
+    //These three methods implement the KeyListener
 	@Override
 	public void keyTyped(KeyEvent e) {
 		//TO DO
 	}
-
 	@Override
 	public void keyPressed(KeyEvent e) {
 		runner.keyPressed(e);
 	}
-
 	@Override
 	public void keyReleased(KeyEvent e) {
 		runner.keyReleased(e);
 	}
 	
 	private void checkRunnerDead() {
-
         if (runnerDead)
-        	stopRunning();
-        
+        	stopRunning(); 
     }
 
     private void updateRunner() {
-
         if (runner.isVisible())
             runner.move();
-        
     }
     
     private void updateCeiling() {
-
         if (ceiling.isVisible())
             ceiling.move();
-        
     }
 
 	private void updateObstacles() {
