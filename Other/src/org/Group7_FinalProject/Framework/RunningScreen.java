@@ -1,6 +1,7 @@
 package org.Group7_FinalProject.Framework;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -33,6 +34,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	private boolean runnerDead;
 	private int prevStuck;
 	private Integer depth;
+	private Game currGame;
     
     private final int[][] pos = { // spawn positions
         {450, 250}, {450, 750}
@@ -53,7 +55,8 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     	
     	//Load the background image
     	super(w, new ImageIcon("src/resources/background.jpeg"));
-    	
+    	//Allows to set currScreen to menu
+    	currGame = w.getGame(); 
     	//Initialize objects
         runner = new Runner(0, 0);
         ceiling = new Ceiling(0, 0);
@@ -62,7 +65,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         depth = 0;
         
         //The timer handles animation with ActionListener, the KeyListener handles keyboard input
-        timer = new Timer(15, this);
+        timer = new Timer(15, this); //every 15 ms call action performed
         addKeyListener(this);
     	
     }
@@ -174,6 +177,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     	
     	//Run all methods that should occur every timer period
         checkRunnerDead();
+        checkPaused();
         updateRunner();
         updateCeiling();
         updateObstacles();
@@ -204,7 +208,23 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         if (runnerDead)
         	stopRunning(); 
     }
-
+	
+	private void checkPaused() {
+		if(runner.getIsPaused()) {
+			timer.stop();
+			int result = JOptionPane.showConfirmDialog(null, "Game is paused would you like to resume (yes to resume) (no to go back to the menu)", "Pause Menu", JOptionPane.YES_NO_OPTION);
+			if(result == JOptionPane.YES_OPTION) {
+				timer.start();
+				runner.setIsPaused(false);
+			}
+			else {
+				stopRunning();
+				runnerDead = true;
+			}
+			
+		}
+	}
+	
     private void updateRunner() {
         if (runner.isVisible())
             runner.move();
