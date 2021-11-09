@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 import java.util.Timer;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JOptionPane;
 
@@ -132,33 +133,36 @@ public class Game {
     	
     	//Continue running until the player dies
     	while(((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).isRunnerDead() == false);
-    	
-		//If the current account has set a new highscore, record it
-    	Integer depth = ((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).getDepth();
-		boolean newHighscore = false;
-		for (Integer s : gameWindow.getGame().getCurrAccount().getHighscores()) {
-			if (depth > s) {
-				gameWindow.getGame().getCurrAccount().getHighscores().remove(9);
-				gameWindow.getGame().getCurrAccount().getHighscores().add(depth);
-				Collections.sort(gameWindow.getGame().getCurrAccount().getHighscores());
-				Collections.reverse(gameWindow.getGame().getCurrAccount().getHighscores());
-				newHighscore = true;
-				break;
+    	if((((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).getRunner().getIsPaused())) {//Game was paused go back to menu screen
+    		gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Menu Screen"));
+    	}
+    	else {//runner died normally
+			//If the current account has set a new highscore, record it
+	    	Integer depth = ((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).getDepth();
+			boolean newHighscore = false;
+			for (Integer s : gameWindow.getGame().getCurrAccount().getHighscores()) {
+				if (depth > s) {
+					gameWindow.getGame().getCurrAccount().getHighscores().add(depth);
+					Collections.sort(gameWindow.getGame().getCurrAccount().getHighscores());
+					Collections.reverse(gameWindow.getGame().getCurrAccount().getHighscores());
+					newHighscore = true;
+					break;
+				}
 			}
-		}
-		
-		//Give the user the option to return to the Menu Screen or play again
-		int result;
-		if (newHighscore == false)
-			result = JOptionPane.showConfirmDialog(gameWindow, "Ouch! You died at a depth of " + depth.toString() + "ft. Do you wish to play again?", "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-		else
-			result = JOptionPane.showConfirmDialog(gameWindow, "Ouch! You died at a depth of " + depth.toString() + "ft.\n Congratulations, this is a new top 10 score for your account!\n Do you wish to play again?", "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-		if (result == JOptionPane.YES_OPTION) {
-			gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Running Screen"));
-		}
-		else {
-			gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Menu Screen"));
-		}
+			
+			//Give the user the option to return to the Menu Screen or play again
+			int result;
+			if (newHighscore == false)
+				result = JOptionPane.showConfirmDialog(gameWindow, "Ouch! You died at a depth of " + depth.toString() + "ft. Do you wish to play again?", "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			else
+				result = JOptionPane.showConfirmDialog(gameWindow, "Ouch! You died at a depth of " + depth.toString() + "ft.\n Congratulations, this is a new top 10 score for your account!\n Do you wish to play again?", "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			if (result == JOptionPane.YES_OPTION) {
+				gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Running Screen"));
+			}
+			else {
+				gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Menu Screen"));
+			}
+    	}
 		
 	}
 	
@@ -195,8 +199,15 @@ public class Game {
 			PrintWriter writer = new PrintWriter(accData);
 			for(Account acc : gameAccounts) {
 				writer.println(acc.getName());
+				int count = 0;
 				for(Integer i : acc.getHighscores()) {
+					if(count > 10) {
 					writer.print(i.toString() + " ");
+					}
+					else {
+						break;
+					}
+					count++;
 				}
 				writer.println();
 			}
