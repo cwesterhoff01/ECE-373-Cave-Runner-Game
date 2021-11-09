@@ -82,7 +82,6 @@ public class Runner extends Sprite {
         }
         
         if(key == KeyEvent.VK_ESCAPE) {
-        	System.out.println("ESCAPE KEY");
         	isPaused = true;
         }
     }
