@@ -9,12 +9,14 @@ public class Runner extends Sprite {
     private int dy = DIFFICULTY * 2;
     private final int SPEED = 3;
     private int lastKey;
+    private boolean isPaused;
 
     //Constructor that requires two arguments
     public Runner(int x, int y) {
     	
         super(x, y);
         
+        isPaused = false;
         loadImage("src/resources/runner3.png");
         getImageDimensions();
         
@@ -78,6 +80,11 @@ public class Runner extends Sprite {
         	dx = DIFFICULTY * 3;
             lastKey = key;
         }
+        
+        if(key == KeyEvent.VK_ESCAPE) {
+        	System.out.println("ESCAPE KEY");
+        	isPaused = true;
+        }
     }
 
     public void keyReleased(KeyEvent e) {
@@ -113,5 +120,10 @@ public class Runner extends Sprite {
     public int getLastKey() {
     	return lastKey;
     }
-    
+    public boolean getIsPaused() {
+    	return this.isPaused;
+    }
+    public void setIsPaused(Boolean input) {
+    	this.isPaused = input;
+    }
 }
