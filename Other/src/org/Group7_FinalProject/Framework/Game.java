@@ -138,9 +138,10 @@ public class Game {
 		boolean newHighscore = false;
 		for (Integer s : gameWindow.getGame().getCurrAccount().getHighscores()) {
 			if (depth > s) {
-				gameWindow.getGame().getCurrAccount().getHighscores().remove(s);
+				gameWindow.getGame().getCurrAccount().getHighscores().remove(9);
 				gameWindow.getGame().getCurrAccount().getHighscores().add(depth);
 				Collections.sort(gameWindow.getGame().getCurrAccount().getHighscores());
+				Collections.reverse(gameWindow.getGame().getCurrAccount().getHighscores());
 				newHighscore = true;
 				break;
 			}
