@@ -69,15 +69,17 @@ public final class HighscoreTable extends JScrollPane {
 		}
 	}
 
-	public void addAccountNames(ArrayList<Highscores> alltimeHighscores) {
+	public void addAccountNames(ArrayList<Highscores> alltimeHighscores) {//Adds the accounts names for alltime highscores
 		String[] accNames = new String[10];
 		for(int i = 0; i < 10; i++) {
 			accNames[i] = alltimeHighscores.get(i).getName();
 		}
+		//create new column with account names
 		model.addColumn("Account Names", accNames);
 	}
 
 	public void removeEmptyCol() {
+		//Personal scores dont need to show account names :)
 		model.setColumnCount(1);	
 	}
 
