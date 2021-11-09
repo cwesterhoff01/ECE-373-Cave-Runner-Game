@@ -1,5 +1,6 @@
 package org.Group7_FinalProject.Runner;
 
+
 import java.awt.event.KeyEvent;
 
 public class Runner extends Sprite {
@@ -9,14 +10,14 @@ public class Runner extends Sprite {
     private final int SPEED = 3;
     private int lastKey;
 
+    //Constructor that requires two arguments
     public Runner(int x, int y) {
+    	
         super(x, y);
-		initRunner();
-    }
-
-	private void initRunner() {
+        
         loadImage("src/resources/runner3.png");
         getImageDimensions();
+        
     }
 	
 	public void setMovement(boolean move) {	
@@ -30,6 +31,7 @@ public class Runner extends Sprite {
 	}
 	
     public void move() {
+    	
         x += dx;
         y += dy;
 		if (x < 1) {
@@ -43,6 +45,7 @@ public class Runner extends Sprite {
      	if (y > 700) {
         	y = 700;
         }
+     	
     }
 
     public void keyPressed(KeyEvent e) {
@@ -110,4 +113,5 @@ public class Runner extends Sprite {
     public int getLastKey() {
     	return lastKey;
     }
+    
 }

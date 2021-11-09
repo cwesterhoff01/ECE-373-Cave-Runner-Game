@@ -5,24 +5,27 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
+//Sprite class contains all methods and fields related to a Sprite
 public class Sprite {
 
+	//Fields for a Sprite
     protected int x;
     protected int y;
     protected int width;
     protected int height;
-    protected static int DIFFICULTY = 0;
+    protected static int DIFFICULTY = 3;
     protected boolean visible;
     protected Image image;
 
+    //Constructor that requires two arguments
     public Sprite(int x, int y) {
 
         this.x = x;
         this.y = y;
         visible = true;
+        
     }
 
-    
     public static int changeDifficulty() {
     	DIFFICULTY += 1;
     	return DIFFICULTY;
@@ -32,12 +35,14 @@ public class Sprite {
 
         width = image.getWidth(null);
         height = image.getHeight(null);
+        
     }
 
     protected void loadImage(String imageName) {
 
         ImageIcon ii = new ImageIcon(imageName);
         image = ii.getImage();
+        
     }
 
     public Image getImage() {
@@ -50,6 +55,11 @@ public class Sprite {
 
     public int getY() {
         return y;
+    }
+    
+    public void setPosition(int x, int y) {
+    	this.x = x;
+    	this.y = y;
     }
     
     public int getWidth() {
@@ -71,4 +81,5 @@ public class Sprite {
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);
     }
+    
 }

@@ -3,7 +3,11 @@ package org.Group7_FinalProject.Framework;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Timer;
+
 import javax.swing.*;
+
+import org.Group7_FinalProject.Runner.Difficulty;
 
 public final class MenuScreen extends GameScreen {
 	

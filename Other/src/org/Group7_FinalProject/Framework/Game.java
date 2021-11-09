@@ -5,9 +5,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
+import java.util.Timer;
+
+import javax.swing.JOptionPane;
 
 import org.Group7_FinalProject.Utilities.Account;
+
+import org.Group7_FinalProject.Runner.*;
 
 
 //Game class contains and controls all objects related to a Game
@@ -21,10 +27,10 @@ public class Game {
 	//Default no-arg constructor
 	public Game() {
 		
-		this.gameAccounts = new ArrayList<Account>();
-		
 		//Load in accounts from txt file here
+		this.gameAccounts = new ArrayList<Account>();
 		this.loadAccounts();
+		
 		//Open the game with the guest account logged in
 		this.currAccount = this.gameAccounts.get(0);
 		
@@ -120,7 +126,39 @@ public class Game {
 	}
 	
 	private void updateRunningScreen() {
-		//TO DO: Fill out running screen tasks
+		
+		//Start the runner game
+		((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).startRunning();
+    	
+    	//Continue running until the player dies
+    	while(((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).isRunnerDead() == false);
+    	
+		//If the current account has set a new highscore, record it
+    	Integer depth = ((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).getDepth();
+		boolean newHighscore = false;
+		for (Integer s : gameWindow.getGame().getCurrAccount().getHighscores()) {
+			if (depth > s) {
+				gameWindow.getGame().getCurrAccount().getHighscores().remove(s);
+				gameWindow.getGame().getCurrAccount().getHighscores().add(depth);
+				Collections.sort(gameWindow.getGame().getCurrAccount().getHighscores());
+				newHighscore = true;
+				break;
+			}
+		}
+		
+		//Give the user the option to return to the Menu Screen or play again
+		int result;
+		if (newHighscore == false)
+			result = JOptionPane.showConfirmDialog(gameWindow, "Ouch! You died at a depth of " + depth.toString() + "ft. Do you wish to play again?", "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		else
+			result = JOptionPane.showConfirmDialog(gameWindow, "Ouch! You died at a depth of " + depth.toString() + "ft.\n Congratulations, this is a new top 10 score for your account!\n Do you wish to play again?", "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		if (result == JOptionPane.YES_OPTION) {
+			gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Running Screen"));
+		}
+		else {
+			gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Menu Screen"));
+		}
+		
 	}
 	
 	//Method that loads in accounts from a txt file
@@ -130,16 +168,14 @@ public class Game {
 			File accData = new File("src/resources/account_data.txt");
 			Scanner scanner = new Scanner(accData);
 			while (scanner.hasNextLine()) {
-				Account acc = new Account();
 				ArrayList<Integer> accScores= new ArrayList<Integer>();
-				String data = scanner.nextLine();
-				acc.setName(data);
+				String name = scanner.nextLine();
 				while(scanner.hasNextInt()) {
 					Integer score = scanner.nextInt();
 					accScores.add(score);
 				}
 				String garbage = scanner.nextLine();  //Get rid of newline character
-				acc.setHighscores(accScores);
+				Account acc = new Account(name, accScores);
 				gameAccounts.add(acc);
 			}
 			scanner.close();
@@ -159,7 +195,7 @@ public class Game {
 			for(Account acc : gameAccounts) {
 				writer.println(acc.getName());
 				for(Integer i : acc.getHighscores()) {
-					writer.print(i + " ");
+					writer.print(i.toString() + " ");
 				}
 				writer.println();
 			}

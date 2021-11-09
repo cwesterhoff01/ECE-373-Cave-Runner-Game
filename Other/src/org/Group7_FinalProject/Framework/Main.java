@@ -9,7 +9,7 @@ public class Main {
 		Game game1 = new Game();
 		//Run the game
 		game1.runGame();
-
+		
 	}
 
 }

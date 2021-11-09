@@ -17,7 +17,7 @@ public class Account {
 	
 	//Constructor that accepts one argument
 	public Account(String name) {
-		this(name, new ArrayList<Integer>());
+		this(name, new ArrayList<Integer>(Collections.nCopies(10, 0)));
 	}
 	
 	//Constructor that accepts two arguments

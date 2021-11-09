@@ -60,6 +60,7 @@ public class Window extends JFrame {
                 game.terminate();
             }
         });
+		
 		this.setVisible(true);
 		
    	}

@@ -1,5 +1,6 @@
 package org.Group7_FinalProject.Runner;
 
+
 public class ObstacleLeft extends Sprite {
 
     private final int INITIAL_Y = 850;
