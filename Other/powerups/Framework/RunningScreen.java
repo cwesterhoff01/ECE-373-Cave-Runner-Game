@@ -66,7 +66,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         ceiling = new Ceiling(0, 0);
         obstacles = new ArrayList<>();
         obstaclesLeft = new ArrayList<>();
-        haltPowerups = new ArrayList<Halt>();
         depth = 0;
         gameDelay = 0;
         //The timer handles animation with ActionListener, the KeyListener handles keyboard input
@@ -95,6 +94,8 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     //Method that starts the running process
     public void startRunning() {
     	
+	//makes it so last runs powerups dont carry over
+	haltPowerups = new ArrayList<Halt>();
     	//Request focus so that the KeyListener responds
     	requestFocus();
     	//We are now in the game, so start the animations
