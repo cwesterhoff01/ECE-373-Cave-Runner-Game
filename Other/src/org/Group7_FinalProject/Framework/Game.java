@@ -201,7 +201,7 @@ public class Game {
 				writer.println(acc.getName());
 				int count = 0;
 				for(Integer i : acc.getHighscores()) {
-					if(count > 10) {
+					if(count < 10) {
 					writer.print(i.toString() + " ");
 					}
 					else {
