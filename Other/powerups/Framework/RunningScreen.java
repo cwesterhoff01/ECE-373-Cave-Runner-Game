@@ -243,11 +243,8 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 			//need to generate an x and y that do not conflict :)
 			int x_pos = rand.nextInt(500); 
 			Halt haltpowerup = new Halt(x_pos, runner.getY() + 500);
-			System.out.println("Powerup spawned " + x_pos + " " +(runner.getY() + 500));
 			haltpowerup.setVisible(true);
 			haltPowerups.add(haltpowerup);
-			//paint powerup
-			//g.drawImage(haltpowerup.getImage(), haltpowerup.getX(), haltpowerup.getY(), this);
 		}
 		//else does not generate a powerup
 	}
@@ -327,7 +324,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 					hpu.setVisible(false);
 					hpu.setActive(true);
 					gameDelay = System.currentTimeMillis();
-					System.out.println("Powerup collected :0 pooggggeeerrrsss: " + gameDelay);
 				}
 			}
 		}
