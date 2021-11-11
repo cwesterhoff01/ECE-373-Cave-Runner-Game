@@ -14,7 +14,6 @@ public class Halt extends Powerup {
 
 	@Override
 	public void initPowerup() {
-		// TODO Auto-generated method stub
 		loadImage("src/resources/star.png");
 		getImageDimensions();
 		this.setVisible(true);

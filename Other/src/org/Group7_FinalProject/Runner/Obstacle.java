@@ -8,12 +8,13 @@ public class Obstacle extends Sprite {
     public Obstacle(int x, int y) {
         super(x, y);
 
-        initObstacle();
+        initObstacleLeft();
+        visible = false;
     }
 
-    private void initObstacle() {
+    private void initObstacleLeft() {
 
-        loadImage("src/resources/crystal7.png");
+        loadImage("src/resources/obstacle.png");
         getImageDimensions();
     }
 

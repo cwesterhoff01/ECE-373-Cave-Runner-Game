@@ -1,5 +1,6 @@
 package org.Group7_FinalProject.Framework;
 
+import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -26,7 +27,7 @@ public class GameScreen extends JPanel {
 	public GameScreen(Window w, ImageIcon ii) {
 		
 		//For clarity
-		super();
+  		super();
 		//Every GameScreen belongs to a Window
 		this.window = w;
 		this.backgroundImage = ii.getImage();

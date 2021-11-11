@@ -5,8 +5,8 @@ import java.awt.event.KeyEvent;
 
 public class Runner extends Sprite {
 
-    private int dx;
-    private int dy = DIFFICULTY * 2;
+    private double dx;
+    private double dy = DIFFICULTY * 2;
     private final int SPEED = 3;
     private int lastKey;
     private boolean isPaused;
@@ -17,7 +17,7 @@ public class Runner extends Sprite {
         super(x, y);
         
         isPaused = false;
-        loadImage("src/resources/runner3.png");
+        loadImage("src/resources/runner5.png");
         getImageDimensions();
         
     }
@@ -34,8 +34,8 @@ public class Runner extends Sprite {
 	
     public void move() {
     	
-        x += dx;
-        y += dy;
+        x += (int) dx;
+        y += (int) dy;
 		if (x < 1) {
             x = 1;
         }

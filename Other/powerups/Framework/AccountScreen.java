@@ -7,13 +7,16 @@ import java.util.regex.Pattern;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 public final class AccountScreen extends GameScreen {
 	
 	//Fields for the Account Screen
+	private JButton runningbtn;
 	private JButton menubtn;
 	private JButton selectacctbtn;
 	private JButton createacctbtn;
+	private JButton exitbtn;
 	private JTextField accttxtbox;
 	private AccountTable accttable;
 	private JLabel curracctlabel;
@@ -26,13 +29,55 @@ public final class AccountScreen extends GameScreen {
 	//Constructor that requires one argument
 	public AccountScreen(Window w) {
 		
-		super(w);
+		super(w, new ImageIcon("src/resources/background_account5.jpeg"));
 		
-		setBackground(Color.BLUE);
-				
+		//Create a button to go to the running screen
+		String text = "<html>" + "Start" + "<br>" + "Game"
+				 + "</html>";
+		runningbtn = new JButton(text);
+		runningbtn.setFont(new Font("Arial", Font.BOLD, 18));
+		runningbtn.setBounds(323,530,80,50); 
+		runningbtn.setContentAreaFilled(false);
+		runningbtn.setBorderPainted(false);
+		runningbtn.setBorder(new LineBorder(Color.black));
+		//runningbtn.setForeground(Color.orange);
+		runningbtn.addMouseListener(new MouseAdapter(){
+		    @Override
+		    public void mousePressed(MouseEvent e) {
+		    	runningbtn.setBorderPainted(true);
+		    }
+		    @Override
+		    public void mouseReleased(MouseEvent e) {
+		    	runningbtn.setBorderPainted(false);
+		    }
+		});
+		runningbtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				window.setCurrentScreen(w.getGameScreenList().get("Running Screen"));
+			}
+		});
+		add(runningbtn);
+		
 		//Create a menu button
-		this.menubtn = new JButton("Menu");
-		this.menubtn.addActionListener(new ActionListener() {
+		menubtn = new JButton("Menu");
+		menubtn.setFont(new Font("Arial", Font.BOLD, 18));
+		menubtn.setBounds(563,525,80,50); 
+		menubtn.setContentAreaFilled(false);
+		menubtn.setBorderPainted(false);
+		menubtn.setBorder(new LineBorder(Color.black));
+		//menubtn.setForeground(Color.orange);
+		menubtn.addMouseListener(new MouseAdapter(){
+		    @Override
+		    public void mousePressed(MouseEvent e) {
+		    	menubtn.setBorderPainted(true);
+		    }
+		    @Override
+		    public void mouseReleased(MouseEvent e) {
+		    	menubtn.setBorderPainted(false);
+		    }
+		});
+		menubtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Check to make sure the user is logged into an account, otherwise they can't play the game
@@ -54,11 +99,31 @@ public final class AccountScreen extends GameScreen {
 				window.setCurrentScreen(window.getGameScreenList().get("Menu Screen"));
 			}
 		});
-		add(menubtn, BorderLayout.SOUTH);
+		add(menubtn);
 		
 		//Create a select account button
-		this.selectacctbtn = new JButton("Select Account");
-		this.selectacctbtn.addActionListener(new ActionListener() {
+		text = "<html>" + "&nbsp Select" + "<br>" + "Account"
+				 + "</html>";
+		selectacctbtn = new JButton(text);
+		selectacctbtn.setFont(new Font("Arial", Font.BOLD, 18));
+		selectacctbtn.setBounds(950,490,120,70); 
+		selectacctbtn.setContentAreaFilled(false);
+		selectacctbtn.setOpaque(true);
+		selectacctbtn.setBorderPainted(false);
+		selectacctbtn.setBorder(new LineBorder(Color.orange));
+		selectacctbtn.setBackground(Color.black);
+		selectacctbtn.setForeground(Color.orange);
+		selectacctbtn.addMouseListener(new MouseAdapter(){
+		    @Override
+		    public void mousePressed(MouseEvent e) {
+		    	selectacctbtn.setBorderPainted(true);
+		    }
+		    @Override
+		    public void mouseReleased(MouseEvent e) {
+		    	selectacctbtn.setBorderPainted(false);
+		    }
+		});
+		selectacctbtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//When the user clicks the selectacctbtn, the current account should be set to the account currently selected in the table
@@ -76,11 +141,31 @@ public final class AccountScreen extends GameScreen {
 				}
 			}
 		});
-		add(selectacctbtn, BorderLayout.NORTH);
+		add(selectacctbtn);
 		
 		//Create a create account button
-		this.createacctbtn = new JButton("Create Account");
-		this.createacctbtn.addActionListener(new ActionListener() {
+		text = "<html>" + "Create New" + "<br>" + "&nbsp Account"
+				 + "</html>";
+		createacctbtn = new JButton(text);
+		createacctbtn.setFont(new Font("Arial", Font.BOLD, 18));
+		createacctbtn.setBounds(702,370,150,70); 
+		createacctbtn.setContentAreaFilled(true);
+		createacctbtn.setBorderPainted(false);
+		createacctbtn.setBorder(new LineBorder(Color.orange));
+		createacctbtn.setOpaque(true);
+		createacctbtn.setBackground(Color.black);
+		createacctbtn.setForeground(Color.orange);
+		createacctbtn.addMouseListener(new MouseAdapter(){
+		    @Override
+		    public void mousePressed(MouseEvent e) {
+		    	createacctbtn.setBorderPainted(true);
+		    }
+		    @Override
+		    public void mouseReleased(MouseEvent e) {
+		    	createacctbtn.setBorderPainted(false);
+		    }
+		});
+		createacctbtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//When the user clicks the createacctbtn, a new account with the name entered in the textbox should be created
@@ -118,10 +203,47 @@ public final class AccountScreen extends GameScreen {
 				JOptionPane.showMessageDialog(window, "Welcome to Cave Runner, " + window.getGame().getCurrAccount().getName() + "!", "Welcome", JOptionPane.PLAIN_MESSAGE);
 			}
 		});
-		add(createacctbtn, BorderLayout.EAST);
+		add(createacctbtn);
+		
+		//Create a button to exit the game
+		exitbtn = new JButton("Exit");
+		exitbtn.setFont(new Font("Arial", Font.BOLD, 20));
+		exitbtn.setBounds(837,608,80,50); 
+						//,525,80,50
+		//exitbtn.setOpaque(true);
+		exitbtn.setContentAreaFilled(false);
+		exitbtn.setBorderPainted(false);
+		exitbtn.setBorder(new LineBorder(Color.black));
+		//exitbtn.setForeground(Color.orange);
+		exitbtn.addMouseListener(new MouseAdapter(){
+		    @Override
+		    public void mousePressed(MouseEvent e) {
+		    	exitbtn.setBorderPainted(true);
+		    }
+		    @Override
+		    public void mouseReleased(MouseEvent e) {
+		    	exitbtn.setBorderPainted(false);
+		    }
+		});
+		exitbtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//Confirm the user's choice of action with a yes/no popup
+				int result = JOptionPane.showConfirmDialog(window, "Are you sure you want to exit the game?", "Exit Cave Runner", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (result == JOptionPane.YES_OPTION) {
+					window.getGame().terminate();
+				}
+			}
+		});
+		this.add(exitbtn);
 		
 		//Create a textbox for the user to enter a new account name in
-		this.accttxtbox = new JTextField("", 20);
+		accttxtbox = new JTextField("", 20);
+		accttxtbox.setFont(new Font("Arial", Font.BOLD, 24));
+		accttxtbox.setBounds(675,305,200,50); 
+		accttxtbox.setBorder(new LineBorder(Color.black));
+		accttxtbox.setForeground(Color.black);
+		accttxtbox.setBackground(Color.orange);
 		//Limit account names to 20 characters max
 		accttxtbox.addKeyListener(new KeyAdapter() {
 	        @Override
@@ -130,11 +252,14 @@ public final class AccountScreen extends GameScreen {
 	                e.consume();
 	        }
 	    });
-		add(accttxtbox, BorderLayout.WEST);
+		add(accttxtbox);
 		
 		//Create a JLabel to display the current account at all times
-		this.curracctlabel = new JLabel("Currently Logged In As: " + window.getGame().getCurrAccount().getName());
-		add(curracctlabel, BorderLayout.SOUTH);
+		curracctlabel = new JLabel("Currently Logged In As: " + window.getGame().getCurrAccount().getName());
+		curracctlabel.setFont(new Font("Arial", Font.BOLD, 18));
+		curracctlabel.setBounds(275,375,300,50); 
+		curracctlabel.setForeground(Color.black);
+		add(curracctlabel);
 		
 		//Create a table to display the game accounts
 		String[][] accounts = new String[window.getGame().getGameAccounts().size()][1];
@@ -143,8 +268,16 @@ public final class AccountScreen extends GameScreen {
 		}
 		String[] head = {"Accounts"};
 		this.accttable = new AccountTable(head, accounts, 200, 200);
-		add(accttable, BorderLayout.EAST);
-		
+		accttable.setFont(new Font("Arial", Font.BOLD, 18));
+		accttable.setBounds(900,280,200,200); 
+		accttable.setBorder(new LineBorder(Color.black));
+		accttable.setForeground(Color.black);
+		accttable.setBackground(Color.orange);
+		accttable.setOpaque(true);
+		accttable.setBackground(Color.orange);
+		accttable.setSelectedRow(0); //good / bad??
+		add(accttable);
+		setLayout(null);
 	}
 
 	/**

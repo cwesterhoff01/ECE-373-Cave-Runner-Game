@@ -36,7 +36,7 @@ public class Game {
 		this.currAccount = this.gameAccounts.get(0);
 		
 		//Create a new game window associated with this Game
-		this.gameWindow = new Window(this, 1400, 850);
+		this.gameWindow = new Window(this, 1200, 860);
 		
 	}
 	

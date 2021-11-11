@@ -37,9 +37,7 @@ public final class HighscoreScreen extends GameScreen {
 	//Constructor that requires one argument
 	public HighscoreScreen(Window w) {
 		
-		super(w);
-		
-		setBackground(Color.RED);
+		super(w, new ImageIcon("src/resources/background.jpeg"));
 		
 		//Create a menu button
 		this.menubtn = new JButton("Menu");
