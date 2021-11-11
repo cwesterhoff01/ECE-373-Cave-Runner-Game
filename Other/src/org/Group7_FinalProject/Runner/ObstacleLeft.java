@@ -1,19 +1,19 @@
 package org.Group7_FinalProject.Runner;
 
 
-public class Obstacle extends Sprite {
+public class ObstacleLeft extends Sprite {
 
     private final int INITIAL_Y = 850;
 
-    public Obstacle(int x, int y) {
+    public ObstacleLeft(int x, int y) {
         super(x, y);
 
-        initObstacle();
+        initObstacleLeft();
     }
 
-    private void initObstacle() {
+    private void initObstacleLeft() {
 
-        loadImage("src/resources/crystal7.png");
+        loadImage("src/resources/crystal5.png");
         getImageDimensions();
     }
 

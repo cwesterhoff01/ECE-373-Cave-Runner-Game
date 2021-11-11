@@ -1,8 +1,6 @@
 package org.Group7_FinalProject.Utilities;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.JScrollPane;
@@ -54,12 +52,7 @@ public final class AccountTable extends JScrollPane {
 		this.table.setRowSelectionInterval(0, 0);
 		//Add the table to the JScrollPane. This will make the table scrollable
 		this.getViewport().add(this.table);
-		
-		//The table color is in stark contrast with the rest of the page, but the header can't be colored it seems..
-		//this.table.setGridColor(Color.orange);
-		//this.table.setBackground(Color.orange);
-		//this.table.setFont(new Font("Arial", Font.BOLD, 18));
-		//this.table.setTableHeader(null);
+
 	}
 	
 	//Method that returns the currently selected row on the table
