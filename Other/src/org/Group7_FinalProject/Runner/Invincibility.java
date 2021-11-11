@@ -1,36 +1,23 @@
 package org.Group7_FinalProject.Runner;
 
-public class Invincibility extends Powerup {
-	private boolean isActive;
-    
-	public Invincibility(int x, int y) {
-        super(x, y);
-        initPowerup();
-    	isActive = false;
-    }
-	
-	@Override
-    public void initPowerup() {
+public class Invincibility extends Sprite {
 
-        loadImage("src/resources/invincibility.png");
-        getImageDimensions();
-    }
+	    public Invincibility(int x, int y) {
+	        super(x, y);
 
-    public void move() {
-    	if(y < 0) {
-    		this.setVisible(false); //Powerup is out of bounds is now no longer visable
-    	}
-    	else { 
-            y -= DIFFICULTY; //powerup is inn bounds can be moved with the screen and is visible
-    	}
-    }
-    public boolean isActive() {
-    	return isActive;
-    }
+	        initObstacle();
+	    }
 
-    public void setActive(boolean isActive) {
-    	this.isActive = isActive;
-    }
+	    private void initObstacle() {
+
+	        loadImage("src/resources/invincibility.png");
+	        getImageDimensions();
+	        
+	    }
+
+	    public void move() {
+	    	
+	        y -= DIFFICULTY;
+	    
+	    }
 }
-
-	

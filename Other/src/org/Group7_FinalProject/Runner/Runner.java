@@ -5,17 +5,19 @@ import java.awt.event.KeyEvent;
 
 public class Runner extends Sprite {
 
-    private int dx;
-    private int dy = DIFFICULTY * 2;
+    private double dx;
+    private double dy = DIFFICULTY * 2;
     private final int SPEED = 3;
     private int lastKey;
+    private boolean isPaused;
 
     //Constructor that requires two arguments
     public Runner(int x, int y) {
     	
         super(x, y);
         
-        loadImage("src/resources/runner3.png");
+        isPaused = false;
+        loadImage("src/resources/runner5.png");
         getImageDimensions();
         
     }
@@ -32,8 +34,8 @@ public class Runner extends Sprite {
 	
     public void move() {
     	
-        x += dx;
-        y += dy;
+        x += (int) dx;
+        y += (int) dy;
 		if (x < 1) {
             x = 1;
         }
@@ -79,6 +81,9 @@ public class Runner extends Sprite {
             lastKey = key;
         }
         
+        if(key == KeyEvent.VK_ESCAPE) {
+        	isPaused = true;
+        }
     }
 
     public void keyReleased(KeyEvent e) {
@@ -114,5 +119,10 @@ public class Runner extends Sprite {
     public int getLastKey() {
     	return lastKey;
     }
-
+    public boolean getIsPaused() {
+    	return this.isPaused;
+    }
+    public void setIsPaused(Boolean input) {
+    	this.isPaused = input;
+    }
 }

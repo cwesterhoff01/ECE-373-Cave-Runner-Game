@@ -13,7 +13,7 @@ public class ObstacleLeft extends Sprite {
 
     private void initObstacleLeft() {
 
-        loadImage("src/resources/crystal5.png");
+        loadImage("src/resources/crystal_left.png");
         getImageDimensions();
     }
 
@@ -27,6 +27,6 @@ public class ObstacleLeft extends Sprite {
         	y = 0;
         }
 
-        y -= DIFFICULTY;
+        y -= (int) (DIFFICULTY - 0.5);
     }
 }

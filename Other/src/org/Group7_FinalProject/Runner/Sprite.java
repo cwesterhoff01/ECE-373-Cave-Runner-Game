@@ -13,7 +13,7 @@ public class Sprite {
     protected int y;
     protected int width;
     protected int height;
-    protected static int DIFFICULTY = 3;
+    protected static double DIFFICULTY = 1.0;
     protected boolean visible;
     protected Image image;
 
@@ -26,8 +26,8 @@ public class Sprite {
         
     }
 
-    public static int changeDifficulty() {
-    	DIFFICULTY += 1;
+    public static double changeDifficulty() {
+    	DIFFICULTY += 0.1; //TODO uncomment
     	return DIFFICULTY;
     }
 
