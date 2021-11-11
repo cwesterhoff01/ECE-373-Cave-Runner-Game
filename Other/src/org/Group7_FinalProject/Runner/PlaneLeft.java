@@ -2,9 +2,9 @@ package org.Group7_FinalProject.Runner;
 
 
 public class PlaneLeft extends Sprite {
-
-    private final int INITIAL_Y = 850;
-
+	
+    private int dy;
+    
     public PlaneLeft(int x, int y) {
         super(x, y);
 
@@ -28,5 +28,10 @@ public class PlaneLeft extends Sprite {
         }
 
         y -= DIFFICULTY;
+        dy = DIFFICULTY;
+    }
+    
+    public int getDy() {
+    	return dy;
     }
 }

@@ -8,8 +8,8 @@ public class Difficulty extends TimerTask {
 	
     public void run() {
     	
-       double diff = Sprite.changeDifficulty();
-       System.out.println("Difficulty increased to " + diff + "!");
+       //double diff = Sprite.changeDifficulty();
+       //System.out.println("Difficulty increased to " + diff + "!");
        
     }
     

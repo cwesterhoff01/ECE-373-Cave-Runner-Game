@@ -1,6 +1,5 @@
 package org.Group7_FinalProject.Framework;
 
-
 //Main driver class creates a game and runs it
 public class Main {
 

@@ -133,7 +133,7 @@ public class Game {
     	
     	//Continue running until the player dies
     	while(((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).isRunnerDead() == false);
-    	if((((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).getRunner().getIsPaused())) {//Game was paused go back to menu screen
+    	if((((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).isRunnerPaused() == true)) {//Game was paused go back to menu screen
     		gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Menu Screen"));
     	}
     	else {//runner died normally

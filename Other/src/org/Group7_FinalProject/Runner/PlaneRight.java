@@ -3,8 +3,6 @@ package org.Group7_FinalProject.Runner;
 
 public class PlaneRight extends Sprite {
 
-    private final int INITIAL_Y = 850;
-
     public PlaneRight(int x, int y) {
         super(x, y);
 

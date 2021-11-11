@@ -11,8 +11,8 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import org.Group7_FinalProject.Runner.Difficulty;
-import org.Group7_FinalProject.Runner.Obstacle;
-import org.Group7_FinalProject.Runner.ObstacleLeft;
+import org.Group7_FinalProject.Runner.PlaneRight;
+import org.Group7_FinalProject.Runner.PlaneLeft;
 
 public final class MenuScreen extends GameScreen {
 	

@@ -30,27 +30,32 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     private Timer timer;
     private Runner runner;
     private Ceiling ceiling;
+	private List<PlaneRight> planesRight;
+	private List<PlaneLeft> planesLeft;
 	private List<Obstacle> obstacles;
-	private List<ObstacleLeft> obstaclesLeft;
 	private List<Halt> haltPowerups;
 	private List<Invincibility> invinPowerups; //need to set up obstacles before use
 	private boolean runnerDead;
+	private boolean runnerPaused;
 	private int prevStuck;
 	private Integer depth;
 	private Game currGame;
 	private long gameDelay;
     
-	private final int[][] pos = { // spawn positions
+	private final int[][] posPlnsRt = { // spawn positions
 	        {450, 150}, {450, 550}
     };
-    private final int[][] posLeft = { // spawn positions
+    private final int[][] posPlnsLft = { // spawn positions
             {0, 350}, {0, 750}
     };
+    private final int[][] posObst = { // spawn positions
+    		{80, 300}, {120, 300}, {500, 100}, {580, 500}, {40, 700}, {110, 700} 
+    };
     private final int[][] posHalt = { // spawn positions
-            {100, 350}, {150, 750}, {470, 150}, {580, 150} 
+            {80, 290}, {250, 690}, {470, 90}, {780, 90}, {780, 490}
     };
     private final int[][] posInvin = { // spawn positions
-            {10, 350}, {50, 750}, {550, 150}, {750, 150} 
+            {10, 290}, {50, 690}, {550, 90}, {750, 90}, {760, 490}
     };
     
 
@@ -70,19 +75,23 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     	//Initialize objects
         runner = new Runner(0, 0);
         ceiling = new Ceiling(0, 0);
+        planesRight = new ArrayList<>();
+        planesLeft = new ArrayList<>();
         obstacles = new ArrayList<>();
-        obstaclesLeft = new ArrayList<>();
         haltPowerups = new ArrayList<>();
         invinPowerups = new ArrayList<>();
         depth = 0;
         gameDelay = 0;
         //The timer handles animation with ActionListener, the KeyListener handles keyboard input
-        timer = new Timer(15, this); //every 15 ms call action performed
-
+        timer = new Timer(15, this); //every 15 ms, actionPerformed() executed
         addKeyListener(this);
     }
     
-    //In addition to drawing a background image, a RunningScreen must draw sprites
+    /*
+     * Method that draws everything on the screen, including background image and sprites
+     * This method is called at the end of actionPerformed() via repaint()
+     * actionPerformed() is tied to a 15ms timer, so this method will execute every 15ms
+     */
     @Override
     public void paintComponent(Graphics g) {
     	
@@ -99,52 +108,65 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         
     }
 
-    //Method that starts the running process
+    /*
+     * Method that starts the running game
+     * Add all method calls necessary to initialize the game here
+     * Set all variables to their intial values here
+     */
     public void startRunning() {
     	
 	//makes it so last runs powerups dont carry over //really need all of this?
     	runner = new Runner(0, 0);
         ceiling = new Ceiling(0, 0);
-        obstacles = new ArrayList<>();
-        obstaclesLeft = new ArrayList<>();
-        haltPowerups = new ArrayList<Halt>();
+        planesRight = new ArrayList<>();
+        planesLeft = new ArrayList<>();
+        haltPowerups = new ArrayList<>();
     	invinPowerups = new ArrayList<>();
-    	
+    	Sprite.resetDifficulty();
     	
     	//Request focus so that the KeyListener responds
     	requestFocus();
-    	//We are now in the game, so start the animations
+    	
+    	//Initialize the sprites
     	initSprites();
     	depth = 0;
         runnerDead = false;
+        runnerPaused = false;
         timer.start();
 		
     }
     
-    //Method that stops the running process
+    /*
+     * Method that stops the running game
+     * Add all method calls necessary to stop the game here
+     * Set all variables to their final values here
+     */
 	private void stopRunning() {
 		
-		//Stop the animations
+		//Stop the animations, cleanup the sprites
 		timer.stop();
 		
-		//Clear the lists of obstacles
-		obstacles.clear();
-		obstaclesLeft.clear();
-		haltPowerups.clear();
-    	invinPowerups.clear();
+		endSprites();
 		
-		//Hide the runner
-		runner.setVisible(false);
 	}
 	
 	//Method that initializes the sprites in their starting locations
 	private void initSprites() {
 
-        for (int[] p : pos) {
-            obstacles.add(new Obstacle(p[0], p[1]));
+        for (int[] p : posPlnsRt) {
+            planesRight.add(new PlaneRight(p[0], p[1]));
         }
-        for (int[] p : posLeft) {
-            obstaclesLeft.add(new ObstacleLeft(p[0], p[1]));
+        for (int[] p : posPlnsLft) {
+            planesLeft.add(new PlaneLeft(p[0], p[1]));
+        }
+        for (int[] p : posObst) {
+        	obstacles.add(new Obstacle(p[0], p[1]));
+        }
+        for (int[] p : posHalt) {
+        	haltPowerups.add(new Halt(p[0], p[1]));
+        }
+        for (int[] p : posInvin) {
+            invinPowerups.add(new Invincibility(p[0], p[1]));
         }
         
         //Place the runner in the upper left hand corner
@@ -152,6 +174,21 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         runner.setVisible(true);
         
     }
+	
+	//Method that hides or destroys the sprites at the end
+	private void endSprites() {
+		
+		//Obstacles should simply be destroyed, new obstacles will be used in next game
+		planesRight.clear();
+		planesLeft.clear();
+		obstacles.clear();
+		haltPowerups.clear();
+    	invinPowerups.clear();
+		
+		//The runner should only be hidden, will be used again in next game
+		runner.setVisible(false);
+		
+	}
 
 	//Method that draws all visible sprite objects on the screen
     private void drawObjects(Graphics g) {
@@ -163,31 +200,39 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
             g.drawImage(ceiling.getImage(), ceiling.getX(), ceiling.getY(), this);
         }
         
-        for (Obstacle obstacle : obstacles) {
-            if (obstacle.isVisible()) {
-                g.drawImage(obstacle.getImage(), obstacle.getX(), obstacle.getY(), this);
+        for (PlaneRight plnRt : planesRight) {
+            if (plnRt.isVisible()) {
+                g.drawImage(plnRt.getImage(), plnRt.getX(), plnRt.getY(), this);
             }
         }
         
-        for (ObstacleLeft obstacleLeft : obstaclesLeft) {
-            if (obstacleLeft.isVisible()) {
-                g.drawImage(obstacleLeft.getImage(), obstacleLeft.getX(), obstacleLeft.getY(), this);
+        for (PlaneLeft plnLft : planesLeft) {
+            if (plnLft.isVisible()) {
+                g.drawImage(plnLft.getImage(), plnLft.getX(), plnLft.getY(), this);
             }
         }
         
-        for(Halt hpu : haltPowerups) {
+    	for (Obstacle obst : obstacles) {
+            if (obst.isVisible()) {
+                g.drawImage(obst.getImage(), obst.getX(), obst.getY(), this);
+            }
+        }
+        
+    	for(Halt hpu : haltPowerups) {
         	if(hpu.isVisible()) {
         		g.drawImage(hpu.getImage(), hpu.getX(), hpu.getY(), this);
         	}
-        }
+    	}
         
-        for(Invincibility invin : invinPowerups) {
+    	for(Invincibility invin : invinPowerups) {
         	if(invin.isVisible()) {
         		g.drawImage(invin.getImage(), invin.getX(), invin.getY(), this);
         	}
-        }
+    	}
         
         g.setColor(Color.WHITE);
+        depth += runner.getDy();// + planesLeft.get(1).getDy();
+        //g.drawString("Depth: " + depth.toString(), 5, 15);
         g.drawString("Depth: " + depth.toString(), 5, 15);
     }
 
@@ -201,10 +246,12 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         g.setColor(Color.white);
         g.setFont(small);
         g.drawString(msg, (window.getWidth() - fm.stringWidth(msg)) / 2, window.getHeight() / 2);
-        
     }
 	
-    //Method that implements the ActionListener
+    /*
+     * Implement the actionPerformed() method as part of the ActionListener
+     * actionPerformed() is tied to a 15ms timer
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
     	
@@ -213,40 +260,57 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         checkPaused();
         updateRunner();
         updateCeiling();
-        //loop to see if update obstacles (halt powerup)
+        
+        
+        //loop to see if have to update planes, obstacles, runner, etc. based on Halt power up
         boolean update = true;
         for(Halt hpu : haltPowerups) {
         	if(hpu.isActive() == true) {
         		update = false;
-        		if((System.currentTimeMillis() - gameDelay) >= 1000){
+        		//Will stop the game timer for 3 seconds
+        		if((System.currentTimeMillis() - gameDelay) >= 3000){
         			hpu.setActive(false);
         			update = true;
         		}
         	}
         }
         if(update == true) {
+	        updatePlanesRight();
+	        updatePlanesLeft();
 	        updateObstacles();
-	        updateObstaclesLeft();
-	        generatePowerUp();
+	        generatePowerUp(); //also has generate Obstacle
 	        updatePowerUp();
+	        int diff = Sprite.changeDifficulty();
+	        //System.out.println("Difficulty increased to " + diff + "!");
         }
         checkCollisions();
-        checkPowerupCollect();
         repaint();
         
+        //FIX ME: Better way to calculate score?
     	depth = depth + 1;
         prevStuck -= 1;
         
     }
     
-    //These three methods implement the KeyListener
+    /*
+     * Implement all three methods that are part of the KeyListener
+     * The appropriate method is fired whenever the game receives keyboard input
+     */
 	@Override
 	public void keyTyped(KeyEvent e) {
-		//TODO //Need this?? maybe for Pause?
+		//TODO //Need this??
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
+		
+		int key = e.getKeyCode();
+		
+        if(key == KeyEvent.VK_ESCAPE) {
+        	runnerPaused = true;
+        }
+        
 		runner.keyPressed(e);
+		
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -258,61 +322,17 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         	stopRunning(); 
     }
 	
-	private void generatePowerUp() { //Will spawn a powerup n% of the time, will have a 50-50 chance of what powerup will be selected
-		double occurance = 1; //This means 5% of the time a powerup will be generated (1% is alot btw)
-		Random rand = new Random();
-		double rand_double = rand.nextDouble(); //Generates a float between 0.0 -> 1.0
-		if(rand_double <= (occurance / 100)) {
-			//spawn a powerup & add to list
-			if (rand_double > 0.5) {
-				//need to generate an x and y that do not conflict
-				int x_pos = rand.nextInt(500); 
-				Halt haltpowerup = new Halt(x_pos, runner.getY() + 500);
-				haltpowerup.setVisible(true);
-				haltPowerups.add(haltpowerup);
-			}
-			else {
-				//need to generate an x and y that do not conflict
-				int x_pos = rand.nextInt(500); 
-				Invincibility invinPowerup = new Invincibility(x_pos, runner.getY() + 500);
-				invinPowerup.setVisible(true);
-				invinPowerups.add(invinPowerup);
-			}
-			
-		}
-		//else does not generate a powerup
-	}
-	
-	private void updatePowerUp() { //updates the position of the powerups so that it moves with the screen
-		if(haltPowerups.size() > 0) {
-			for(Halt hpu : haltPowerups) {
-				if(hpu.isVisible()) {
-					hpu.move();
-				}
-			}
-		}
-		if(invinPowerups.size() > 0) {
-			for(Invincibility invin : invinPowerups) {
-				if(invin.isVisible()) {
-					invin.move();
-				}
-			}
-		}
-	}
-	
 	private void checkPaused() {
-		if(runner.getIsPaused()) {
+		if(runnerPaused) {
 			timer.stop();
 			int result = JOptionPane.showConfirmDialog(null, "Game is paused would you like to resume (yes to resume) (no to go back to the menu)", "Pause Menu", JOptionPane.YES_NO_OPTION);
 			if(result == JOptionPane.YES_OPTION) {
 				timer.start();
-				runner.setIsPaused(false);
+				runnerPaused = false;
 			}
 			else {
-				stopRunning();
 				runnerDead = true;
 			}
-			
 		}
 	}
 	
@@ -326,108 +346,166 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
             ceiling.move();
     }
 
-	private void updateObstacles() {
+	private void updatePlanesRight() {
 
-        for (int i = 0; i < obstacles.size(); i++) {
+        for (int i = 0; i < planesRight.size(); i++) {
 
-            Obstacle a = obstacles.get(i);
+            PlaneRight a = planesRight.get(i);
             
             if (a.isVisible()) {
                 a.move();
             } else {
-                obstacles.remove(i);
+                planesRight.remove(i);
             }
         }
-        
     }
 	
-	private void updateObstaclesLeft() {
+	private void updatePlanesLeft() {
 
-        for (int i = 0; i < obstaclesLeft.size(); i++) {
+        for (int i = 0; i < planesLeft.size(); i++) {
 
-            ObstacleLeft a = obstaclesLeft.get(i);
+            PlaneLeft a = planesLeft.get(i);
             
             if (a.isVisible()) {
                 a.move();
             } else {
-                obstaclesLeft.remove(i);
+                planesLeft.remove(i);
             }
         }
-        
     }
 	
-	private void checkPowerupCollect() {
-		Rectangle rner = runner.getBounds();
+	private void generatePowerUp() { //Will show a power up n% of the time, will have a 50-50 chance of what power up will be selected
+		
+		double occurance = 1; //This means 5% of the time a power up will be shown (1% is a lot btw)
+		Random rand = new Random();
+		double rand_double = rand.nextDouble(); //Generates a float between 0.0 -> 1.0
+		System.out.println("rand double = " + rand_double);
+		if(rand_double <= (occurance / 100)) {
+			//set visible an obstacle or power up
+			if (rand_double > 0.004) {
+				
+				int i = rand.nextInt(posObst.length); 
+				obstacles.get(i).setVisible(true);
+			}
+			else if (rand_double > 0.003) {
+				
+				int i = rand.nextInt(posHalt.length); 
+				haltPowerups.get(i).setVisible(true);
+			}
+			else {
+				
+				int i = rand.nextInt(posInvin.length); 
+				invinPowerups.get(i).setVisible(true);
+			}
+		}
+		//else does not show a power up
+	}
+	
+	private void updatePowerUp() { //updates the position of the powerups so that it moves with the screen
 		for(Halt hpu : haltPowerups) {
-			Rectangle hpuBounds = hpu.getBounds();
-			if(rner.intersects(hpuBounds)) {
+			
+			hpu.move();
+		}
+		
+		for(Invincibility invin : invinPowerups) {
+			
+			invin.move();
+		}
+	}
+	
+	private void updateObstacles() {
+		for (Obstacle obst : obstacles) {
+
+            obst.move();
+        }
+    }
+	
+    public void checkCollisions() {
+
+        Rectangle rnrBnds = runner.getBounds();
+        Rectangle ceilBnds = ceiling.getBounds();
+        
+        if (rnrBnds.intersects(ceilBnds)) {
+        	
+        	runnerDead = true;
+        }
+        
+        for (PlaneRight plnRight : planesRight) {
+            
+            Rectangle plnRtBnds = plnRight.getBounds();
+
+            if (rnrBnds.intersects(plnRtBnds)) {
+            	
+            	runner.setYMovement(false);
+            	prevStuck = 2;
+            }
+            else if (prevStuck < 1) {
+            	
+            	runner.setYMovement(true);
+            }
+        }
+        
+        for (PlaneLeft plnLeft : planesLeft) {
+            
+            Rectangle plnLftBnds = plnLeft.getBounds();
+
+            if (rnrBnds.intersects(plnLftBnds)) {
+            	
+            	runner.setYMovement(false);
+                prevStuck = 2;
+            }
+            else if (prevStuck < 1) {
+            	
+            	runner.setYMovement(true);
+            }
+        }
+        
+        for (Obstacle obst : obstacles) {
+            
+            Rectangle obstBnds = obst.getBounds();
+
+            if (rnrBnds.intersects(obstBnds) && obst.isVisible()) {
+            	
+            	runner.setXMovement(false);
+                prevStuck = 2;
+                for (Invincibility invin : invinPowerups) {
+                	
+                	if (invin.isActive()) {
+                		
+                		obst.setVisible(false);
+                		runner.setXMovement(true);
+                		break;
+                	}
+                }
+            }
+            /* else if (prevStuck < 1) { //need this to get unstuck again after collision with obstacle I think
+            	
+            	runner.setMovement(true);
+            } */
+        }
+        
+        for (Halt hpu : haltPowerups) {
+        	
+        	Rectangle hpuBnds = hpu.getBounds();
+        	
+        	if (rnrBnds.intersects(hpuBnds) && hpu.isVisible()) {
 				if(hpu.isVisible()) {
 					hpu.setVisible(false);
 					hpu.setActive(true);
 					gameDelay = System.currentTimeMillis();
 				}
-			}
-		}
-	}
-	
-    public void checkCollisions() {
-
-        Rectangle r3 = runner.getBounds();
-        Rectangle r4 = ceiling.getBounds();
-        
-        if (r3.intersects(r4)) {
-        	
-        	runnerDead = true;
-        	
-        }
-        
-        for (Obstacle obstacle : obstacles) {
-            
-            Rectangle r2 = obstacle.getBounds();
-
-            if (r3.intersects(r2)) {
-            	
-            	runner.setMovement(false);
-            	prevStuck = 2;
-            	//TODO if invincibility on, obstacle.remove(obstacle) + setVisible(false)?
-            	//obstacle.setVisible(false);
-            }
-            else if (prevStuck < 1) {
-            	runner.setMovement(true);
-            }
-        }
-        
-        for (ObstacleLeft obstacleLeft : obstaclesLeft) {
-            
-            Rectangle r2 = obstacleLeft.getBounds();
-
-            if (r3.intersects(r2)) {
-            	
-            	runner.setMovement(false);
-                prevStuck = 2;
-                //TODO if invincibility on, obstacle.remove(obstacleLeft) + setVisible(false)?
-            	//obstacle.setVisible(false);
-            }
-            else if (prevStuck < 1) {
-            	runner.setMovement(true);
-            }
-        }
-        
-        for (Halt hpu : haltPowerups) {
-        	
-        	Rectangle r5 = hpu.getBounds();
-        	
-        	if (r3.intersects(r5)) {
-        		//TODO halt everything
-        	}
+    		}
         }
         
         for (Invincibility invin : invinPowerups) {
         	
-        	Rectangle r6 = invin.getBounds();
+        	Rectangle invinBnds = invin.getBounds();
         	
-        	if (r3.intersects(r6)) {
-        		//TODO invincibility starts
+        	if (rnrBnds.intersects(invinBnds) && invin.isVisible()) {
+        		if(invin.isVisible()) {
+        			invin.setVisible(false);
+        			invin.setActive(true);
+				}
         	}
         }
         
@@ -478,29 +556,29 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	/**
 	 * @return the obstacles
 	 */
-	public List<Obstacle> getObstacles() {
-		return obstacles;
+	public List<PlaneRight> getObstacles() {
+		return planesRight;
 	}
 
 	/**
 	 * @param obstacles the obstacles to set
 	 */
-	public void setObstacles(List<Obstacle> obstacles) {
-		this.obstacles = obstacles;
+	public void setObstacles(List<PlaneRight> obstacles) {
+		this.planesRight = obstacles;
 	}
 
 	/**
 	 * @return the obstaclesLeft
 	 */
-	public List<ObstacleLeft> getObstaclesLeft() {
-		return obstaclesLeft;
+	public List<PlaneLeft> getObstaclesLeft() {
+		return planesLeft;
 	}
 
 	/**
 	 * @param obstaclesLeft the obstaclesLeft to set
 	 */
-	public void setObstaclesLeft(List<ObstacleLeft> obstaclesLeft) {
-		this.obstaclesLeft = obstaclesLeft;
+	public void setObstaclesLeft(List<PlaneLeft> obstaclesLeft) {
+		this.planesLeft = obstaclesLeft;
 	}
 
 	/**
@@ -518,6 +596,20 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	}
 
 	/**
+	 * @return the runnerPaused
+	 */
+	public boolean isRunnerPaused() {
+		return runnerPaused;
+	}
+
+	/**
+	 * @param runnerPaused the runnerPaused to set
+	 */
+	public void setRunnerPaused(boolean runnerPaused) {
+		this.runnerPaused = runnerPaused;
+	}
+
+	/**
 	 * @return the prevStuck
 	 */
 	public int getPrevStuck() {
@@ -532,31 +624,30 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	}
 
 	/**
-	 * @return the pos
-	 */
-	public int[][] getPos() {
-		return pos;
-	}
-
-	/**
-	 * @return the posLeft
-	 */
-	public int[][] getPosLeft() {
-		return posLeft;
-	}
-
-	/**
 	 * @return the depth
 	 */
-	public int getDepth() {
+	public Integer getDepth() {
 		return depth;
 	}
 
 	/**
 	 * @param depth the depth to set
 	 */
-	public void setDepth(int depth) {
+	public void setDepth(Integer depth) {
 		this.depth = depth;
 	}
-    
+
+	/**
+	 * @return the currGame
+	 */
+	public Game getCurrGame() {
+		return currGame;
+	}
+
+	/**
+	 * @param currGame the currGame to set
+	 */
+	public void setCurrGame(Game currGame) {
+		this.currGame = currGame;
+	}
 }

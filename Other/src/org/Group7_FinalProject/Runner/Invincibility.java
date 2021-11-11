@@ -1,23 +1,17 @@
 package org.Group7_FinalProject.Runner;
 
-public class Invincibility extends Sprite {
+public class Invincibility extends Powerup {
+    
+	public Invincibility(int x, int y) {
+        super(x, y);
+    }
+	
+	@Override
+    public void initPowerup() {
 
-	    public Invincibility(int x, int y) {
-	        super(x, y);
-
-	        initObstacle();
-	    }
-
-	    private void initObstacle() {
-
-	        loadImage("src/resources/invincibility.png");
-	        getImageDimensions();
-	        
-	    }
-
-	    public void move() {
-	    	
-	        y -= DIFFICULTY;
-	    
-	    }
+        loadImage("src/resources/invincibility.png");
+        getImageDimensions();
+    }
 }
+
+	

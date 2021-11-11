@@ -57,7 +57,7 @@ public final class HighscoreTable extends JScrollPane {
 	}
 	public void replaceData(Integer[][] data, String[] title) {
 		//Replaces the title of the model
-		table.getColumnModel().getColumn(0).setHeaderValue(title);
+		table.getColumnModel().getColumn(0).setHeaderValue(title[0]);
 		//removes the currentData
 		for(int i = 9; i >= 0; i--) {
 			model.removeRow(i);
