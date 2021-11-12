@@ -16,10 +16,9 @@ public class Sprite {
     protected int y;
     protected int width;
     protected int height;
-    protected static int DIFFICULTY = 0;
     protected boolean visible;
     protected Image image;
-    private static int DELAY = 333;
+    protected static int DIFFICULTY = 0;
 
     //Constructor that requires two arguments
     public Sprite(int x, int y, RunningScreen runningScreen) {
@@ -34,17 +33,10 @@ public class Sprite {
     
     public static void resetDifficulty() {
     	DIFFICULTY = 0;
-		DELAY = 333;
     }
     
-    public static int changeDifficulty() {
-    	DELAY -= 1; 
-    	if (DELAY == 0) {
-    		DIFFICULTY += 1;
-    		DELAY = 333;
-    	}
-    	
-    	return DIFFICULTY;
+    public static void changeDifficulty() {
+    	DIFFICULTY += 1;
     }
 
     protected void getImageDimensions() {

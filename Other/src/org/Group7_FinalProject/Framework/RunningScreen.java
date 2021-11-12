@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -27,7 +28,8 @@ import org.Group7_FinalProject.Runner.*;
 public class RunningScreen extends GameScreen implements ActionListener, KeyListener {
 
 	//Fields for a RunningScreen
-    private Timer timer;
+    private Timer gameTimer;
+    private Timer difficultyTimer;
     private Runner runner;
     private Ceiling ceiling;
 	private List<PlaneRight> planesRight;
@@ -82,7 +84,8 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         gameDelay = 0;
         
         //The timer handles animation with ActionListener, the KeyListener handles keyboard input
-        timer = new Timer(15, this); //every 15 ms, actionPerformed() executed
+        gameTimer = new Timer(15, this); //every 15 ms, actionPerformed() executed
+        difficultyTimer = new Timer(5000, new Difficulty());  //every 5 seconds, difficulty increased
         addKeyListener(this);
     }
     
@@ -123,7 +126,8 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         runnerDead = false;
         runnerPaused = false;
         Sprite.resetDifficulty();
-        timer.start();
+        gameTimer.start();
+        difficultyTimer.start();
 		
     }
     
@@ -135,7 +139,8 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	private void stopRunning() {
 		
 		//Stop the animations, cleanup the sprites
-		timer.stop();
+		gameTimer.stop();
+		difficultyTimer.stop();
 		endSprites();
 		
 	}
@@ -269,8 +274,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	        updateObstacles();
 	        generatePowerUp(); //also has generate Obstacle
 	        updatePowerUp();
-	        int diff = Sprite.changeDifficulty();
-	        //System.out.println("Difficulty increased to " + diff + "!");
         }
         checkCollisions();
         repaint();
@@ -312,10 +315,12 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	
 	private void checkPaused() {
 		if(runnerPaused) {
-			timer.stop();
+			gameTimer.stop();
+			difficultyTimer.stop();
 			int result = JOptionPane.showConfirmDialog(null, "Game is paused would you like to resume (yes to resume) (no to go back to the menu)", "Pause Menu", JOptionPane.YES_NO_OPTION);
 			if(result == JOptionPane.YES_OPTION) {
-				timer.start();
+				gameTimer.start();
+				difficultyTimer.start();
 				runnerPaused = false;
 			}
 			else {
@@ -503,14 +508,14 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	 * @return the timer
 	 */
 	public Timer getTimer() {
-		return timer;
+		return gameTimer;
 	}
 
 	/**
 	 * @param timer the timer to set
 	 */
 	public void setTimer(Timer timer) {
-		this.timer = timer;
+		this.gameTimer = timer;
 	}
 
 	/**
