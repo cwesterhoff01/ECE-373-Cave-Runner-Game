@@ -48,9 +48,6 @@ public class Window extends JFrame {
 		this.mainPanel.add(gameScreenList.get("Account Screen"), "Account Screen");
 		this.mainPanel.add(gameScreenList.get("Highscore Screen"), "Highscore Screen");
 		this.mainPanel.add(gameScreenList.get("Running Screen"), "Running Screen");
-		  
-		//Start the game on the Account Screen
-		this.currentScreen = gameScreenList.get("Account Screen");
 		
 		//Setup and show the JFrame
 		this.add(mainPanel);

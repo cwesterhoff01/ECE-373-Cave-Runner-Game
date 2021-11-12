@@ -38,6 +38,9 @@ public class Game {
 		//Create a new game window associated with this Game
 		this.gameWindow = new Window(this, 1200, 860);
 		
+		//Start the game on the Menu Screen
+		this.gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Menu Screen"));
+		
 	}
 	
 	/**
