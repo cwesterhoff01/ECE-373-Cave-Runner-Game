@@ -34,27 +34,26 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	private List<PlaneLeft> planesLeft;
 	private List<Obstacle> obstacles;
 	private List<Halt> haltPowerups;
-	private List<Invincibility> invinPowerups; //need to set up obstacles before use
+	private List<Invincibility> invinPowerups;
 	private boolean runnerDead;
 	private boolean runnerPaused;
 	private int prevStuck;
 	private Integer depth;
-	private Game currGame;
 	private long gameDelay;
     
-	private final int[][] posPlnsRt = { // spawn positions
+	private final int[][] posPlnsRt = { // spawn positions for right planes
 	        {450, 150}, {450, 550}
     };
-    private final int[][] posPlnsLft = { // spawn positions
+    private final int[][] posPlnsLft = { // spawn positions for left planes
             {0, 350}, {0, 750}
     };
-    private final int[][] posObst = { // spawn positions
+    private final int[][] posObst = { // spawn positions for obstacles
     		{80, 300}, {120, 300}, {500, 100}, {580, 500}, {40, 700}, {110, 700} 
     };
-    private final int[][] posHalt = { // spawn positions
+    private final int[][] posHalt = { // spawn positions for halt powerups
             {80, 290}, {250, 690}, {470, 90}, {780, 90}, {780, 490}
     };
-    private final int[][] posInvin = { // spawn positions
+    private final int[][] posInvin = { // spawn positions invincibility powerups
             {10, 290}, {50, 690}, {550, 90}, {750, 90}, {760, 490}
     };
     
@@ -70,11 +69,10 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     	
     	//Load the background image
     	super(w, new ImageIcon("src/resources/background.jpeg"));
-    	//Allows to set currScreen to menu
-    	currGame = w.getGame(); 
+
     	//Initialize objects
-        runner = new Runner(0, 0);
-        ceiling = new Ceiling(0, 0);
+        runner = new Runner(0, 0, this);
+        ceiling = new Ceiling(0, 0, this);
         planesRight = new ArrayList<>();
         planesLeft = new ArrayList<>();
         obstacles = new ArrayList<>();
@@ -82,6 +80,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         invinPowerups = new ArrayList<>();
         depth = 0;
         gameDelay = 0;
+        
         //The timer handles animation with ActionListener, the KeyListener handles keyboard input
         timer = new Timer(15, this); //every 15 ms, actionPerformed() executed
         addKeyListener(this);
@@ -115,15 +114,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
      */
     public void startRunning() {
     	
-	//makes it so last runs powerups dont carry over //really need all of this?
-    	runner = new Runner(0, 0);
-        ceiling = new Ceiling(0, 0);
-        planesRight = new ArrayList<>();
-        planesLeft = new ArrayList<>();
-        haltPowerups = new ArrayList<>();
-    	invinPowerups = new ArrayList<>();
-    	Sprite.resetDifficulty();
-    	
     	//Request focus so that the KeyListener responds
     	requestFocus();
     	
@@ -132,6 +122,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     	depth = 0;
         runnerDead = false;
         runnerPaused = false;
+        Sprite.resetDifficulty();
         timer.start();
 		
     }
@@ -145,7 +136,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 		
 		//Stop the animations, cleanup the sprites
 		timer.stop();
-		
 		endSprites();
 		
 	}
@@ -154,19 +144,19 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	private void initSprites() {
 
         for (int[] p : posPlnsRt) {
-            planesRight.add(new PlaneRight(p[0], p[1]));
+            planesRight.add(new PlaneRight(p[0], p[1], this));
         }
         for (int[] p : posPlnsLft) {
-            planesLeft.add(new PlaneLeft(p[0], p[1]));
+            planesLeft.add(new PlaneLeft(p[0], p[1], this));
         }
         for (int[] p : posObst) {
-        	obstacles.add(new Obstacle(p[0], p[1]));
+        	obstacles.add(new Obstacle(p[0], p[1], this));
         }
         for (int[] p : posHalt) {
-        	haltPowerups.add(new Halt(p[0], p[1]));
+        	haltPowerups.add(new Halt(p[0], p[1], this));
         }
         for (int[] p : posInvin) {
-            invinPowerups.add(new Invincibility(p[0], p[1]));
+            invinPowerups.add(new Invincibility(p[0], p[1], this));
         }
         
         //Place the runner in the upper left hand corner
@@ -231,12 +221,11 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     	}
         
         g.setColor(Color.WHITE);
-        depth += runner.getDy();// + planesLeft.get(1).getDy();
-        //g.drawString("Depth: " + depth.toString(), 5, 15);
         g.drawString("Depth: " + depth.toString(), 5, 15);
+        
     }
 
-    //Method that draws the "Game Over" message on the screen //TODO delete this?
+    //Method that draws the "Game Over" message on the screen //TODO delete this? Maybe modify to display somewhere else
     private void drawGameOver(Graphics g) {
 
         String msg = "Game Over";
@@ -286,8 +275,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         checkCollisions();
         repaint();
         
-        //FIX ME: Better way to calculate score?
-    	depth = depth + 1;
+        depth += runner.getDy();
         prevStuck -= 1;
         
     }
@@ -637,17 +625,4 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 		this.depth = depth;
 	}
 
-	/**
-	 * @return the currGame
-	 */
-	public Game getCurrGame() {
-		return currGame;
-	}
-
-	/**
-	 * @param currGame the currGame to set
-	 */
-	public void setCurrGame(Game currGame) {
-		this.currGame = currGame;
-	}
 }

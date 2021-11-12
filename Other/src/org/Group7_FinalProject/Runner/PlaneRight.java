@@ -1,10 +1,13 @@
 package org.Group7_FinalProject.Runner;
 
+import org.Group7_FinalProject.Framework.RunningScreen;
 
 public class PlaneRight extends Sprite {
 
-    public PlaneRight(int x, int y) {
-        super(x, y);
+    protected final int INITIAL_Y = 850;
+    
+    public PlaneRight(int x, int y, RunningScreen runningScreen) {
+        super(x, y, runningScreen);
 
         initPlaneRight();
     }
