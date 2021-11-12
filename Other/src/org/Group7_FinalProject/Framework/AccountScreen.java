@@ -29,7 +29,7 @@ public final class AccountScreen extends GameScreen {
 	//Constructor that requires one argument
 	public AccountScreen(Window w) {
 		
-		super(w, new ImageIcon("src/resources/background_account5.jpeg"));
+		super(w, new ImageIcon("src/resources/background_account6.jpeg"));
 		
 		//Create a button to go to the running screen
 		String text = "<html>" + "Start" + "<br>" + "Game"
