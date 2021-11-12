@@ -6,18 +6,15 @@ public class Obstacle extends Sprite {
 	
     protected final int INITIAL_Y = 850;
     
-    public Obstacle(int x, int y, RunningScreen runningScreen) {
-        super(x, y, runningScreen);
+    public Obstacle(int x, int y) {
+    	
+        super(x, y);
         visible = false;
-        initObstacle();
-    }
-
-    private void initObstacle() {
-
         loadImage("src/resources/obstacle2.png");
-        getImageDimensions();
+        
     }
 
+    @Override
     public void move() {
 
         if (y < 0) {

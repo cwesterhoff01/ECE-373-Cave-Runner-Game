@@ -73,8 +73,8 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     	super(w, new ImageIcon("src/resources/background.jpeg"));
 
     	//Initialize objects
-        runner = new Runner(0, 0, this);
-        ceiling = new Ceiling(0, 0, this);
+        runner = new Runner(0, 0);
+        ceiling = new Ceiling(0, 0);
         planesRight = new ArrayList<>();
         planesLeft = new ArrayList<>();
         obstacles = new ArrayList<>();
@@ -149,19 +149,19 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	private void initSprites() {
 
         for (int[] p : posPlnsRt) {
-            planesRight.add(new PlaneRight(p[0], p[1], this));
+            planesRight.add(new PlaneRight(p[0], p[1]));
         }
         for (int[] p : posPlnsLft) {
-            planesLeft.add(new PlaneLeft(p[0], p[1], this));
+            planesLeft.add(new PlaneLeft(p[0], p[1]));
         }
         for (int[] p : posObst) {
-        	obstacles.add(new Obstacle(p[0], p[1], this));
+        	obstacles.add(new Obstacle(p[0], p[1]));
         }
         for (int[] p : posHalt) {
-        	haltPowerups.add(new Halt(p[0], p[1], this));
+        	haltPowerups.add(new Halt(p[0], p[1]));
         }
         for (int[] p : posInvin) {
-            invinPowerups.add(new Invincibility(p[0], p[1], this));
+            invinPowerups.add(new Invincibility(p[0], p[1]));
         }
         
         //Place the runner in the upper left hand corner
@@ -275,6 +275,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	        generatePowerUp(); //also has generate Obstacle
 	        updatePowerUp();
         }
+        
         checkCollisions();
         repaint();
         
@@ -372,7 +373,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 		double occurance = 1; //This means 5% of the time a power up will be shown (1% is a lot btw)
 		Random rand = new Random();
 		double rand_double = rand.nextDouble(); //Generates a float between 0.0 -> 1.0
-		System.out.println("rand double = " + rand_double);
 		if(rand_double <= (occurance / 100)) {
 			//set visible an obstacle or power up
 			if (rand_double > 0.004) {
@@ -414,51 +414,33 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     }
 	
     public void checkCollisions() {
-
-        Rectangle rnrBnds = runner.getBounds();
-        Rectangle ceilBnds = ceiling.getBounds();
         
-        if (rnrBnds.intersects(ceilBnds)) {
-        	
+        if (Sprite.isCollided(runner, ceiling)) {
         	runnerDead = true;
         }
         
-        for (PlaneRight plnRight : planesRight) {
-            
-            Rectangle plnRtBnds = plnRight.getBounds();
-
-            if (rnrBnds.intersects(plnRtBnds)) {
-            	
+        for (PlaneRight plnRight : planesRight) {       
+            if (Sprite.isCollided(runner, plnRight)) {
             	runner.setYMovement(false);
             	prevStuck = 2;
             }
-            else if (prevStuck < 1) {
-            	
+            else if (prevStuck < 1) {        	
             	runner.setYMovement(true);
             }
         }
         
-        for (PlaneLeft plnLeft : planesLeft) {
-            
-            Rectangle plnLftBnds = plnLeft.getBounds();
-
-            if (rnrBnds.intersects(plnLftBnds)) {
-            	
+        for (PlaneLeft plnLeft : planesLeft) {         
+            if (Sprite.isCollided(runner, plnLeft)) {	
             	runner.setYMovement(false);
                 prevStuck = 2;
             }
             else if (prevStuck < 1) {
-            	
             	runner.setYMovement(true);
             }
         }
         
         for (Obstacle obst : obstacles) {
-            
-            Rectangle obstBnds = obst.getBounds();
-
-            if (rnrBnds.intersects(obstBnds) && obst.isVisible()) {
-            	
+            if (Sprite.isCollided(runner, obst) && obst.isVisible()) {
             	runner.setXMovement(false);
                 prevStuck = 2;
                 for (Invincibility invin : invinPowerups) {
@@ -478,10 +460,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         }
         
         for (Halt hpu : haltPowerups) {
-        	
-        	Rectangle hpuBnds = hpu.getBounds();
-        	
-        	if (rnrBnds.intersects(hpuBnds) && hpu.isVisible()) {
+        	if (Sprite.isCollided(runner, hpu) && hpu.isVisible()) {
 				if(hpu.isVisible()) {
 					hpu.setVisible(false);
 					hpu.setActive(true);
@@ -490,11 +469,8 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     		}
         }
         
-        for (Invincibility invin : invinPowerups) {
-        	
-        	Rectangle invinBnds = invin.getBounds();
-        	
-        	if (rnrBnds.intersects(invinBnds) && invin.isVisible()) {
+        for (Invincibility invin : invinPowerups) {    	
+        	if (Sprite.isCollided(runner, invin) && invin.isVisible()) {
         		if(invin.isVisible()) {
         			invin.setVisible(false);
         			invin.setActive(true);

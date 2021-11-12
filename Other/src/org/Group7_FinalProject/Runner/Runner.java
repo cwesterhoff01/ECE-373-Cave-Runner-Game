@@ -11,18 +11,14 @@ public class Runner extends Sprite {
     private int dy;
     private final int SPEED = 3;
     private int lastKey;
-    private boolean isPaused;
     private boolean jump;
     private int depth;
 
     //Constructor that requires two arguments
-    public Runner(int x, int y, RunningScreen runningScreen) {
+    public Runner(int x, int y) {
     	
-        super(x, y, runningScreen);
-        
-        isPaused = false;
+        super(x, y);
         loadImage("src/resources/runner5.png");
-        getImageDimensions();
         
     }
 	
@@ -59,6 +55,7 @@ public class Runner extends Sprite {
 		}
 	}
 	
+	@Override
     public void move() {
     	
         x += dx;
@@ -128,9 +125,6 @@ public class Runner extends Sprite {
             lastKey = key;
         }
         
-        if(key == KeyEvent.VK_ESCAPE) {
-        	isPaused = true;
-        }
     }
 
     public void keyReleased(KeyEvent e) {
@@ -177,12 +171,6 @@ public class Runner extends Sprite {
     
     public int getLastKey() {
     	return lastKey;
-    }
-    public boolean getIsPaused() {
-    	return this.isPaused;
-    }
-    public void setIsPaused(Boolean input) {
-    	this.isPaused = input;
     }
     public int getDepth() {
     	return depth;

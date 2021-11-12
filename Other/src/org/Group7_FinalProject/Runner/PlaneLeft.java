@@ -7,18 +7,14 @@ public class PlaneLeft extends Sprite {
     protected final int INITIAL_Y = 850;
     private int dy;
     
-    public PlaneLeft(int x, int y, RunningScreen runningScreen) {
-        super(x, y, runningScreen);
-
-        initPlaneLeft();
-    }
-
-    private void initPlaneLeft() {
-
+    public PlaneLeft(int x, int y) {
+    	
+        super(x, y);
         loadImage("src/resources/crystal_left.png");
-        getImageDimensions();
+        
     }
 
+    @Override
     public void move() {
 
         if (y < 0) {

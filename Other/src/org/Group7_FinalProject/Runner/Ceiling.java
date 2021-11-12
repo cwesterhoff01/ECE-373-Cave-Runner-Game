@@ -10,16 +10,14 @@ public class Ceiling extends Sprite {
 	private int dx;
     private int dy;
     
-    public Ceiling(int x, int y, RunningScreen runningScreen) {
-        super(x, y, runningScreen);
-		initCeiling();
-    }
-
-	private void initCeiling() {
+    public Ceiling(int x, int y) {
+    	
+    	super(x, y);
         loadImage("src/resources/ceiling.png");
-        getImageDimensions(); //assigns inherited "width" and "height" variables
+        
     }
 	
+    @Override
 	public void move() {
 
         x += dx;

@@ -60,9 +60,6 @@ public final class AccountTable extends JScrollPane {
 		//this.table.setBackground(Color.orange);
 		//this.table.setFont(new Font("Arial", Font.BOLD, 18));
 		//this.table.setTableHeader(null);
-		//this.getViewport().setBackground(Color.BLUE);
-		//this.getViewport().setForeground(Color.YELLOW);
-		//check: https://stackoverflow.com/questions/43762972/how-can-i-change-colors-of-jscrollpane-content
 	}
 	
 	//Method that returns the currently selected row on the table

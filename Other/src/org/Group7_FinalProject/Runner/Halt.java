@@ -4,14 +4,11 @@ import org.Group7_FinalProject.Framework.RunningScreen;
 
 public class Halt extends Powerup {
 	
-	public Halt(int x, int y, RunningScreen runningScreen) {
-		super(x, y, runningScreen);
+	public Halt(int x, int y) {
+		
+		super(x, y);
+		loadImage("src/resources/halt.png");
+		
 	}
 
-	@Override
-	public void initPowerup() {
-		
-		loadImage("src/resources/halt.png");
-		getImageDimensions();
-	}	
 }

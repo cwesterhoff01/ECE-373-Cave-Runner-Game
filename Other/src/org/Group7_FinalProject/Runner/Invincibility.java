@@ -4,16 +4,12 @@ import org.Group7_FinalProject.Framework.RunningScreen;
 
 public class Invincibility extends Powerup {
     
-	public Invincibility(int x, int y, RunningScreen runningScreen) {
-        super(x, y, runningScreen);
+	public Invincibility(int x, int y) {
+        
+		super(x, y);
+        loadImage("src/resources/invincibility.png");
     }
 	
-	@Override
-    public void initPowerup() {
-
-        loadImage("src/resources/invincibility.png");
-        getImageDimensions();
-    }
 }
 
 	
