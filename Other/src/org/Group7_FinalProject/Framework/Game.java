@@ -133,10 +133,14 @@ public class Game {
     	
     	//Continue running until the player dies
     	while(((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).isRunnerDead() == false);
-    	if((((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).isRunnerPaused() == true)) {//Game was paused go back to menu screen
+    	
+    	//When the player is dead, check to see if the player quit from the pause screen or if they died in the game
+    	if((((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).isRunnerPaused() == true)) {
+    		//Game was paused, go back to menu screen without recording highscore
     		gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Menu Screen"));
     	}
-    	else {//runner died normally
+    	else {
+    		//Runner died normally
 			//If the current account has set a new highscore, record it
 	    	Integer depth = ((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).getDepth();
 			boolean newHighscore = false;
@@ -149,7 +153,6 @@ public class Game {
 					break;
 				}
 			}
-			
 			//Give the user the option to return to the Menu Screen or play again
 			int result;
 			if (newHighscore == false)

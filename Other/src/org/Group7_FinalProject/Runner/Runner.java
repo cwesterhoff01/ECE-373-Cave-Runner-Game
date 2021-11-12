@@ -3,6 +3,8 @@ package org.Group7_FinalProject.Runner;
 
 import java.awt.event.KeyEvent;
 
+import org.Group7_FinalProject.Framework.RunningScreen;
+
 public class Runner extends Sprite {
 
     private int dx;
@@ -14,9 +16,9 @@ public class Runner extends Sprite {
     private int depth;
 
     //Constructor that requires two arguments
-    public Runner(int x, int y) {
+    public Runner(int x, int y, RunningScreen runningScreen) {
     	
-        super(x, y);
+        super(x, y, runningScreen);
         
         isPaused = false;
         loadImage("src/resources/runner5.png");

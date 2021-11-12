@@ -3,13 +3,15 @@ package org.Group7_FinalProject.Runner;
 
 import java.awt.event.KeyEvent;
 
+import org.Group7_FinalProject.Framework.RunningScreen;
+
 public class Ceiling extends Sprite {
 	
 	private int dx;
     private int dy;
     
-    public Ceiling(int x, int y) {
-        super(x, y);
+    public Ceiling(int x, int y, RunningScreen runningScreen) {
+        super(x, y, runningScreen);
 		initCeiling();
     }
 
