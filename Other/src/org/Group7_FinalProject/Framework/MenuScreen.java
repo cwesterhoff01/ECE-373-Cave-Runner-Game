@@ -30,16 +30,18 @@ public final class MenuScreen extends GameScreen {
 	//Constructor that requires one argument
 	public MenuScreen(Window w) {
 		
-		super(w, new ImageIcon("src/resources/background_menu2.jpeg"));
+		super(w, new ImageIcon("src/resources/background_menu8.jpeg"));
 		
 		//Create a button to go to the running screen
-		runningbtn = new JButton("Start Game");
+		String text = "<html>" + "Start" + "<br>" + "Game"
+				 + "</html>";
+		runningbtn = new JButton(text);
 		runningbtn.setFont(new Font("Arial", Font.BOLD, 18));
-		runningbtn.setBounds(83,558,100,50); 
+		runningbtn.setBounds(162,396,100,50); 
 		runningbtn.setContentAreaFilled(false);
 		runningbtn.setBorderPainted(false);
-		runningbtn.setBorder(new LineBorder(Color.orange));
-		runningbtn.setForeground(Color.orange);
+		runningbtn.setBorder(new LineBorder(Color.black));
+		runningbtn.setForeground(Color.black);
 		runningbtn.addMouseListener(new MouseAdapter(){
 		    @Override
 		    public void mousePressed(MouseEvent e) {
@@ -59,17 +61,17 @@ public final class MenuScreen extends GameScreen {
 		this.add(runningbtn);
 				
 		//Create a button to go to the account screen
-		String text = "<html>" + "Change" + "<br>" + "Account"
+		text = "<html>" + "Change" + "<br>" + "Account"
 				 + "</html>";
 		accountbtn = new JButton(text);
 		accountbtn.setFont(new Font("Arial", Font.BOLD, 18));
-		accountbtn.setBounds(337,578,100,50); 
+		accountbtn.setBounds(357,396,100,50); 
 		accountbtn.setContentAreaFilled(false);
 		accountbtn.setBorderPainted(false);
-		accountbtn.setBorder(new LineBorder(Color.orange));
+		accountbtn.setBorder(new LineBorder(Color.black));
 		//accountbtn.setBorderPainted(false);
 		//accountbtn.setBackground(Color.orange);
-		accountbtn.setForeground(Color.orange);
+		accountbtn.setForeground(Color.black);
 		accountbtn.addMouseListener(new MouseAdapter(){
 		    @Override
 		    public void mousePressed(MouseEvent e) {
@@ -93,11 +95,11 @@ public final class MenuScreen extends GameScreen {
 				 + "</html>";
 		highscorebtn = new JButton(text);
 		highscorebtn.setFont(new Font("Arial", Font.BOLD, 18));
-		highscorebtn.setBounds(567,578,100,50); 
+		highscorebtn.setBounds(556,396,100,50); 
 		highscorebtn.setContentAreaFilled(false);
 		highscorebtn.setBorderPainted(false);
-		highscorebtn.setBorder(new LineBorder(Color.orange));
-		highscorebtn.setForeground(Color.orange);
+		highscorebtn.setBorder(new LineBorder(Color.black));
+		highscorebtn.setForeground(Color.black);
 		highscorebtn.addMouseListener(new MouseAdapter(){
 		    @Override
 		    public void mousePressed(MouseEvent e) {
@@ -119,12 +121,12 @@ public final class MenuScreen extends GameScreen {
 		//Create a button to exit the game
 		exitbtn = new JButton("Exit");
 		exitbtn.setFont(new Font("Arial", Font.BOLD, 20));
-		exitbtn.setBounds(833,578,100,50); 
+		exitbtn.setBounds(745,430,100,50); 
 		//exitbtn.setOpaque(true);
 		exitbtn.setContentAreaFilled(false);
 		exitbtn.setBorderPainted(false);
-		exitbtn.setBorder(new LineBorder(Color.orange));
-		exitbtn.setForeground(Color.orange);
+		exitbtn.setBorder(new LineBorder(Color.black));
+		exitbtn.setForeground(Color.black);
 		exitbtn.addMouseListener(new MouseAdapter(){
 		    @Override
 		    public void mousePressed(MouseEvent e) {

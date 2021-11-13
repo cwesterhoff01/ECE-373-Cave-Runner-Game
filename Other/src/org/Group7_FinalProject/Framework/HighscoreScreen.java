@@ -1,13 +1,18 @@
 package org.Group7_FinalProject.Framework;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+
 import org.Group7_FinalProject.Utilities.Account;
 import org.Group7_FinalProject.Utilities.HighscoreTable;
 import org.Group7_FinalProject.Utilities.Highscores;
@@ -37,28 +42,67 @@ public final class HighscoreScreen extends GameScreen {
 	//Constructor that requires one argument
 	public HighscoreScreen(Window w) {
 		
-		super(w, new ImageIcon("src/resources/background.jpeg"));
+		super(w, new ImageIcon("src/resources/background_highscore2.jpeg"));
 		
 		//Create a menu button
-		this.menubtn = new JButton("Menu");
-		this.menubtn.addActionListener(new ActionListener() {
+		menubtn = new JButton("Menu");
+		menubtn.setFont(new Font("Arial", Font.BOLD, 20));
+		menubtn.setBounds(462,435,80,50); 
+		menubtn.setContentAreaFilled(false);
+		menubtn.setBorderPainted(false);
+		menubtn.setBorder(new LineBorder(Color.white));
+		menubtn.setForeground(Color.white);
+		menubtn.addMouseListener(new MouseAdapter(){
+		    @Override
+		    public void mousePressed(MouseEvent e) {
+		    	menubtn.setBorderPainted(true);
+		    }
+		    @Override
+		    public void mouseReleased(MouseEvent e) {
+		    	menubtn.setBorderPainted(false);
+		    }
+		});
+		menubtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				window.setCurrentScreen(w.getGameScreenList().get("Menu Screen"));
 			}
 		});
-		add(menubtn, BorderLayout.SOUTH);
+		add(menubtn);
 		
 		//Displays Alltime scores first
 		String title[] = {"Scores"};
 		//load in highscores into a double array & create Jtable
 		highscoreTable = new HighscoreTable(title, getAlltimeScores());
+		highscoreTable.setFont(new Font("Arial", Font.BOLD, 26));
+		highscoreTable.setBounds(585,240,300,180); 
+		highscoreTable.setBorder(new LineBorder(Color.white));
+		highscoreTable.setForeground(Color.white);
+		
 		//loading in account names for alltime
 		highscoreTable.addAccountNames(convertToHighscoreList());
 		add(highscoreTable);
 		//Create a toggle button to switch between personal and all-time highscores display
-		this.togglebtn = new JButton("Personal Highscores");
-		this.togglebtn.addActionListener(new ActionListener() {
+		togglebtn = new JButton("Personal Highscores");
+		togglebtn.setFont(new Font("Arial", Font.BOLD, 24));
+		togglebtn.setBounds(185,265,260,80); 
+		togglebtn.setContentAreaFilled(false);
+		togglebtn.setBorderPainted(true);
+		togglebtn.setBorder(new LineBorder(Color.white, 2));
+		togglebtn.setForeground(Color.white);
+		togglebtn.addMouseListener(new MouseAdapter(){
+		    @Override
+		    public void mousePressed(MouseEvent e) {
+		    	//togglebtn.setBorderPainted(true);
+		    	togglebtn.setBorder(new LineBorder(Color.black, 2));
+		    }
+		    @Override
+		    public void mouseReleased(MouseEvent e) {
+		    	//togglebtn.setBorderPainted(false);
+		    	togglebtn.setBorder(new LineBorder(Color.white, 2));
+		    }
+		});
+		togglebtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (togglebtn.getText().equals("All-time Highscores")) {
@@ -77,7 +121,8 @@ public final class HighscoreScreen extends GameScreen {
 				}
 			}
 		});
-		add(togglebtn, BorderLayout.SOUTH);
+		add(togglebtn);
+		setLayout(null);
 		
 	}
 
