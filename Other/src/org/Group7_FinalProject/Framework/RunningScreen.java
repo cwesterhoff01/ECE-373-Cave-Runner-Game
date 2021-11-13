@@ -37,6 +37,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	private List<Obstacle> obstacles;
 	private List<Halt> haltPowerups;
 	private List<Invincibility> invinPowerups;
+	private Random rand;
 	private boolean runnerDead;
 	private boolean runnerPaused;
 	private int prevStuck;
@@ -80,6 +81,8 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         obstacles = new ArrayList<>();
         haltPowerups = new ArrayList<>();
         invinPowerups = new ArrayList<>();
+		rand = new Random();
+		rand.setSeed(System.currentTimeMillis());
         depth = 0;
         gameDelay = 0;
         
@@ -273,7 +276,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	        updatePlanesLeft();
 	        updateObstacles();
 	        generatePowerUp(); //also has generate Obstacle
-	        updatePowerUp();
+	        updatePowerUps();
         }
         
         checkCollisions();
@@ -368,10 +371,10 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         }
     }
 	
+	//TO DO: Turn this method into a static method of the obstacles and powerups classes
 	private void generatePowerUp() { //Will show a power up n% of the time, will have a 50-50 chance of what power up will be selected
 		
 		double occurance = 1; //This means 5% of the time a power up will be shown (1% is a lot btw)
-		Random rand = new Random();
 		double rand_double = rand.nextDouble(); //Generates a float between 0.0 -> 1.0
 		if(rand_double <= (occurance / 100)) {
 			//set visible an obstacle or power up
@@ -394,7 +397,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 		//else does not show a power up
 	}
 	
-	private void updatePowerUp() { //updates the position of the powerups so that it moves with the screen
+	private void updatePowerUps() { //updates the position of the powerups so that it moves with the screen
 		for(Halt hpu : haltPowerups) {
 			
 			hpu.move();
