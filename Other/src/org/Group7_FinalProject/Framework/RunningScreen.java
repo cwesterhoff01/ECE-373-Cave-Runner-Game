@@ -41,7 +41,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	private boolean runnerDead;
 	private boolean runnerPaused;
 	private int prevStuck;
-	private Integer depth;
 	private long gameDelay;
     
 	private final int[][] posPlnsRt = { // spawn positions for right planes
@@ -83,7 +82,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         invinPowerups = new ArrayList<>();
 		rand = new Random();
 		rand.setSeed(System.currentTimeMillis());
-        depth = 0;
         gameDelay = 0;
         
         //The timer handles animation with ActionListener, the KeyListener handles keyboard input
@@ -125,7 +123,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     	
     	//Initialize the sprites
     	initSprites();
-    	depth = 0;
+    	runner.setDepth(0);
         runnerDead = false;
         runnerPaused = false;
         Sprite.resetDifficulty();
@@ -229,7 +227,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     	}
         
         g.setColor(Color.WHITE);
-        g.drawString("Depth: " + depth.toString(), 5, 15);
+        g.drawString("Depth: " + runner.getDepth().toString(), 5, 15);
         
     }
 
@@ -567,18 +565,5 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 		this.prevStuck = prevStuck;
 	}
 
-	/**
-	 * @return the depth
-	 */
-	public Integer getDepth() {
-		return depth;
-	}
-
-	/**
-	 * @param depth the depth to set
-	 */
-	public void setDepth(Integer depth) {
-		this.depth = depth;
-	}
 
 }
