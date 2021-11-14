@@ -12,13 +12,14 @@ public class Runner extends Sprite {
     private final int SPEED = 3;
     private int lastKey;
     private boolean jump;
-    private int depth;
+    private Integer depth;
 
     //Constructor that requires two arguments
     public Runner(int x, int y) {
     	
         super(x, y);
         loadImage("src/resources/runner5.png");
+        depth = 0;
         
     }
 	
@@ -34,6 +35,7 @@ public class Runner extends Sprite {
 		else { 
 			//gravity/free-fall
 			dy = SPEED;
+			depth = depth + 1;
 			if ((DIFFICULTY * 2) > SPEED) {
 				dy = DIFFICULTY * 2;
 			}
@@ -60,7 +62,7 @@ public class Runner extends Sprite {
     	
         x += dx;
         y += dy;
-        depth += y + DIFFICULTY;
+        
 		if (x < 1) {
             x = 1200;
         }
@@ -172,10 +174,25 @@ public class Runner extends Sprite {
     public int getLastKey() {
     	return lastKey;
     }
-    public int getDepth() {
-    	return depth;
-    }
+
     public int getDy() {
     	return dy;
     }
+
+	/**
+	 * @return the depth
+	 */
+	public Integer getDepth() {
+		return depth;
+	}
+
+	/**
+	 * @param depth the depth to set
+	 */
+	public void setDepth(Integer depth) {
+		this.depth = depth;
+	}
+
+    
+    
 }
