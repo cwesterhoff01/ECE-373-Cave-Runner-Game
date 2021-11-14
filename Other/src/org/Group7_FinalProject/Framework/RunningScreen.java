@@ -254,11 +254,9 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     	
     	//Run all methods that should occur every timer period
         checkRunnerDead();
-        checkPaused();
+        checkRunnerPaused();
         updateRunner();
-        updateCeiling();
-        
-        
+              
         //loop to see if have to update planes, obstacles, runner, etc. based on Halt power up
         boolean update = true;
         for(Halt hpu : haltPowerups) {
@@ -282,7 +280,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         checkCollisions();
         repaint();
         
-        depth += runner.getDy();
         prevStuck -= 1;
         
     }
@@ -317,7 +314,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         	stopRunning(); 
     }
 	
-	private void checkPaused() {
+	private void checkRunnerPaused() {
 		if(runnerPaused) {
 			gameTimer.stop();
 			difficultyTimer.stop();
@@ -337,11 +334,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         if (runner.isVisible())
             runner.move();
     }
-    
-    private void updateCeiling() {
-        if (ceiling.isVisible())
-            ceiling.move();
-    }
 
 	private void updatePlanesRight() {
 
@@ -353,6 +345,8 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
                 a.move();
             } else {
                 planesRight.remove(i);
+                System.out.println("Score increase");
+                depth = depth + 10;
             }
         }
     }
@@ -367,6 +361,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
                 a.move();
             } else {
                 planesLeft.remove(i);
+                depth = depth + 10;
             }
         }
     }
