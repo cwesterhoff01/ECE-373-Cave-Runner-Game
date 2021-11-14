@@ -336,33 +336,29 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     }
 
 	private void updatePlanesRight() {
-
-        for (int i = 0; i < planesRight.size(); i++) {
-
-            PlaneRight a = planesRight.get(i);
-            
-            if (a.isVisible()) {
-                a.move();
-            } else {
-                planesRight.remove(i);
-                System.out.println("Score increase");
-                depth = depth + 10;
-            }
-        }
+        for (PlaneRight p : planesRight) {
+        	p.move();
+        }  
     }
 	
 	private void updatePlanesLeft() {
-
-        for (int i = 0; i < planesLeft.size(); i++) {
-
-            PlaneLeft a = planesLeft.get(i);
-            
-            if (a.isVisible()) {
-                a.move();
-            } else {
-                planesLeft.remove(i);
-                depth = depth + 10;
-            }
+        for (PlaneLeft p : planesLeft) {
+        	p.move();
+        }  
+    }
+	
+	private void updatePowerUps() {
+		for(Halt hpu : haltPowerups) {		
+			hpu.move();
+		}
+		for(Invincibility invin : invinPowerups) {	
+			invin.move();
+		}
+	}
+	
+	private void updateObstacles() {
+		for (Obstacle obst : obstacles) {
+            obst.move();
         }
     }
 	
@@ -391,25 +387,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 		}
 		//else does not show a power up
 	}
-	
-	private void updatePowerUps() { //updates the position of the powerups so that it moves with the screen
-		for(Halt hpu : haltPowerups) {
-			
-			hpu.move();
-		}
-		
-		for(Invincibility invin : invinPowerups) {
-			
-			invin.move();
-		}
-	}
-	
-	private void updateObstacles() {
-		for (Obstacle obst : obstacles) {
-
-            obst.move();
-        }
-    }
 	
     public void checkCollisions() {
         
