@@ -27,6 +27,7 @@ public class Account {
 		this.highscores = highscores;
 		//The highscores for an account should always be sorted highest to lowest
 		Collections.sort(this.highscores);
+		Collections.reverse(this.highscores);
 		
 	}
 
