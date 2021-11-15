@@ -42,6 +42,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	private boolean runnerPaused;
 	private int prevStuck;
 	private long gameDelay;
+	private boolean obstacleCollision;
     
 	private final int[][] posPlnsRt = { // spawn positions for right planes
 	        {450, 150}, {450, 550}
@@ -83,6 +84,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 		rand = new Random();
 		rand.setSeed(System.currentTimeMillis());
         gameDelay = 0;
+        obstacleCollision = false;
         
         //The timer handles animation with ActionListener, the KeyListener handles keyboard input
         gameTimer = new Timer(15, this); //every 15 ms, actionPerformed() executed
@@ -129,6 +131,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         Sprite.resetDifficulty();
         gameTimer.start();
         difficultyTimer.start();
+        obstacleCollision = false;
 		
     }
     
@@ -298,13 +301,32 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         if(key == KeyEvent.VK_ESCAPE) {
         	runnerPaused = true;
         }
-        
-		runner.keyPressed(e);
+
+        if(obstacleCollision == false) {
+        	runner.keyPressed(e);
+		}
+        else {
+        	//check if next movement will get them unstuck
+        	if(runner.checkMovement(e) == false) {
+        		 for (Obstacle obst : obstacles) {
+        	            if (Sprite.isCollided(runner, obst) && obst.isVisible()) {
+        	            	//move back
+        	            	runner.undoMovement(e);
+        	            }  
+        	       }
+        		obstacleCollision = false;
+        	}
+        }
+		
 		
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
-		runner.keyReleased(e);
+		if(obstacleCollision == false) {
+			runner.keyReleased(e);
+		}
+			
+		
 	}
 	
 	private void checkRunnerDead() {
@@ -414,6 +436,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         
         for (Obstacle obst : obstacles) {
             if (Sprite.isCollided(runner, obst) && obst.isVisible()) {
+            	obstacleCollision = true;
             	runner.setXMovement(false);
                 prevStuck = 2;
                 for (Invincibility invin : invinPowerups) {
@@ -422,6 +445,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
                 		
                 		obst.setVisible(false);
                 		runner.setXMovement(true);
+                		obstacleCollision = false;
                 		break;
                 	}
                 }
