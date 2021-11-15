@@ -2,13 +2,24 @@ package org.Group7_FinalProject.Utilities;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 //Account class contains and controls all objects related to an Account
 public class Account {
 	
 	//Fields for an Account
 	private String name;
-	private ArrayList<Integer> highscores;
+	private ArrayList<Highscore> highscores;
+	
+	//Comparator used for sorting an account's highscores
+	static public Comparator<Highscore> scoreComparator;
+	static {
+		scoreComparator = new Comparator<Highscore>() {
+			public int compare(Highscore hs1, Highscore hs2) {
+				return Integer.compare(hs1.getValue(), hs2.getValue());
+			}
+		};
+	}
 
 	//Default no-arg constructor
 	public Account() {
@@ -17,16 +28,16 @@ public class Account {
 	
 	//Constructor that accepts one argument
 	public Account(String name) {
-		this(name, new ArrayList<Integer>(Collections.nCopies(10, 0)));
+		this(name, new ArrayList<Highscore>(Collections.nCopies(10, new Highscore(0, name))));
 	}
 	
 	//Constructor that accepts two arguments
-	public Account(String name, ArrayList<Integer> highscores) {
+	public Account(String name, ArrayList<Highscore> highscores) {
 		
 		this.name = name;
 		this.highscores = highscores;
 		//The highscores for an account should always be sorted highest to lowest
-		Collections.sort(this.highscores);
+		Collections.sort(this.highscores, scoreComparator);
 		Collections.reverse(this.highscores);
 		
 	}
@@ -48,14 +59,14 @@ public class Account {
 	/**
 	 * @return the highscores
 	 */
-	public ArrayList<Integer> getHighscores() {
+	public ArrayList<Highscore> getHighscores() {
 		return highscores;
 	}
 
 	/**
 	 * @param highscores the highscores to set
 	 */
-	public void setHighscores(ArrayList<Integer> highscores) {
+	public void setHighscores(ArrayList<Highscore> highscores) {
 		this.highscores = highscores;
 	}
 	
