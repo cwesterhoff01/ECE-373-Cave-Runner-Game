@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-//Account class contains and controls all objects related to an Account
+/*
+ * The Account class includes all fields and methods related to an Account
+ */
 public class Account {
 	
 	//Fields for an Account
@@ -36,7 +38,6 @@ public class Account {
 		
 		this.name = name;
 		this.highscores = highscores;
-		//The highscores for an account should always be sorted highest to lowest
 		Collections.sort(this.highscores, scoreComparator);
 		Collections.reverse(this.highscores);
 		

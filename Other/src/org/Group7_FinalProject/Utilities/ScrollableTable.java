@@ -1,18 +1,14 @@
 package org.Group7_FinalProject.Utilities;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.util.ArrayList;
-import java.util.Vector;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
 
-//ScrollableTable class contains and controls all objects related to a ScrollableTable
+/*
+ * The ScrollableTable class includes all fields and methods related to a ScrollableTable
+ */
 public final class ScrollableTable extends JScrollPane {
 
 	//Fields for an AccountTable
@@ -24,14 +20,12 @@ public final class ScrollableTable extends JScrollPane {
 		this(null, null);
 	}
 	
-	//Constructor that accepts two arguments
+	//Constructor that requires two arguments
 	public ScrollableTable(Object[] head, Object[][] data) {
-		
 		this(head, data, 200, 200);
-		
 	}
 	
-	//Constructor that accepts four arguments
+	//Constructor that requires four arguments
 	public ScrollableTable(Object[] head, Object[][] data, Integer width, Integer height) {
 		
 		super();
@@ -82,6 +76,7 @@ public final class ScrollableTable extends JScrollPane {
 		this.model.removeRow(row);
 	}
 	
+	//Method that refreshes the data displayed in the table
 	public void refreshData(Object[] head, Object[][] data) {
 		emptyData();
 		for (int i = 0; i < head.length; i++) {
@@ -92,37 +87,38 @@ public final class ScrollableTable extends JScrollPane {
 		}
 	}
 	
+	//Method that completely empties the table
 	public void emptyData() {
 		model.setRowCount(0);
 		model.setColumnCount(0);
 	}
-	
-	/*public void replaceData(Integer[][] data, String[] title) {
-		//Replaces the title of the model
-		table.getColumnModel().getColumn(0).setHeaderValue(title[0]);
-		//removes the currentData
-		for(int i = 9; i >= 0; i--) {
-			model.removeRow(i);
-		}
-		//adds the correct data
-		for(int i = 0; i < 10; i++) {
-			Integer rowData[] = data[i];
-			model.addRow(rowData);
-		}
+
+	/**
+	 * @return the table
+	 */
+	public JTable getTable() {
+		return table;
 	}
 
-	public void addAccountNames(ArrayList<Highscore> alltimeHighscores) {//Adds the accounts names for alltime highscores
-		String[] accNames = new String[10];
-		for(int i = 0; i < 10; i++) {
-			accNames[i] = alltimeHighscores.get(i).getAccountName();
-		}
-		//create new column with account names
-		model.addColumn("Account Names", accNames);
+	/**
+	 * @param table the table to set
+	 */
+	public void setTable(JTable table) {
+		this.table = table;
 	}
 
-	public void removeEmptyCol() {
-		//Personal scores dont need to show account names :)
-		model.setColumnCount(1);	
-	}*/
+	/**
+	 * @return the model
+	 */
+	public DefaultTableModel getModel() {
+		return model;
+	}
+
+	/**
+	 * @param model the model to set
+	 */
+	public void setModel(DefaultTableModel model) {
+		this.model = model;
+	}
 
 }
