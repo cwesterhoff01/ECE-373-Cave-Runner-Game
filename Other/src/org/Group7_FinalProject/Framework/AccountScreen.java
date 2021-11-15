@@ -16,7 +16,7 @@ public final class AccountScreen extends GameScreen {
 	private JButton selectacctbtn;
 	private JButton createacctbtn;
 	private JTextField accttxtbox;
-	private AccountTable accttable;
+	private ScrollableTable accttable;
 	private JLabel curracctlabel;
 	
 	//Default no-arg constructor
@@ -165,7 +165,7 @@ public final class AccountScreen extends GameScreen {
 			accounts[i][0] = window.getGame().getGameAccounts().get(i).getName();
 		}
 		String[] head = {"Accounts"};
-		this.accttable = new AccountTable(head, accounts, 200, 200);
+		this.accttable = new ScrollableTable(head, accounts, 200, 200);
 		accttable.setFont(new Font("Arial", Font.BOLD, 18));
 		accttable.setBounds(625,245,200,200); 
 		accttable.setBorder(new LineBorder(Color.black));
@@ -283,14 +283,14 @@ public final class AccountScreen extends GameScreen {
 	/**
 	 * @return the accttable
 	 */
-	public AccountTable getAccttable() {
+	public ScrollableTable getAccttable() {
 		return accttable;
 	}
 
 	/**
 	 * @param accttable the accttable to set
 	 */
-	public void setAccttable(AccountTable accttable) {
+	public void setAccttable(ScrollableTable accttable) {
 		this.accttable = accttable;
 	}
 
