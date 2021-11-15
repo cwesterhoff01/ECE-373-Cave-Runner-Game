@@ -1,17 +1,19 @@
 package org.Group7_FinalProject.Framework;
-import org.Group7_FinalProject.Utilities.*;
 
+import org.Group7_FinalProject.Utilities.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+/*
+ * The AccountScreen class contains all fields and methods related to an AccountScreen
+ */
 public final class AccountScreen extends GameScreen {
 	
-	//Fields for the Account Screen
+	//Fields for an AccountScreen
 	private JButton menubtn;
 	private JButton selectacctbtn;
 	private JButton createacctbtn;
@@ -173,7 +175,6 @@ public final class AccountScreen extends GameScreen {
 		accttable.setBackground(Color.orange);
 		accttable.setOpaque(true);
 		accttable.setBackground(Color.orange);
-		accttable.setSelectedRow(0); //good / bad??
 		add(accttable);
 		
 		//Create a select account button
@@ -220,8 +221,9 @@ public final class AccountScreen extends GameScreen {
 		});
 		add(selectacctbtn);
 				
-				
+		//Necessary for styling to apply properly
 		setLayout(null);
+		
 	}
 
 	/**
@@ -308,5 +310,4 @@ public final class AccountScreen extends GameScreen {
 		this.curracctlabel = curracctlabel;
 	}
 	
-
 }

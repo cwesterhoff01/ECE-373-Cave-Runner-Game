@@ -10,9 +10,12 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import org.Group7_FinalProject.Utilities.ScrollableTable;
 
+/*
+ * The HighscoreScreen class includes all fields and methods related to a HighscoreScreen
+ */
 public final class HighscoreScreen extends GameScreen {
 
-	//Fields for the Highscore Screen
+	//Fields for a HighscoreScreen
 	private JButton menubtn;
 	private JButton togglebtn;
 	private ScrollableTable highscoreTable;
@@ -61,8 +64,6 @@ public final class HighscoreScreen extends GameScreen {
 		highscoreTable.setBounds(585,240,300,180); 
 		highscoreTable.setBorder(new LineBorder(Color.white));
 		highscoreTable.setForeground(Color.white);
-		//loading in account names for alltime
-		//highscoreTable.addAccountNames(convertToHighscoreList());
 		add(highscoreTable);
 		
 		//Create a toggle button to switch between personal and all-time highscores display
@@ -106,6 +107,48 @@ public final class HighscoreScreen extends GameScreen {
 		add(togglebtn);
 		setLayout(null);
 		
+	}
+
+	/**
+	 * @return the menubtn
+	 */
+	public JButton getMenubtn() {
+		return menubtn;
+	}
+
+	/**
+	 * @param menubtn the menubtn to set
+	 */
+	public void setMenubtn(JButton menubtn) {
+		this.menubtn = menubtn;
+	}
+
+	/**
+	 * @return the togglebtn
+	 */
+	public JButton getTogglebtn() {
+		return togglebtn;
+	}
+
+	/**
+	 * @param togglebtn the togglebtn to set
+	 */
+	public void setTogglebtn(JButton togglebtn) {
+		this.togglebtn = togglebtn;
+	}
+
+	/**
+	 * @return the highscoreTable
+	 */
+	public ScrollableTable getHighscoreTable() {
+		return highscoreTable;
+	}
+
+	/**
+	 * @param highscoreTable the highscoreTable to set
+	 */
+	public void setHighscoreTable(ScrollableTable highscoreTable) {
+		this.highscoreTable = highscoreTable;
 	}
 	
 }

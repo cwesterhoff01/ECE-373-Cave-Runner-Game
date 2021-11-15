@@ -7,18 +7,15 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-import java.util.Timer;
-import java.awt.event.KeyEvent;
-
 import javax.swing.JOptionPane;
-
 import org.Group7_FinalProject.Utilities.Account;
 import org.Group7_FinalProject.Utilities.Highscore;
-import org.Group7_FinalProject.Runner.*;
 
-
-//Game class contains and controls all objects related to a Game
-public class Game {
+/*
+ * The Game class contains all fields and methods related to a Game
+ * Primary game flow control is implemented here
+ */
+public final class Game {
 	
 	//Fields for a Game
 	private Window gameWindow;
@@ -28,7 +25,7 @@ public class Game {
 	//Default no-arg constructor
 	public Game() {
 		
-		//Load in accounts from txt file here
+		//Load in accounts from txt file
 		this.gameAccounts = new ArrayList<Account>();
 		this.loadAccounts();
 		
@@ -42,50 +39,8 @@ public class Game {
 		this.gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Menu Screen"));
 		
 	}
-	
-	/**
-	 * @return the gameWindow
-	 */
-	public Window getGameWindow() {
-		return gameWindow;
-	}
 
-	/**
-	 * @param gameWindow the gameWindow to set
-	 */
-	public void setGameWindow(Window gameWindow) {
-		this.gameWindow = gameWindow;
-	}
-
-	/**
-	 * @return the gameAccounts
-	 */
-	public ArrayList<Account> getGameAccounts() {
-		return gameAccounts;
-	}
-
-	/**
-	 * @param gameAccounts the gameAccounts to set
-	 */
-	public void setGameAccounts(ArrayList<Account> gameAccounts) {
-		this.gameAccounts = gameAccounts;
-	}
-
-	/**
-	 * @return the currAccount
-	 */
-	public Account getCurrAccount() {
-		return currAccount;
-	}
-
-	/**
-	 * @param currAccount the currAccount to set
-	 */
-	public void setCurrAccount(Account currAccount) {
-		this.currAccount = currAccount;
-	}
-
-	//Main method for controlling the game
+	//Method that implements primary game flow control
 	public void runGame() {
 		
 		//Infinite while loop runs until the program termination signal is sent
@@ -131,7 +86,7 @@ public class Game {
 	
 	private void updateRunningScreen() {
 		
-		//Start the runner game
+		//Start the runner
 		((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).startRunning();
     	
     	//Continue running until the player dies
@@ -178,13 +133,13 @@ public class Game {
 		
 		Object scores[][] = new Object[10][1];
 		
-		//Make sure the scores have been properly sorted
 		Collections.sort(currAccount.getHighscores(), Account.scoreComparator);
 		Collections.reverse(currAccount.getHighscores());
 		
 		for (int i = 0; i < 10; i++) {
 			scores[i][0] = currAccount.getHighscores().get(i).getValue();
 		}
+		
 		return scores;
 		
 	}
@@ -195,20 +150,20 @@ public class Game {
 		Object topTenScores[][] = new Object[10][2];
 		ArrayList<Highscore> allScores = new ArrayList<Highscore>();
 		
-		//Loop through all accounts and collect their scores
 		for (Account a : gameAccounts) {
 			for (Highscore h : a.getHighscores()) {
 				allScores.add(h);
 			}
 		}
-		//Sort this giant list of scores from highest to lowest
+
 		Collections.sort(allScores, Account.scoreComparator);
 		Collections.reverse(allScores);
-		//Now, the first ten elements in allScores should correspond to the top ten scores of all time
+
 		for (int i = 0; i < 10; i++) {
 			topTenScores[i][1] = allScores.get(i).getValue();
 			topTenScores[i][0] = allScores.get(i).getAccountName();
 		}
+		
 		return topTenScores;
 		
 	}
@@ -226,7 +181,7 @@ public class Game {
 					Integer score = scanner.nextInt();
 					accScores.add(new Highscore(score, name));
 				}
-				String garbage = scanner.nextLine();  //Get rid of newline character
+				String garbage = scanner.nextLine();
 				Account acc = new Account(name, accScores);
 				gameAccounts.add(acc);
 			}
@@ -259,10 +214,55 @@ public class Game {
 		
 	}
 	
-	//Method that sends the termination signal to the program
+	/*
+	 * Method that sends the termination signal to the program
+	 * All possible ways of closing the program should run through here
+	 */
 	public void terminate() {
 		this.saveAccounts();
 		System.exit(0);
+	}
+
+	/**
+	 * @return the gameWindow
+	 */
+	public Window getGameWindow() {
+		return gameWindow;
+	}
+
+	/**
+	 * @param gameWindow the gameWindow to set
+	 */
+	public void setGameWindow(Window gameWindow) {
+		this.gameWindow = gameWindow;
+	}
+
+	/**
+	 * @return the gameAccounts
+	 */
+	public ArrayList<Account> getGameAccounts() {
+		return gameAccounts;
+	}
+
+	/**
+	 * @param gameAccounts the gameAccounts to set
+	 */
+	public void setGameAccounts(ArrayList<Account> gameAccounts) {
+		this.gameAccounts = gameAccounts;
+	}
+
+	/**
+	 * @return the currAccount
+	 */
+	public Account getCurrAccount() {
+		return currAccount;
+	}
+
+	/**
+	 * @param currAccount the currAccount to set
+	 */
+	public void setCurrAccount(Account currAccount) {
+		this.currAccount = currAccount;
 	}
 
 }

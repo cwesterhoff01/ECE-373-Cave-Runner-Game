@@ -1,11 +1,15 @@
 package org.Group7_FinalProject.Framework;
+
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import javax.swing.*;
 
-//Window class contains and controls all objects related to a Window
+/*
+ * The Window class contains all fields and methods related to a Window
+ * The Window is the JFrame that contains all graphics related to the Game
+ */
 public class Window extends JFrame {
 
 	//Fields for a Window
@@ -39,7 +43,7 @@ public class Window extends JFrame {
 		gameScreenList.put("Highscore Screen", new HighscoreScreen(this));
 		gameScreenList.put("Running Screen", new RunningScreen(this));
 		
-		//Create the CardLayout
+		//Create the CardLayout, which will allow switching between gamescreens
 		this.cl = new CardLayout();
 		this.mainPanel.setLayout(cl);
 		  

@@ -1,6 +1,9 @@
 package org.Group7_FinalProject.Framework;
 
-//Main driver class creates a game and runs it
+/*
+ * Main class is the driver
+ * It creates an instance of a the Game class, then runs that instance
+ */
 public class Main {
 
 	public static void main(String[] args) {

@@ -1,12 +1,13 @@
 package org.Group7_FinalProject.Framework;
 
-import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Image;
-
 import javax.swing.*;
 
-//GameScreen is an abstract class that should be implemented by individual screen types
+/*
+ * The GameScreen class includes all fields and methods related to a GameScreen
+ * The GameScreen class is expected to be implemented by particular subclasses
+ */
 public class GameScreen extends JPanel {
 	
 	//Fields for a GameScreen
@@ -26,9 +27,7 @@ public class GameScreen extends JPanel {
 	//Constructor that requires two arguments
 	public GameScreen(Window w, ImageIcon ii) {
 		
-		//For clarity
   		super();
-		//Every GameScreen belongs to a Window
 		this.window = w;
 		this.backgroundImage = ii.getImage();
 		

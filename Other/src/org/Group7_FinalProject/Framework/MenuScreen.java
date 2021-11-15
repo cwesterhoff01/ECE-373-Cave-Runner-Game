@@ -5,18 +5,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Timer;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-import org.Group7_FinalProject.Runner.Difficulty;
-import org.Group7_FinalProject.Runner.PlaneRight;
-import org.Group7_FinalProject.Runner.PlaneLeft;
-
+/*
+ * The MenuScreen class includes all fields and methods related to a MenuScreen
+ */
 public final class MenuScreen extends GameScreen {
 	
-	//Fields for the Menu Screen
+	//Fields for a MenuScreen
 	private JButton runningbtn;
 	private JButton accountbtn;
 	private JButton highscorebtn;
@@ -148,8 +145,65 @@ public final class MenuScreen extends GameScreen {
 			}
 		});
 		this.add(exitbtn);
+		
 		this.setLayout(null);
 		
+	}
+
+	/**
+	 * @return the runningbtn
+	 */
+	public JButton getRunningbtn() {
+		return runningbtn;
+	}
+
+	/**
+	 * @param runningbtn the runningbtn to set
+	 */
+	public void setRunningbtn(JButton runningbtn) {
+		this.runningbtn = runningbtn;
+	}
+
+	/**
+	 * @return the accountbtn
+	 */
+	public JButton getAccountbtn() {
+		return accountbtn;
+	}
+
+	/**
+	 * @param accountbtn the accountbtn to set
+	 */
+	public void setAccountbtn(JButton accountbtn) {
+		this.accountbtn = accountbtn;
+	}
+
+	/**
+	 * @return the highscorebtn
+	 */
+	public JButton getHighscorebtn() {
+		return highscorebtn;
+	}
+
+	/**
+	 * @param highscorebtn the highscorebtn to set
+	 */
+	public void setHighscorebtn(JButton highscorebtn) {
+		this.highscorebtn = highscorebtn;
+	}
+
+	/**
+	 * @return the exitbtn
+	 */
+	public JButton getExitbtn() {
+		return exitbtn;
+	}
+
+	/**
+	 * @param exitbtn the exitbtn to set
+	 */
+	public void setExitbtn(JButton exitbtn) {
+		this.exitbtn = exitbtn;
 	}
 
 }

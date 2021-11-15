@@ -1,30 +1,25 @@
 package org.Group7_FinalProject.Framework;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.TimerTask;
-
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
-
 import org.Group7_FinalProject.Runner.*;
 
-//RunningScreen class contains all fields and methods related to a RunningScreen
+/*
+ * The RunningScreen class includes all fields and methods related to a RunningScreen
+ */
 public class RunningScreen extends GameScreen implements ActionListener, KeyListener {
 
 	//Fields for a RunningScreen
@@ -244,6 +239,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         g.setColor(Color.white);
         g.setFont(small);
         g.drawString(msg, (window.getWidth() - fm.stringWidth(msg)) / 2, window.getHeight() / 2);
+        
     }
 	
     /*
@@ -478,17 +474,31 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     }
 
 	/**
-	 * @return the timer
+	 * @return the gameTimer
 	 */
-	public Timer getTimer() {
+	public Timer getGameTimer() {
 		return gameTimer;
 	}
 
 	/**
-	 * @param timer the timer to set
+	 * @param gameTimer the gameTimer to set
 	 */
-	public void setTimer(Timer timer) {
-		this.gameTimer = timer;
+	public void setGameTimer(Timer gameTimer) {
+		this.gameTimer = gameTimer;
+	}
+
+	/**
+	 * @return the difficultyTimer
+	 */
+	public Timer getDifficultyTimer() {
+		return difficultyTimer;
+	}
+
+	/**
+	 * @param difficultyTimer the difficultyTimer to set
+	 */
+	public void setDifficultyTimer(Timer difficultyTimer) {
+		this.difficultyTimer = difficultyTimer;
 	}
 
 	/**
@@ -520,31 +530,87 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	}
 
 	/**
+	 * @return the planesRight
+	 */
+	public List<PlaneRight> getPlanesRight() {
+		return planesRight;
+	}
+
+	/**
+	 * @param planesRight the planesRight to set
+	 */
+	public void setPlanesRight(List<PlaneRight> planesRight) {
+		this.planesRight = planesRight;
+	}
+
+	/**
+	 * @return the planesLeft
+	 */
+	public List<PlaneLeft> getPlanesLeft() {
+		return planesLeft;
+	}
+
+	/**
+	 * @param planesLeft the planesLeft to set
+	 */
+	public void setPlanesLeft(List<PlaneLeft> planesLeft) {
+		this.planesLeft = planesLeft;
+	}
+
+	/**
 	 * @return the obstacles
 	 */
-	public List<PlaneRight> getObstacles() {
-		return planesRight;
+	public List<Obstacle> getObstacles() {
+		return obstacles;
 	}
 
 	/**
 	 * @param obstacles the obstacles to set
 	 */
-	public void setObstacles(List<PlaneRight> obstacles) {
-		this.planesRight = obstacles;
+	public void setObstacles(List<Obstacle> obstacles) {
+		this.obstacles = obstacles;
 	}
 
 	/**
-	 * @return the obstaclesLeft
+	 * @return the haltPowerups
 	 */
-	public List<PlaneLeft> getObstaclesLeft() {
-		return planesLeft;
+	public List<Halt> getHaltPowerups() {
+		return haltPowerups;
 	}
 
 	/**
-	 * @param obstaclesLeft the obstaclesLeft to set
+	 * @param haltPowerups the haltPowerups to set
 	 */
-	public void setObstaclesLeft(List<PlaneLeft> obstaclesLeft) {
-		this.planesLeft = obstaclesLeft;
+	public void setHaltPowerups(List<Halt> haltPowerups) {
+		this.haltPowerups = haltPowerups;
+	}
+
+	/**
+	 * @return the invinPowerups
+	 */
+	public List<Invincibility> getInvinPowerups() {
+		return invinPowerups;
+	}
+
+	/**
+	 * @param invinPowerups the invinPowerups to set
+	 */
+	public void setInvinPowerups(List<Invincibility> invinPowerups) {
+		this.invinPowerups = invinPowerups;
+	}
+
+	/**
+	 * @return the rand
+	 */
+	public Random getRand() {
+		return rand;
+	}
+
+	/**
+	 * @param rand the rand to set
+	 */
+	public void setRand(Random rand) {
+		this.rand = rand;
 	}
 
 	/**
@@ -589,5 +655,67 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 		this.prevStuck = prevStuck;
 	}
 
+	/**
+	 * @return the gameDelay
+	 */
+	public long getGameDelay() {
+		return gameDelay;
+	}
+
+	/**
+	 * @param gameDelay the gameDelay to set
+	 */
+	public void setGameDelay(long gameDelay) {
+		this.gameDelay = gameDelay;
+	}
+
+	/**
+	 * @return the obstacleCollision
+	 */
+	public boolean isObstacleCollision() {
+		return obstacleCollision;
+	}
+
+	/**
+	 * @param obstacleCollision the obstacleCollision to set
+	 */
+	public void setObstacleCollision(boolean obstacleCollision) {
+		this.obstacleCollision = obstacleCollision;
+	}
+
+	/**
+	 * @return the posPlnsRt
+	 */
+	public int[][] getPosPlnsRt() {
+		return posPlnsRt;
+	}
+
+	/**
+	 * @return the posPlnsLft
+	 */
+	public int[][] getPosPlnsLft() {
+		return posPlnsLft;
+	}
+
+	/**
+	 * @return the posObst
+	 */
+	public int[][] getPosObst() {
+		return posObst;
+	}
+
+	/**
+	 * @return the posHalt
+	 */
+	public int[][] getPosHalt() {
+		return posHalt;
+	}
+
+	/**
+	 * @return the posInvin
+	 */
+	public int[][] getPosInvin() {
+		return posInvin;
+	}
 
 }
