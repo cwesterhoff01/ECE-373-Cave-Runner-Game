@@ -20,7 +20,6 @@ public class Runner extends Sprite {
         super(x, y);
         loadImage("src/resources/runner5.png");
         depth = 0;
-        
     }
 	
 	public void setYMovement(boolean move) {	
@@ -169,6 +168,7 @@ public class Runner extends Sprite {
         if (key == KeyEvent.VK_RIGHT) {
             dx = 0;
         }
+        
     }
     
     public int getLastKey() {
@@ -193,6 +193,40 @@ public class Runner extends Sprite {
 		this.depth = depth;
 	}
 
+	public boolean checkMovement(KeyEvent e) {
+		boolean collision = true;
+		int key = e.getKeyCode();
+		//checks if next key movement will get play unstuck from obstacle
+		if(key == KeyEvent.VK_SPACE) {
+			this.setPosition(getX(), getY() - 50);
+        	collision = false; //let the user jump over obstacle
+        }
+		else if (key == KeyEvent.VK_LEFT) { //check if going left will get out of obstacle
+			this.setPosition(getX() - 20, getY());
+			collision = false;
+        }
+		else if (key == KeyEvent.VK_RIGHT) { //check if going right will get out of obstacle
+			this.setPosition(getX() + 20, getY());
+			collision = false;
+        }
+        
+		
+		return collision;
+	}
+	public void undoMovement(KeyEvent e) {
+		int key = e.getKeyCode();
+		if(key == KeyEvent.VK_SPACE) {
+			this.setPosition(getX(), getY() - 20);
+        }
+		//checks if next key movement will get play unstuck from obstacle
+		if (key == KeyEvent.VK_LEFT) { //check if going left will get out of obstacle
+			this.setPosition(getX() + 20, getY());
+        }
+		else if (key == KeyEvent.VK_RIGHT) { //check if going right will get out of obstacle
+			this.setPosition(getX() - 20, getY());
+        }
+        
+	}
     
     
 }
