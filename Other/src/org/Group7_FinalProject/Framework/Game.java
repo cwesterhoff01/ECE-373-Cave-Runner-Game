@@ -13,7 +13,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 import org.Group7_FinalProject.Utilities.Account;
-
+import org.Group7_FinalProject.Utilities.Highscore;
 import org.Group7_FinalProject.Runner.*;
 
 
@@ -147,11 +147,11 @@ public class Game {
 			//If the current account has set a new highscore, record it
 	    	Integer depth = ((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).getRunner().getDepth();
 			boolean newHighscore = false;
-			for (Integer s : gameWindow.getGame().getCurrAccount().getHighscores()) {
-				if (depth > s) {
+			for (Highscore h : gameWindow.getGame().getCurrAccount().getHighscores()) {
+				if (depth > h.getValue()) {
 					gameWindow.getGame().getCurrAccount().getHighscores().remove(9);
-					gameWindow.getGame().getCurrAccount().getHighscores().add(depth);
-					Collections.sort(gameWindow.getGame().getCurrAccount().getHighscores());
+					gameWindow.getGame().getCurrAccount().getHighscores().add(new Highscore(depth, gameWindow.getGame().getCurrAccount().getName()));
+					Collections.sort(gameWindow.getGame().getCurrAccount().getHighscores(), Account.scoreComparator);
 					Collections.reverse(gameWindow.getGame().getCurrAccount().getHighscores());
 					newHighscore = true;
 					break;
@@ -173,6 +173,46 @@ public class Game {
 		
 	}
 	
+	//Method to retreive the scores of the current account
+	public Object[][] getPersonalScores() {
+		
+		Object scores[][] = new Object[10][1];
+		
+		//Make sure the scores have been properly sorted
+		Collections.sort(currAccount.getHighscores(), Account.scoreComparator);
+		Collections.reverse(currAccount.getHighscores());
+		
+		for (int i = 0; i < 10; i++) {
+			scores[i][0] = currAccount.getHighscores().get(i).getValue();
+		}
+		return scores;
+		
+	}
+	
+	//Method to retreive the top ten scores of all time
+	public Object[][] getAllTimeHighscores() {
+		
+		Object topTenScores[][] = new Object[10][2];
+		ArrayList<Highscore> allScores = new ArrayList<Highscore>();
+		
+		//Loop through all accounts and collect their scores
+		for (Account a : gameAccounts) {
+			for (Highscore h : a.getHighscores()) {
+				allScores.add(h);
+			}
+		}
+		//Sort this giant list of scores from highest to lowest
+		Collections.sort(allScores, Account.scoreComparator);
+		Collections.reverse(allScores);
+		//Now, the first ten elements in allScores should correspond to the top ten scores of all time
+		for (int i = 0; i < 10; i++) {
+			topTenScores[i][1] = allScores.get(i).getValue();
+			topTenScores[i][0] = allScores.get(i).getAccountName();
+		}
+		return topTenScores;
+		
+	}
+	
 	//Method that loads in accounts from a txt file
 	private void loadAccounts() {
 		
@@ -180,11 +220,11 @@ public class Game {
 			File accData = new File("src/resources/account_data.txt");
 			Scanner scanner = new Scanner(accData);
 			while (scanner.hasNextLine()) {
-				ArrayList<Integer> accScores= new ArrayList<Integer>();
+				ArrayList<Highscore> accScores= new ArrayList<Highscore>();
 				String name = scanner.nextLine();
 				while(scanner.hasNextInt()) {
 					Integer score = scanner.nextInt();
-					accScores.add(score);
+					accScores.add(new Highscore(score, name));
 				}
 				String garbage = scanner.nextLine();  //Get rid of newline character
 				Account acc = new Account(name, accScores);
@@ -206,15 +246,8 @@ public class Game {
 			PrintWriter writer = new PrintWriter(accData);
 			for(Account acc : gameAccounts) {
 				writer.println(acc.getName());
-				int count = 0;
-				for(Integer i : acc.getHighscores()) {
-					if(count < 10) {
-					writer.print(i.toString() + " ");
-					}
-					else {
-						break;
-					}
-					count++;
+				for(Highscore h : acc.getHighscores()) {
+					writer.print(h.getValue().toString() + " ");
 				}
 				writer.println();
 			}
