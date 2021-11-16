@@ -27,7 +27,7 @@ public final class MenuScreen extends GameScreen {
 	//Constructor that requires one argument
 	public MenuScreen(Window w) {
 		
-		super(w, new ImageIcon("src/resources/background_menu8.jpeg"));
+		super(w, new ImageIcon("src/resources/background_menu.jpeg"));
 		
 		//Create a button to go to the running screen
 		String text = "<html>" + "Start" + "<br>" + "Game"

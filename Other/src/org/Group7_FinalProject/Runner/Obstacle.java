@@ -10,7 +10,7 @@ public class Obstacle extends Sprite {
     	
         super(x, y);
         visible = false;
-        loadImage("src/resources/obstacle2.png");
+        loadImage("src/resources/obstacle.png");
         
     }
 

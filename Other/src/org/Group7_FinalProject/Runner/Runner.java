@@ -18,7 +18,7 @@ public class Runner extends Sprite {
     public Runner(int x, int y) {
     	
         super(x, y);
-        loadImage("src/resources/runner5.png");
+        loadImage("src/resources/runner.png");
         depth = 0;
     }
 	

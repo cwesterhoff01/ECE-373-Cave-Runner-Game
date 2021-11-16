@@ -29,7 +29,7 @@ public final class AccountScreen extends GameScreen {
 	//Constructor that requires one argument
 	public AccountScreen(Window w) {
 		
-		super(w, new ImageIcon("src/resources/background_account14.jpeg"));
+		super(w, new ImageIcon("src/resources/background_account.jpeg"));
 		
 		//Create a JLabel to display the current account at all times
 		curracctlabel = new JLabel("<html>Currently Logged In As:<br>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp " + window.getGame().getCurrAccount().getName() + "</html>");
@@ -103,7 +103,7 @@ public final class AccountScreen extends GameScreen {
 		createacctbtn = new JButton(text);
 		createacctbtn.setFont(new Font("Arial", Font.BOLD, 18));
 		createacctbtn.setBounds(427,295,150,70); 
-		createacctbtn.setContentAreaFilled(true);
+		//createacctbtn.setContentAreaFilled(true);
 		createacctbtn.setBorderPainted(true);
 		createacctbtn.setBorder(new LineBorder(Color.white, 2));
 		//createacctbtn.setOpaque(true);
