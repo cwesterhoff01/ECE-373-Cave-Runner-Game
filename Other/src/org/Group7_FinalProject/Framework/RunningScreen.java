@@ -472,6 +472,18 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         }
         
     }
+    
+    //This private class increases the difficulty of the game at a scheduled interval
+    private class Difficulty implements ActionListener {
+
+    	@Override
+    	public void actionPerformed(ActionEvent e) {
+    		
+    		Sprite.changeDifficulty();
+    		
+    	}
+        
+    }
 
 	/**
 	 * @return the gameTimer
