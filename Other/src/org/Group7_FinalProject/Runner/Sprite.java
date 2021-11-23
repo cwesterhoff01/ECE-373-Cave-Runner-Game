@@ -18,6 +18,7 @@ public abstract class Sprite {
     protected boolean visible;
     protected Image image;
     protected static int DIFFICULTY = 0;
+    public static enum CollisionPosition { TOP, BOTTOM, LEFT, RIGHT, NONE };
 
     //Constructor that requires two arguments
     public Sprite(int x, int y) {
@@ -49,6 +50,36 @@ public abstract class Sprite {
     	else {
     		return false;
     	}
+    }
+    
+    /*
+     * Method that determines the relative location of two sprites when they collide
+     * Note that this method assumes that a collision actually exists, so it should
+     * only be called after verifying a collision using the isCollided() method
+     * Otherwise, the method will return NONE
+     */
+    public static CollisionPosition getCollisionPosition(Sprite s1, Sprite s2) {
+    	
+    	if ((s1.getY() + s1.getHeight() > s2.getY() + 10) && (s1.getY() < s2.getY() + s2.getHeight() - 10)) {
+    		if (s1.getX() < s2.getX()) {
+	    		return CollisionPosition.LEFT;
+    		}
+    		else {
+    			return CollisionPosition.RIGHT;
+    		}
+    	}
+    	else if ((s1.getX() + s1.getWidth() > s2.getX() + 10) && (s1.getX() < s2.getX() + s2.getWidth() - 10)) {
+    		if (s1.getY() < s2.getY()) {
+    			return CollisionPosition.TOP;
+    		}
+    		else {
+    			return CollisionPosition.BOTTOM;
+    		}
+    	}
+    	else {
+    		return CollisionPosition.NONE;
+    	}
+    	
     }
     
     protected abstract void move();

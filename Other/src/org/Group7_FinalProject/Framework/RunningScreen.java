@@ -35,9 +35,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	private Random rand;
 	private boolean runnerDead;
 	private boolean runnerPaused;
-	private int prevStuck;
 	private long gameDelay;
-	private boolean obstacleCollision;
     
 	private final int[][] posPlnsRt = { // spawn positions for right planes
 	        {450, 150}, {450, 550}
@@ -69,7 +67,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     	super(w, new ImageIcon("src/resources/background.jpeg"));
 
     	//Initialize objects
-        runner = new Runner(0, 0);
+        runner = new Runner(0, 0, this);
         ceiling = new Ceiling(0, 0);
         planesRight = new ArrayList<>();
         planesLeft = new ArrayList<>();
@@ -79,12 +77,12 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 		rand = new Random();
 		rand.setSeed(System.currentTimeMillis());
         gameDelay = 0;
-        obstacleCollision = false;
         
         //The timer handles animation with ActionListener, the KeyListener handles keyboard input
         gameTimer = new Timer(15, this); //every 15 ms, actionPerformed() executed
-        difficultyTimer = new Timer(5000, new Difficulty());  //every 5 seconds, difficulty increased
+        difficultyTimer = new Timer(20000, new Difficulty());  //every 5 seconds, difficulty increased
         addKeyListener(this);
+        
     }
     
     /*
@@ -111,7 +109,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     /*
      * Method that starts the running game
      * Add all method calls necessary to initialize the game here
-     * Set all variables to their intial values here
+     * Set all variables to their initial values here
      */
     public void startRunning() {
     	
@@ -126,7 +124,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         Sprite.resetDifficulty();
         gameTimer.start();
         difficultyTimer.start();
-        obstacleCollision = false;
 		
     }
     
@@ -148,10 +145,10 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	private void initSprites() {
 
         for (int[] p : posPlnsRt) {
-            planesRight.add(new PlaneRight(p[0], p[1]));
+            planesRight.add(new PlaneRight(p[0], p[1], this));
         }
         for (int[] p : posPlnsLft) {
-            planesLeft.add(new PlaneLeft(p[0], p[1]));
+            planesLeft.add(new PlaneLeft(p[0], p[1], this));
         }
         for (int[] p : posObst) {
         	obstacles.add(new Obstacle(p[0], p[1]));
@@ -225,20 +222,20 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     	}
         
         g.setColor(Color.WHITE);
-        g.drawString("Depth: " + runner.getDepth().toString(), 5, 15);
+        g.drawString("Depth: " + runner.getDepth().toString(), 10, 80);
         
     }
 
-    //Method that draws the "Game Over" message on the screen //TODO delete this? Maybe modify to display somewhere else
+    //Method that draws the "Game Over" message on the screen
     private void drawGameOver(Graphics g) {
 
         String msg = "Game Over";
-        Font small = new Font("Helvetica", Font.BOLD, 14);
+        Font small = new Font("Helvetica", Font.BOLD, 40);
         FontMetrics fm = getFontMetrics(small);
 
-        g.setColor(Color.white);
+        g.setColor(Color.BLACK);
         g.setFont(small);
-        g.drawString(msg, (window.getWidth() - fm.stringWidth(msg)) / 2, window.getHeight() / 2);
+        g.drawString(msg, (window.getWidth() - fm.stringWidth(msg)) / 2, (window.getHeight() / 2) - 120);
         
     }
 	
@@ -274,10 +271,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	        updatePowerUps();
         }
         
-        checkCollisions();
         repaint();
-        
-        prevStuck -= 1;
         
     }
     
@@ -298,36 +292,23 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         	runnerPaused = true;
         }
 
-        if(obstacleCollision == false) {
-        	runner.keyPressed(e);
-		}
-        else {
-        	//check if next movement will get them unstuck
-        	if(runner.checkMovement(e) == false) {
-        		 for (Obstacle obst : obstacles) {
-        	            if (Sprite.isCollided(runner, obst) && obst.isVisible()) {
-        	            	//move back
-        	            	runner.undoMovement(e);
-        	            }  
-        	       }
-        		obstacleCollision = false;
-        	}
-        }
-		
+        runner.keyPressed(e);
 		
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if(obstacleCollision == false) {
-			runner.keyReleased(e);
-		}
-			
-		
+		runner.keyReleased(e);
 	}
 	
 	private void checkRunnerDead() {
+		
+        if (Sprite.isCollided(runner, ceiling)) {
+        	runnerDead = true;
+        }
+        
         if (runnerDead)
         	stopRunning(); 
+        
     }
 	
 	private void checkRunnerPaused() {
@@ -403,84 +384,13 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 		}
 		//else does not show a power up
 	}
-	
-    public void checkCollisions() {
-        
-        if (Sprite.isCollided(runner, ceiling)) {
-        	runnerDead = true;
-        }
-        
-        for (PlaneRight plnRight : planesRight) {       
-            if (Sprite.isCollided(runner, plnRight)) {
-            	runner.setYMovement(false);
-            	prevStuck = 2;
-            }
-            else if (prevStuck < 1) {        	
-            	runner.setYMovement(true);
-            }
-        }
-        
-        for (PlaneLeft plnLeft : planesLeft) {         
-            if (Sprite.isCollided(runner, plnLeft)) {	
-            	runner.setYMovement(false);
-                prevStuck = 2;
-            }
-            else if (prevStuck < 1) {
-            	runner.setYMovement(true);
-            }
-        }
-        
-        for (Obstacle obst : obstacles) {
-            if (Sprite.isCollided(runner, obst) && obst.isVisible()) {
-            	obstacleCollision = true;
-            	runner.setXMovement(false);
-                prevStuck = 2;
-                for (Invincibility invin : invinPowerups) {
-                	
-                	if (invin.isActive()) {
-                		
-                		obst.setVisible(false);
-                		runner.setXMovement(true);
-                		obstacleCollision = false;
-                		break;
-                	}
-                }
-            }
-            /* else if (prevStuck < 1) { //need this to get unstuck again after collision with obstacle I think
-            	
-            	runner.setMovement(true);
-            } */
-        }
-        
-        for (Halt hpu : haltPowerups) {
-        	if (Sprite.isCollided(runner, hpu) && hpu.isVisible()) {
-				if(hpu.isVisible()) {
-					hpu.setVisible(false);
-					hpu.setActive(true);
-					gameDelay = System.currentTimeMillis();
-				}
-    		}
-        }
-        
-        for (Invincibility invin : invinPowerups) {    	
-        	if (Sprite.isCollided(runner, invin) && invin.isVisible()) {
-        		if(invin.isVisible()) {
-        			invin.setVisible(false);
-        			invin.setActive(true);
-				}
-        	}
-        }
-        
-    }
     
     //This private class increases the difficulty of the game at a scheduled interval
     private class Difficulty implements ActionListener {
 
     	@Override
     	public void actionPerformed(ActionEvent e) {
-    		
     		Sprite.changeDifficulty();
-    		
     	}
         
     }
@@ -654,20 +564,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	}
 
 	/**
-	 * @return the prevStuck
-	 */
-	public int getPrevStuck() {
-		return prevStuck;
-	}
-
-	/**
-	 * @param prevStuck the prevStuck to set
-	 */
-	public void setPrevStuck(int prevStuck) {
-		this.prevStuck = prevStuck;
-	}
-
-	/**
 	 * @return the gameDelay
 	 */
 	public long getGameDelay() {
@@ -679,20 +575,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	 */
 	public void setGameDelay(long gameDelay) {
 		this.gameDelay = gameDelay;
-	}
-
-	/**
-	 * @return the obstacleCollision
-	 */
-	public boolean isObstacleCollision() {
-		return obstacleCollision;
-	}
-
-	/**
-	 * @param obstacleCollision the obstacleCollision to set
-	 */
-	public void setObstacleCollision(boolean obstacleCollision) {
-		this.obstacleCollision = obstacleCollision;
 	}
 
 	/**
