@@ -1,8 +1,11 @@
 1) Fix the buggy appearance of the halt powerup. Set DIFFICULTY = 0 temporarily?
-3) Change runner movement and collision detection methods to prevent moving sideways or upwards into obstacles or platforms.
+2) Set a DIFFICULTY maximum for the runner, DIFFICULTY can not be negative.
+3) Show something when invincibility powerup is active
 4) Changes to Account Screen
+5) Music + sound effects
+6) Obstacle + runner pictures ?!?
 7) JLabel on menu screen displaying the current account, somewhere near the "Change Account" button?
-8) Add JLabels to running screen to display powerup durations?
-9) Modify obstacle spawn locations? Figure this out by playing the game several times.
-10) Add MUSIX
-11) Double Buffering / Invoke Later
+8) Modify obstacle spawn locations? Figure this out by playing the game several times.
+9) Double Buffering / Invoke Later
+10) Change running screen so obstacles go behind the cieling
+11) Highscore screen updates when user clicks button
