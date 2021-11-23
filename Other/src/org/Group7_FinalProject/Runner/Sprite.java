@@ -39,6 +39,9 @@ public abstract class Sprite {
     	DIFFICULTY += 1;
     }
     
+    public static void decreaseDifficulty() {
+    	DIFFICULTY -= 1;
+    }
     //Method that checks if two sprites overlap each other on the screen
     public static boolean isCollided(Sprite s1, Sprite s2) {
     	Rectangle s1bounds = s1.getBounds();
