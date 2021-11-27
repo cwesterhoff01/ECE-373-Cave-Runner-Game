@@ -1,5 +1,3 @@
-1) Fix the buggy appearance of the halt powerup. Set DIFFICULTY = 0 temporarily?
-2) Set a DIFFICULTY maximum for the runner, DIFFICULTY can not be negative.
 3) Show something when invincibility powerup is active
 4) Changes to Account Screen
 5) Music + sound effects
