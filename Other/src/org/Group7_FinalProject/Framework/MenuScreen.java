@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import org.Group7_FinalProject.Framework.HighscoreScreen;
 
 /*
  * The MenuScreen class includes all fields and methods related to a MenuScreen
@@ -110,7 +111,10 @@ public final class MenuScreen extends GameScreen {
 		highscorebtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				window.setCurrentScreen(w.getGameScreenList().get("Highscore Screen"));
+				JButton btn = ((HighscoreScreen)window.getGameScreenList().get("Highscore Screen")).getTogglebtn();
+				btn.setText("All-time Highscores");
+				btn.doClick();
+				window.setCurrentScreen(window.getGameScreenList().get("Highscore Screen"));
 			}
 		});
 		add(highscorebtn);
