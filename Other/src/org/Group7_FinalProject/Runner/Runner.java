@@ -140,7 +140,7 @@ public class Runner extends Sprite {
         	if (Sprite.isCollided(this, invin) && invin.isVisible()) {
         		if(invin.isVisible()) {
         			invin.setVisible(false);
-        			invin.setActive(true);
+        			invin.activate();
 				}
         	}
         }

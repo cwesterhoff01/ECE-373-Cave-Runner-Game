@@ -63,7 +63,7 @@ public abstract class Sprite {
      */
     public static CollisionPosition getCollisionPosition(Sprite s1, Sprite s2) {
     	
-    	if ((s1.getY() + s1.getHeight() > s2.getY() + 10) && (s1.getY() < s2.getY() + s2.getHeight() - 10)) {
+    	if ((s1.getY() + s1.getHeight() > s2.getY() + 12) && (s1.getY() < s2.getY() + s2.getHeight() - 12)) {
     		if (s1.getX() < s2.getX()) {
 	    		return CollisionPosition.LEFT;
     		}
@@ -71,7 +71,7 @@ public abstract class Sprite {
     			return CollisionPosition.RIGHT;
     		}
     	}
-    	else if ((s1.getX() + s1.getWidth() > s2.getX() + 10) && (s1.getX() < s2.getX() + s2.getWidth() - 10)) {
+    	else if ((s1.getX() + s1.getWidth() > s2.getX() + 12) && (s1.getX() < s2.getX() + s2.getWidth() - 12)) {
     		if (s1.getY() < s2.getY()) {
     			return CollisionPosition.TOP;
     		}
