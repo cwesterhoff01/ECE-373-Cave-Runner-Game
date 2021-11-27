@@ -18,6 +18,8 @@ public abstract class Sprite {
     protected boolean visible;
     protected Image image;
     protected static int DIFFICULTY = 0;
+    protected static int MAX_DIFFICULTY = 4;
+	protected static int LAST_DIFFICULTY = 0;
     public static enum CollisionPosition { TOP, BOTTOM, LEFT, RIGHT, NONE };
 
     //Constructor that requires two arguments
@@ -30,18 +32,16 @@ public abstract class Sprite {
     }
     
     //Method that resets the speed at which a sprite moves
-    public static void resetDifficulty() {
-    	DIFFICULTY = 0;
+    public static void setDifficulty(Integer DIF) {
+    	DIFFICULTY = DIF;
     }
     
     //Method that increases the speed at which a sprite moves
-    public static void changeDifficulty() {
-    	DIFFICULTY += 1;
+    public static void incrementDifficulty() {
+    	if (DIFFICULTY < MAX_DIFFICULTY)
+    		DIFFICULTY += 1;
     }
     
-    public static void decreaseDifficulty() {
-    	DIFFICULTY -= 1;
-    }
     //Method that checks if two sprites overlap each other on the screen
     public static boolean isCollided(Sprite s1, Sprite s2) {
     	Rectangle s1bounds = s1.getBounds();

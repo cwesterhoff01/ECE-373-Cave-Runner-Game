@@ -132,8 +132,7 @@ public class Runner extends Sprite {
         	if (Sprite.isCollided(this, hpu) && hpu.isVisible()) {
 				if(hpu.isVisible()) {
 					hpu.setVisible(false);
-					hpu.setActive(true);
-					runningScreen.setGameDelay(System.currentTimeMillis());
+					hpu.activate();
 				}
     		}
         }
@@ -161,8 +160,8 @@ public class Runner extends Sprite {
 			x = 0;
 		}
 		
-     	if (y > runningScreen.getWindow().getHeight()) {
-        	y = runningScreen.getWindow().getHeight();
+     	if (y + this.getHeight() > runningScreen.getWindow().getHeight()) {
+        	y = runningScreen.getWindow().getHeight() - this.getHeight();
         }
      	
     }

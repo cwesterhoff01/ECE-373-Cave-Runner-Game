@@ -35,7 +35,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	private Random rand;
 	private boolean runnerDead;
 	private boolean runnerPaused;
-	private long gameDelay;
     
 	private final int[][] posPlnsRt = { // spawn positions for right planes
 	        {450, 150}, {450, 550}
@@ -76,11 +75,10 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         invinPowerups = new ArrayList<>();
 		rand = new Random();
 		rand.setSeed(System.currentTimeMillis());
-        gameDelay = 0;
         
         //The timer handles animation with ActionListener, the KeyListener handles keyboard input
         gameTimer = new Timer(15, this); //every 15 ms, actionPerformed() executed
-        difficultyTimer = new Timer(20000, new Difficulty());  //every 5 seconds, difficulty increased
+        difficultyTimer = new Timer(10000, new Difficulty());  //every 5 seconds, difficulty increased
         addKeyListener(this);
         
     }
@@ -121,7 +119,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     	runner.setDepth(0);
         runnerDead = false;
         runnerPaused = false;
-        Sprite.resetDifficulty();
+        Sprite.setDifficulty(0);
         gameTimer.start();
         difficultyTimer.start();
 		
@@ -154,10 +152,10 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         	obstacles.add(new Obstacle(p[0], p[1]));
         }
         for (int[] p : posHalt) {
-        	haltPowerups.add(new Halt(p[0], p[1]));
+        	haltPowerups.add(new Halt(p[0], p[1], this));
         }
         for (int[] p : posInvin) {
-            invinPowerups.add(new Invincibility(p[0], p[1]));
+            invinPowerups.add(new Invincibility(p[0], p[1], this));
         }
         
         //Place the runner in the upper left hand corner
@@ -250,27 +248,11 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         checkRunnerDead();
         checkRunnerPaused();
         updateRunner();
-              
-        //loop to see if have to update planes, obstacles, runner, etc. based on Halt power up
-        boolean update = true;
-        for(Halt hpu : haltPowerups) {
-        	if(hpu.isActive() == true) {
-        		update = false;
-        		//Will stop the game timer for 3 seconds
-        		if((System.currentTimeMillis() - gameDelay) >= 3000){
-        			hpu.setActive(false);
-        			update = true;
-        		}
-        	}
-        }
-        if(update == true) {
-	        updatePlanesRight();
-	        updatePlanesLeft();
-	        updateObstacles();
-	        generatePowerUp(); //also has generate Obstacle
-	        updatePowerUps();
-        }
-        
+        updatePlanesRight();
+        updatePlanesLeft();
+        updateObstacles();
+        generatePowerUp();
+        updatePowerUps();
         repaint();
         
     }
@@ -390,7 +372,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 
     	@Override
     	public void actionPerformed(ActionEvent e) {
-    		Sprite.changeDifficulty();
+    		Sprite.incrementDifficulty();
     	}
         
     }
@@ -561,20 +543,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	 */
 	public void setRunnerPaused(boolean runnerPaused) {
 		this.runnerPaused = runnerPaused;
-	}
-
-	/**
-	 * @return the gameDelay
-	 */
-	public long getGameDelay() {
-		return gameDelay;
-	}
-
-	/**
-	 * @param gameDelay the gameDelay to set
-	 */
-	public void setGameDelay(long gameDelay) {
-		this.gameDelay = gameDelay;
 	}
 
 	/**

@@ -1,17 +1,22 @@
 package org.Group7_FinalProject.Runner;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.Group7_FinalProject.Framework.RunningScreen;
 
-public class Powerup extends Sprite {
+public abstract class Powerup extends Sprite {
 	
 	//Fields for a powerup
     protected final int INITIAL_Y = 850;
-	private boolean isActive;
+	protected boolean isActive;
+	protected RunningScreen runningScreen;
 	
-	//Constructor requires two arguments
-	public Powerup(int x, int y) {
+	//Constructor requires three arguments
+	public Powerup(int x, int y, RunningScreen runningScreen) {
 		
 		super(x, y);
+		this.runningScreen = runningScreen;
 		visible = false;
 		isActive = false;
 		
