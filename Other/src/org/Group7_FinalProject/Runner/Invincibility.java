@@ -27,7 +27,6 @@ public final class Invincibility extends Powerup {
 		@Override
 		public void run() {
 			setActive(false);
-			invincibilityTimer.cancel();
 		}
 	}
 

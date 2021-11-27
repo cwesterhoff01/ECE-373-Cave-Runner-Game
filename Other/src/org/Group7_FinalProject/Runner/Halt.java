@@ -18,6 +18,7 @@ public final class Halt extends Powerup {
 		
 	}
 	
+	@Override
 	public void activate() {
 		setActive(true);
 		Sprite.LAST_DIFFICULTY = Sprite.DIFFICULTY;
@@ -30,7 +31,6 @@ public final class Halt extends Powerup {
 		@Override
 		public void run() {
 			setActive(false);
-			haltTimer.cancel();
 			Sprite.setDifficulty(Sprite.LAST_DIFFICULTY);
 			runningScreen.getDifficultyTimer().start();
 		}
