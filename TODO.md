@@ -6,4 +6,3 @@
 8) Modify obstacle spawn locations? Figure this out by playing the game several times.
 9) Double Buffering / Invoke Later
 10) Change running screen so obstacles go behind the cieling
-11) Highscore screen updates when user clicks button
