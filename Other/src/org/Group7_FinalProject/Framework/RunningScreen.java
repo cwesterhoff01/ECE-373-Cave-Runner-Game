@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.Timer;
 import org.Group7_FinalProject.Runner.*;
 
@@ -35,6 +36,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	private Random rand;
 	private boolean runnerDead;
 	private boolean runnerPaused;
+	private JTextArea invincibilityDisplay;
     
 	private final int[][] posPlnsRt = { // spawn positions for right planes
 	        {450, 150}, {450, 550}
@@ -80,6 +82,10 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         gameTimer = new Timer(15, this); //every 15 ms, actionPerformed() executed
         difficultyTimer = new Timer(10000, new Difficulty());  //every 5 seconds, difficulty increased
         addKeyListener(this);
+        invincibilityDisplay = new JTextArea();
+        invincibilityDisplay.append("Invincibility active");
+        invincibilityDisplay.setVisible(false);
+        add(invincibilityDisplay);
         
     }
     
@@ -253,6 +259,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         updateObstacles();
         generatePowerUp();
         updatePowerUps();
+        checkInvincibility();
         repaint();
         
     }
@@ -293,6 +300,20 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         
     }
 	
+    private void checkInvincibility() {
+    	boolean flag = false;
+    	for(Invincibility invin: invinPowerups) {
+    		if(invin.isActive() == true) {
+    			//If it is active show the user
+    			invincibilityDisplay.setVisible(true);
+    			flag = true;
+    		}
+    	}
+    	if(flag == false) {
+    		invincibilityDisplay.setVisible(false);
+    	}
+    }
+    
 	private void checkRunnerPaused() {
 		if(runnerPaused) {
 			gameTimer.stop();
