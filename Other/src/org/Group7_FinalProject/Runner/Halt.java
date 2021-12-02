@@ -4,6 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.Group7_FinalProject.Framework.RunningScreen;
+import org.Group7_FinalProject.Utilities.MusicPlayOnce;
 
 public final class Halt extends Powerup {
 	
@@ -20,6 +21,9 @@ public final class Halt extends Powerup {
 	
 	@Override
 	public void activate() {
+		String filepath = "src/resources/powerupSound.wav";
+		MusicPlayOnce musicObject = new MusicPlayOnce();
+		musicObject.playMusic(filepath);
 		setActive(true);
 		Sprite.LAST_DIFFICULTY = Sprite.DIFFICULTY;
 		Sprite.setDifficulty(0);
