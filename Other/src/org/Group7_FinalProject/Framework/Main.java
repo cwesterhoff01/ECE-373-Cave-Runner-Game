@@ -7,6 +7,9 @@ import org.Group7_FinalProject.Utilities.MusicLoop;
 public class Main {
 
 	public static void main(String[] args) {
+		//How to get music file
+		// Go to https://savenow.to/en/youtube-wav-converter.html
+		// and put in a youtube link - https://www.youtube.com/watch?v=-bTpp8PQSog
 		//Play music
 		String filepath = "src/resources/Indiana Jones Theme Song [HD].wav";
 		MusicLoop musicObject = new MusicLoop();
