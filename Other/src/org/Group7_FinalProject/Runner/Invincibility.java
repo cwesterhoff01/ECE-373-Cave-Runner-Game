@@ -3,6 +3,7 @@ package org.Group7_FinalProject.Runner;
 import java.util.Timer;
 import java.util.TimerTask;
 import org.Group7_FinalProject.Framework.RunningScreen;
+import org.Group7_FinalProject.Utilities.MusicPlayOnce;
 
 public final class Invincibility extends Powerup {
 	
@@ -19,6 +20,9 @@ public final class Invincibility extends Powerup {
 	
 	@Override
 	public void activate() {
+		String filepath = "src/resources/powerupSound.wav";
+		MusicPlayOnce musicObject = new MusicPlayOnce();
+		musicObject.playMusic(filepath);
 		setActive(true);
 		invincibilityTimer.schedule(new DeactivateInvincibility(), INVINCIBILITY_DURATION);
 	}
