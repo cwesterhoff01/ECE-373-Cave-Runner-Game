@@ -1,5 +1,5 @@
 package org.Group7_FinalProject.Framework;
-
+import org.Group7_FinalProject.Utilities.MusicLoop;
 /*
  * Main class is the driver
  * It creates an instance of a the Game class, then runs that instance
@@ -7,6 +7,10 @@ package org.Group7_FinalProject.Framework;
 public class Main {
 
 	public static void main(String[] args) {
+		//Play music
+		String filepath = "src/resources/Indiana Jones Theme Song [HD].wav";
+		MusicLoop musicObject = new MusicLoop();
+		musicObject.playMusic(filepath);
 		
 		//Create a new game
 		Game game1 = new Game();
