@@ -26,6 +26,10 @@ public class Runner extends Sprite {
     	
         super(x, y);
         loadImage("src/resources/runner.png");
+        this.dx = 0;
+        this.dy = 0;
+        this.jumping = false;
+        this.jumpStart = 0;
         this.depth = 0;
         this.runningScreen = runningScreen;
         
@@ -34,9 +38,9 @@ public class Runner extends Sprite {
 	@Override
     public void move() {
      	
-		if (System.currentTimeMillis() - jumpStart > 250)
+		/* if (System.currentTimeMillis() - jumpStart > 550)
 			jumping = false;
-		
+		*/
 		//Default movement is gravity/free-fall
 		if (!jumping) {
 			dy = DIFFICULTY + VERT_SPEED;
@@ -54,8 +58,10 @@ public class Runner extends Sprite {
 	            			dy = -DIFFICULTY;
 	            		break;
 	            	case BOTTOM:
-	            		if (dy < 0)
+	            		if (dy < 0) {
 	            			dy = 0;
+	            			jumping = false;
+	            		}
 	            		break;
 	            	case LEFT:
 	            		if (dx > 0)
@@ -78,8 +84,10 @@ public class Runner extends Sprite {
 	            			dy = -DIFFICULTY;
 	            		break;
 	            	case BOTTOM:
-	            		if (dy < 0)
+	            		if (dy < 0) {
 	            			dy = 0;
+	            			jumping = false;
+	            		}
 	            		break;
 	            	case LEFT:
 	            		if (dx > 0)
@@ -144,25 +152,31 @@ public class Runner extends Sprite {
 				}
         	}
         }
-        
-        if (dy != -DIFFICULTY)
-        	depth = depth + (dy + DIFFICULTY);
-        
+                
         //dx and dy have been set to their proper values at this point, update the position of the runner
         x += dx;
         y += dy;
         
-        //Implement the "wrapping" behaviour. Should this be removed in final product?
+        //Prevent Runner from escaping the window
 		if (x < 1) {
-            x = runningScreen.getWindow().getWidth();
+            //x = runningScreen.getWindow().getWidth();
+			x = 1;
         }
-		else if (x > runningScreen.getWindow().getWidth()) {
-			x = 0;
+		else if (x > runningScreen.getWindow().getWidth() - this.getWidth()) {
+			//x = 0;
+			x = runningScreen.getWindow().getWidth() - this.getWidth();
 		}
-		
-     	if (y + this.getHeight() > runningScreen.getWindow().getHeight()) {
-        	y = runningScreen.getWindow().getHeight() - this.getHeight();
+		//Prevent Runner from moving below window limits
+		if (y > runningScreen.getWindow().getHeight() - 88) {
+        	y = runningScreen.getWindow().getHeight() - 88;
+        	dy = 0;
         }
+		
+		//Update the depth, first statement is important for runner standing on bottom of window
+		if (dy == 0)
+			depth = depth + dy;
+		else if (dy != -DIFFICULTY)
+        	depth = depth + (dy + DIFFICULTY);
      	
     }
 
@@ -173,6 +187,8 @@ public class Runner extends Sprite {
         //If the player tries to jump, make sure they are actually standing on something to jump from
         if (key == KeyEvent.VK_SPACE) {
         	boolean standing = false;
+        	if (dy == 0) 
+        		standing = true;
          	for (PlaneRight plnRight : runningScreen.getPlanesRight()) {
          		if (Sprite.isCollided(this, plnRight)) {
 	                if (Sprite.getCollisionPosition(this, plnRight) == CollisionPosition.TOP) {

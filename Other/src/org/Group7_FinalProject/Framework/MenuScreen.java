@@ -19,6 +19,7 @@ public final class MenuScreen extends GameScreen {
 	private JButton accountbtn;
 	private JButton highscorebtn;
 	private JButton exitbtn;
+	public static JLabel curracctlabel;
 	
 	//Default no-arg constructor
 	public MenuScreen() {
@@ -29,6 +30,13 @@ public final class MenuScreen extends GameScreen {
 	public MenuScreen(Window w) {
 		
 		super(w, new ImageIcon("src/resources/background_menu.jpeg"));
+		
+		//Create a JLabel to display the current account at all times
+		curracctlabel = new JLabel("Currently Logged In As:    " + window.getGame().getCurrAccount().getName());
+		curracctlabel.setFont(new Font("Arial", Font.BOLD, 19));
+		curracctlabel.setBounds(320,230,500,50); 
+		curracctlabel.setForeground(Color.black);
+		this.add(curracctlabel);
 		
 		//Create a button to go to the running screen
 		String text = "<html>" + "Start" + "<br>" + "Game"

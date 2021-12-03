@@ -28,6 +28,7 @@ public abstract class Powerup extends Sprite {
         if (y < 0) {
         	this.setVisible(false);
         	isActive = false;
+        	y = INITIAL_Y;
         }
 
         y -= DIFFICULTY;
@@ -40,5 +41,7 @@ public abstract class Powerup extends Sprite {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
+
+	public abstract void activate();
 	
 }

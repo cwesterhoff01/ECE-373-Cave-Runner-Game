@@ -151,6 +151,7 @@ public final class AccountScreen extends GameScreen {
 				//Set the current account to the new account and update the JLabel to reflect the change
 				window.getGame().setCurrAccount(window.getGame().getGameAccounts().get(window.getGame().getGameAccounts().size() - 1));
 				curracctlabel.setText("<html>Currently Logged In As:<br> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp " + window.getGame().getCurrAccount().getName() + "</html>");
+				MenuScreen.curracctlabel.setText("Currently Logged In As:    " + window.getGame().getCurrAccount().getName());
 				//Add the new account to the table as well, and set the current selection to the new account
 				String[] row = { window.getGame().getCurrAccount().getName() };
 				accttable.addRow(row);
@@ -214,6 +215,7 @@ public final class AccountScreen extends GameScreen {
 					window.getGame().setCurrAccount(window.getGame().getGameAccounts().get(accttable.getSelectedRow()));
 					//Update the JLabel to reflect the change
 					curracctlabel.setText("<html>Currently Logged In As:<br> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp " + window.getGame().getCurrAccount().getName() + "</html>");
+					MenuScreen.curracctlabel.setText("Currently Logged In As:    " + window.getGame().getCurrAccount().getName());
 					//Display a message welcoming the account back to the game
 					JOptionPane.showMessageDialog(window, "Welcome back to Cave Runner, " + window.getGame().getCurrAccount().getName() + "!", "Welcome", JOptionPane.PLAIN_MESSAGE);
 				}

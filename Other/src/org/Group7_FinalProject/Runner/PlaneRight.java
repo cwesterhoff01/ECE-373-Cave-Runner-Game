@@ -10,18 +10,16 @@ public class PlaneRight extends Sprite {
         
     	super(x, y);
     	this.runningScreen = runningScreen;
-        loadImage("src/resources/crystal_right.png");
-        
+        loadImage("src/resources/plateau_right.png");
     }
 
     @Override
     public void move() {
-
+    	
         if (y < 0) {
             y = runningScreen.getWindow().getHeight() + 130;
         }
 
         y -= DIFFICULTY;
-        
     }
 }

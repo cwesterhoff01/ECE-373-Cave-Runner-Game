@@ -39,19 +39,20 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	private JTextArea invincibilityDisplay;
     
 	private final int[][] posPlnsRt = { // spawn positions for right planes
-	        {450, 150}, {450, 550}
+	        {350, 140}, {500, 435}, {450, 715}
     };
     private final int[][] posPlnsLft = { // spawn positions for left planes
-            {0, 350}, {0, 750}
+            {0, 285}, {70, 565}, {0, 840}
     };
     private final int[][] posObst = { // spawn positions for obstacles
-    		{80, 300}, {120, 300}, {500, 100}, {580, 500}, {40, 700}, {110, 700} 
+    		{560, 85}, {800, 85}, {200, 230}, {750, 380}, {100, 510}, {530, 510},
+    		{650, 660}, {150, 785}, {280, 785}    //, {670, 495}, {888, 495}, {80, 715}, {180, 720}, {320, 720} 
     };
     private final int[][] posHalt = { // spawn positions for halt powerups
-            {80, 290}, {250, 690}, {470, 90}, {780, 90}, {780, 490}
+    		{300, 225}, {880, 655}, {40, 780}   //, {150, 290}, {510, 490}, {780, 490}, {250, 715}, {380, 715} 
     };
     private final int[][] posInvin = { // spawn positions invincibility powerups
-            {10, 290}, {50, 690}, {550, 90}, {750, 90}, {760, 490}
+    		{660, 80}, {1000, 375}, {230, 505}, {450, 780} //, {760, 490}, {620, 490}, {150, 715}, {450, 715}
     };
     
 
@@ -69,18 +70,18 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 
     	//Initialize objects
         runner = new Runner(0, 0, this);
-        ceiling = new Ceiling(0, 0);
         planesRight = new ArrayList<>();
         planesLeft = new ArrayList<>();
         obstacles = new ArrayList<>();
         haltPowerups = new ArrayList<>();
         invinPowerups = new ArrayList<>();
+        ceiling = new Ceiling(0, 0);
 		rand = new Random();
 		rand.setSeed(System.currentTimeMillis());
         
         //The timer handles animation with ActionListener, the KeyListener handles keyboard input
         gameTimer = new Timer(15, this); //every 15 ms, actionPerformed() executed
-        difficultyTimer = new Timer(10000, new Difficulty());  //every 5 seconds, difficulty increased
+        difficultyTimer = new Timer(8000, new Difficulty());  //every 4 seconds, difficulty increased
         addKeyListener(this);
         invincibilityDisplay = new JTextArea();
         invincibilityDisplay.append("Invincibility active");
@@ -147,7 +148,16 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	
 	//Method that initializes the sprites in their starting locations
 	private void initSprites() {
-
+		//these new initializations are necessary for several bugs
+		runner = new Runner(0, 0, this);
+        
+        planesRight = new ArrayList<>();
+        planesLeft = new ArrayList<>();
+        obstacles = new ArrayList<>();
+        haltPowerups = new ArrayList<>();
+        invinPowerups = new ArrayList<>();
+        ceiling = new Ceiling(0, 0);
+        
         for (int[] p : posPlnsRt) {
             planesRight.add(new PlaneRight(p[0], p[1], this));
         }
@@ -191,10 +201,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         if (runner.isVisible()) {
             g.drawImage(runner.getImage(), runner.getX(), runner.getY(), this);
         }
-        if (ceiling.isVisible()) {
-            g.drawImage(ceiling.getImage(), ceiling.getX(), ceiling.getY(), this);
-        }
-        
+
         for (PlaneRight plnRt : planesRight) {
             if (plnRt.isVisible()) {
                 g.drawImage(plnRt.getImage(), plnRt.getX(), plnRt.getY(), this);
@@ -225,6 +232,10 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         	}
     	}
         
+    	if (ceiling.isVisible()) {
+            g.drawImage(ceiling.getImage(), ceiling.getX(), ceiling.getY(), this);
+        }
+    	
         g.setColor(Color.WHITE);
         g.drawString("Depth: " + runner.getDepth().toString(), 10, 80);
         
@@ -362,32 +373,62 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         }
     }
 	
-	//TO DO: Turn this method into a static method of the obstacles and powerups classes
-	private void generatePowerUp() { //Will show a power up n% of the time, will have a 50-50 chance of what power up will be selected
+private void generatePowerUp() { //Will show a power up n% of the time, will have a 50-50 chance of what power up will be selected
 		
-		double occurance = 1; //This means 5% of the time a power up will be shown (1% is a lot btw)
+		int difficulty = Sprite.getDifficulty();
+		double occurance = 20; //This means 10% of the time a power up will be shown
 		double rand_double = rand.nextDouble(); //Generates a float between 0.0 -> 1.0
+		
 		if(rand_double <= (occurance / 100)) {
-			//set visible an obstacle or power up
-			if (rand_double > 0.004) {
-				
-				int i = rand.nextInt(posObst.length); 
-				obstacles.get(i).setVisible(true);
+			//Set visible an obstacle or power up if screen not halted (difficulty > 0 -> looks better and less cluttered)
+			if (rand_double > 0.12 && difficulty > 0) {
+				int numObst = 0;
+				for (Obstacle o : obstacles) {
+					if (o.isVisible()) 
+						numObst ++;
+				}
+				//No more than 3 obstacles on map
+				if (numObst < 4) {
+					int i = rand.nextInt(posObst.length); 
+					if (obstacles.get(i).getY() > this.getWindow().getHeight() - 50) {
+						obstacles.get(i).setVisible(true);
+					}
+				}
 			}
-			else if (rand_double > 0.003) {
-				
-				int i = rand.nextInt(posHalt.length); 
-				haltPowerups.get(i).setVisible(true);
+			else if (rand_double > 0.08 && difficulty > 0) {
+				int numHalt = 0;
+				for (Halt h : haltPowerups) {
+					if (h.isVisible()) 
+						numHalt ++;
+				}
+				//No more than 2 halt power ups
+				if (numHalt < 1) {
+					int i = rand.nextInt(posHalt.length); 
+					//Only add power up when location at bottom of screen
+					if (haltPowerups.get(i).getY() > this.getWindow().getHeight() - 50) {
+						haltPowerups.get(i).setVisible(true);
+					}
+				}
 			}
 			else {
-				
-				int i = rand.nextInt(posInvin.length); 
-				invinPowerups.get(i).setVisible(true);
+				int numInvin = 0;
+				for (Invincibility inv : invinPowerups) {
+					if (inv.isVisible()) 
+						numInvin ++;
+				}
+				//No more than 2 invincibility power ups
+				if (numInvin < 2 && difficulty > 0) {
+					int i = rand.nextInt(posInvin.length); 
+					//Only add power up when location at bottom of screen
+					if (invinPowerups.get(i).getY() > this.getWindow().getHeight() - 50) {
+						invinPowerups.get(i).setVisible(true);
+					}
+				}
 			}
 		}
 		//else does not show a power up
 	}
-    
+	
     //This private class increases the difficulty of the game at a scheduled interval
     private class Difficulty implements ActionListener {
 

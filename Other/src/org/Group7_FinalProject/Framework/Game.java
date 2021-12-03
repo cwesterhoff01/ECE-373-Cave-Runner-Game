@@ -1,5 +1,9 @@
 package org.Group7_FinalProject.Framework;
 
+import java.awt.AWTEvent;
+import java.awt.Toolkit;
+import java.awt.event.AWTEventListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -112,12 +116,32 @@ public final class Game {
 					break;
 				}
 			}
+			
+			//Consume all keyboard input for these pop-up windows
+			//Raphael has a weird bug where when the characterdied jumping,
+			//the release of space hits the Yes button and a new game begins,
+			//without being able to decide against it
+			//TODO but has a weird ArrayOutOfBoundsExceptions sometimes...
+			AWTEventListener myListener = new AWTEventListener() {
+
+		        @Override
+		        public void eventDispatched(AWTEvent event) {
+		            if (event instanceof KeyEvent) {
+		                ((KeyEvent) event).consume();
+		            }
+		        }
+		    };
+		    Toolkit.getDefaultToolkit().addAWTEventListener(myListener, AWTEvent.KEY_EVENT_MASK);
+		    
 			//Give the user the option to return to the Menu Screen or play again
 			int result;
 			if (newHighscore == false)
 				result = JOptionPane.showConfirmDialog(gameWindow, "Ouch! You died at a depth of " + depth.toString() + "ft. Do you wish to play again?", "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			else
 				result = JOptionPane.showConfirmDialog(gameWindow, "Ouch! You died at a depth of " + depth.toString() + "ft.\n Congratulations, this is a new top 10 score for your account!\n Do you wish to play again?", "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			
+		    Toolkit.getDefaultToolkit().removeAWTEventListener(myListener);
+			
 			if (result == JOptionPane.YES_OPTION) {
 				gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Running Screen"));
 			}
