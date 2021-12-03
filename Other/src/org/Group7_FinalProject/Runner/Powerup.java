@@ -4,12 +4,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.Group7_FinalProject.Framework.RunningScreen;
+import org.Group7_FinalProject.Utilities.MusicPlayOnce;
 
 public abstract class Powerup extends Sprite {
 	
 	//Fields for a powerup
     protected final int INITIAL_Y = 850;
 	protected boolean isActive;
+	protected String soundEffectFilePath;
+	protected MusicPlayOnce soundEffectObject;
 	protected RunningScreen runningScreen;
 	
 	//Constructor requires three arguments

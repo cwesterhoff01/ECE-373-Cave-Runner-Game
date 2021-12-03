@@ -15,15 +15,15 @@ public final class Halt extends Powerup {
 		
 		super(x, y, runningScreen);
 		loadImage("src/resources/halt.png");
+		soundEffectFilePath = "src/resources/powerupSound.wav";
+		soundEffectObject = new MusicPlayOnce();
 		haltTimer = new Timer();
 		
 	}
 	
 	@Override
 	public void activate() {
-		String filepath = "src/resources/powerupSound.wav";
-		MusicPlayOnce musicObject = new MusicPlayOnce();
-		musicObject.playMusic(filepath);
+		soundEffectObject.playMusic(soundEffectFilePath);
 		setActive(true);
 		Sprite.LAST_DIFFICULTY = Sprite.DIFFICULTY;
 		Sprite.setDifficulty(0);

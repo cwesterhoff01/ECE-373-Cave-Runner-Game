@@ -13,9 +13,10 @@ public class Runner extends Sprite {
 	//Fields for a Runner
     private int dx;
     private int dy;
-    private final int JUMP_SPEED = 6;
+    private final int JUMP_SPEED = 8;
     private final int VERT_SPEED = 3;
     private final int HORIZ_SPEED = 3;
+    private final int JUMP_DURATION = 400;
     private boolean jumping;
     private long jumpStart;
     private Integer depth;
@@ -38,9 +39,9 @@ public class Runner extends Sprite {
 	@Override
     public void move() {
      	
-		/* if (System.currentTimeMillis() - jumpStart > 550)
+		if (System.currentTimeMillis() - jumpStart > JUMP_DURATION)
 			jumping = false;
-		*/
+		
 		//Default movement is gravity/free-fall
 		if (!jumping) {
 			dy = DIFFICULTY + VERT_SPEED;
@@ -152,7 +153,7 @@ public class Runner extends Sprite {
 				}
         	}
         }
-                
+        
         //dx and dy have been set to their proper values at this point, update the position of the runner
         x += dx;
         y += dy;
@@ -167,15 +168,13 @@ public class Runner extends Sprite {
 			x = runningScreen.getWindow().getWidth() - this.getWidth();
 		}
 		//Prevent Runner from moving below window limits
-		if (y > runningScreen.getWindow().getHeight() - 88) {
-        	y = runningScreen.getWindow().getHeight() - 88;
+		if (y > runningScreen.getWindow().getHeight() - this.getHeight()) {
+        	y = runningScreen.getWindow().getHeight() - this.getHeight();
         	dy = 0;
         }
 		
-		//Update the depth, first statement is important for runner standing on bottom of window
-		if (dy == 0)
-			depth = depth + dy;
-		else if (dy != -DIFFICULTY)
+		//Update the depth, only if runner is actively moving down the screen
+		if (dy != -DIFFICULTY && dy != 0)
         	depth = depth + (dy + DIFFICULTY);
      	
     }
@@ -185,7 +184,7 @@ public class Runner extends Sprite {
         int key = e.getKeyCode();
         
         //If the player tries to jump, make sure they are actually standing on something to jump from
-        if (key == KeyEvent.VK_SPACE) {
+        if (key == KeyEvent.VK_UP) {
         	boolean standing = false;
         	if (dy == 0) 
         		standing = true;
@@ -242,7 +241,7 @@ public class Runner extends Sprite {
 
         int key = e.getKeyCode();
         
-        if (key == KeyEvent.VK_SPACE) {
+        if (key == KeyEvent.VK_UP) {
         	jumping = false;
         }
         

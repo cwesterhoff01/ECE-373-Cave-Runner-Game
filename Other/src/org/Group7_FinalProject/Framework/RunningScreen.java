@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
@@ -36,7 +37,8 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	private Random rand;
 	private boolean runnerDead;
 	private boolean runnerPaused;
-	private JTextArea invincibilityDisplay;
+	private JLabel invincibilityDisplay;
+	private int DIFFICULTY_DELAY = 10000;
     
 	private final int[][] posPlnsRt = { // spawn positions for right planes
 	        {350, 140}, {500, 435}, {450, 715}
@@ -60,6 +62,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     public RunningScreen() {
     	
     	this(new Window());
+    	
     }
 
     //Constructor that takes one argument
@@ -81,12 +84,18 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         
         //The timer handles animation with ActionListener, the KeyListener handles keyboard input
         gameTimer = new Timer(15, this); //every 15 ms, actionPerformed() executed
-        difficultyTimer = new Timer(8000, new Difficulty());  //every 4 seconds, difficulty increased
+        difficultyTimer = new Timer(DIFFICULTY_DELAY, new Difficulty());  //every 4 seconds, difficulty increased
         addKeyListener(this);
-        invincibilityDisplay = new JTextArea();
-        invincibilityDisplay.append("Invincibility active");
+        
+        //Invincibility display shows when the player is invincible
+        invincibilityDisplay = new JLabel("Invincibility!");
+        invincibilityDisplay.setFont(new Font("Arial", Font.BOLD, 25));
+        invincibilityDisplay.setBounds(800, 60, 800 + invincibilityDisplay.getWidth(), 60 + invincibilityDisplay.getHeight());
+        invincibilityDisplay.setForeground(Color.RED);
         invincibilityDisplay.setVisible(false);
         add(invincibilityDisplay);
+        
+        setLayout(null);
         
     }
     
@@ -148,9 +157,9 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	
 	//Method that initializes the sprites in their starting locations
 	private void initSprites() {
+		
 		//these new initializations are necessary for several bugs
 		runner = new Runner(0, 0, this);
-        
         planesRight = new ArrayList<>();
         planesLeft = new ArrayList<>();
         obstacles = new ArrayList<>();
@@ -189,8 +198,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 		obstacles.clear();
 		haltPowerups.clear();
     	invinPowerups.clear();
-		
-		//The runner should only be hidden, will be used again in next game
 		runner.setVisible(false);
 		
 	}
@@ -373,7 +380,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         }
     }
 	
-private void generatePowerUp() { //Will show a power up n% of the time, will have a 50-50 chance of what power up will be selected
+	private void generatePowerUp() { //Will show a power up n% of the time, will have a 50-50 chance of what power up will be selected
 		
 		int difficulty = Sprite.getDifficulty();
 		double occurance = 20; //This means 10% of the time a power up will be shown

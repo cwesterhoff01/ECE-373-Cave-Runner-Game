@@ -14,6 +14,7 @@ import java.util.Scanner;
 import javax.swing.JOptionPane;
 import org.Group7_FinalProject.Utilities.Account;
 import org.Group7_FinalProject.Utilities.Highscore;
+import org.Group7_FinalProject.Utilities.MusicLoop;
 
 /*
  * The Game class contains all fields and methods related to a Game
@@ -25,6 +26,12 @@ public final class Game {
 	private Window gameWindow;
 	private ArrayList<Account> gameAccounts;
 	private Account currAccount;
+	//How to get music file
+	// Go to https://savenow.to/en/youtube-wav-converter.html
+	// and put in a youtube link - https://www.youtube.com/watch?v=-bTpp8PQSog
+	//Play music
+	String musicFilepath;
+	MusicLoop musicObject;
 
 	//Default no-arg constructor
 	public Game() {
@@ -41,6 +48,11 @@ public final class Game {
 		
 		//Start the game on the Menu Screen
 		this.gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Menu Screen"));
+		
+		//Start the music!
+		musicFilepath = "src/resources/Indiana Jones Theme Song [HD].wav";
+		musicObject = new MusicLoop();
+		musicObject.playMusic(musicFilepath);
 		
 	}
 
@@ -67,9 +79,9 @@ public final class Game {
 				gameWindow.getCl().show(gameWindow.getMainPanel(), "Running Screen");
 				this.updateRunningScreen();
 			}
-			//In case the program falls off the rails, send the termination signal
+			//In case the program falls off the rails, return to the menu screen
 			else {
-				this.terminate();
+				gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Menu Screen"));
 			}
 			
 		}
@@ -122,7 +134,11 @@ public final class Game {
 			//the release of space hits the Yes button and a new game begins,
 			//without being able to decide against it
 			//TODO but has a weird ArrayOutOfBoundsExceptions sometimes...
-			AWTEventListener myListener = new AWTEventListener() {
+			
+			//Note from Elliot:
+			//I think the easier solution to this is just make the jump key be the up arrow (;
+			
+			/*AWTEventListener myListener = new AWTEventListener() {
 
 		        @Override
 		        public void eventDispatched(AWTEvent event) {
@@ -131,7 +147,7 @@ public final class Game {
 		            }
 		        }
 		    };
-		    Toolkit.getDefaultToolkit().addAWTEventListener(myListener, AWTEvent.KEY_EVENT_MASK);
+		    Toolkit.getDefaultToolkit().addAWTEventListener(myListener, AWTEvent.KEY_EVENT_MASK);*/
 		    
 			//Give the user the option to return to the Menu Screen or play again
 			int result;
@@ -140,7 +156,7 @@ public final class Game {
 			else
 				result = JOptionPane.showConfirmDialog(gameWindow, "Ouch! You died at a depth of " + depth.toString() + "ft.\n Congratulations, this is a new top 10 score for your account!\n Do you wish to play again?", "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			
-		    Toolkit.getDefaultToolkit().removeAWTEventListener(myListener);
+		    //Toolkit.getDefaultToolkit().removeAWTEventListener(myListener);
 			
 			if (result == JOptionPane.YES_OPTION) {
 				gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Running Screen"));

@@ -14,15 +14,15 @@ public final class Invincibility extends Powerup {
         
 		super(x, y, runningScreen);
         loadImage("src/resources/invincibility.png");
+        soundEffectFilePath = "src/resources/powerupSound.wav";
+        soundEffectObject = new MusicPlayOnce();
         invincibilityTimer = new Timer();
         
     }
 	
 	@Override
 	public void activate() {
-		String filepath = "src/resources/powerupSound.wav";
-		MusicPlayOnce musicObject = new MusicPlayOnce();
-		musicObject.playMusic(filepath);
+		soundEffectObject.playMusic(soundEffectFilePath);
 		setActive(true);
 		invincibilityTimer.schedule(new DeactivateInvincibility(), INVINCIBILITY_DURATION);
 	}
