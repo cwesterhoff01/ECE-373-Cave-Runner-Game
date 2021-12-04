@@ -84,13 +84,13 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         
         //The timer handles animation with ActionListener, the KeyListener handles keyboard input
         gameTimer = new Timer(15, this); //every 15 ms, actionPerformed() executed
-        difficultyTimer = new Timer(DIFFICULTY_DELAY, new Difficulty());  //every 4 seconds, difficulty increased
+        difficultyTimer = new Timer(DIFFICULTY_DELAY, new Difficulty());
         addKeyListener(this);
         
         //Invincibility display shows when the player is invincible
         invincibilityDisplay = new JLabel("Invincibility!");
         invincibilityDisplay.setFont(new Font("Arial", Font.BOLD, 25));
-        invincibilityDisplay.setBounds(800, 60, 800 + invincibilityDisplay.getWidth(), 60 + invincibilityDisplay.getHeight());
+        invincibilityDisplay.setBounds(10, 80, 200, 50);
         invincibilityDisplay.setForeground(Color.RED);
         invincibilityDisplay.setVisible(false);
         add(invincibilityDisplay);
@@ -158,7 +158,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	//Method that initializes the sprites in their starting locations
 	private void initSprites() {
 		
-		//these new initializations are necessary for several bugs
+		//Re-initialize the sprites
 		runner = new Runner(0, 0, this);
         planesRight = new ArrayList<>();
         planesLeft = new ArrayList<>();
@@ -244,6 +244,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         }
     	
         g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 15));
         g.drawString("Depth: " + runner.getDepth().toString(), 10, 80);
         
     }
@@ -257,7 +258,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 
         g.setColor(Color.BLACK);
         g.setFont(small);
-        g.drawString(msg, (window.getWidth() - fm.stringWidth(msg)) / 2, (window.getHeight() / 2) - 120);
+        g.drawString("Game Over", (window.getWidth() - fm.stringWidth(msg)) / 2, (window.getHeight() / 2) - 120);
         
     }
 	
@@ -269,8 +270,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     public void actionPerformed(ActionEvent e) {
     	
     	//Run all methods that should occur every timer period
-        checkRunnerDead();
-        checkRunnerPaused();
         updateRunner();
         updatePlanesRight();
         updatePlanesLeft();
@@ -278,6 +277,8 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         generatePowerUp();
         updatePowerUps();
         checkInvincibility();
+        checkRunnerDead();
+        checkRunnerPaused();
         repaint();
         
     }
@@ -318,11 +319,11 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         
     }
 	
+	//Method that displays the invincibilityLabel on the screen if the player is invincible
     private void checkInvincibility() {
     	boolean flag = false;
     	for(Invincibility invin: invinPowerups) {
     		if(invin.isActive() == true) {
-    			//If it is active show the user
     			invincibilityDisplay.setVisible(true);
     			flag = true;
     		}
@@ -332,6 +333,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     	}
     }
     
+    //Method that checks if the game is paused
 	private void checkRunnerPaused() {
 		if(runnerPaused) {
 			gameTimer.stop();
@@ -348,39 +350,11 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 		}
 	}
 	
-    private void updateRunner() {
-        if (runner.isVisible())
-            runner.move();
-    }
-
-	private void updatePlanesRight() {
-        for (PlaneRight p : planesRight) {
-        	p.move();
-        }  
-    }
-	
-	private void updatePlanesLeft() {
-        for (PlaneLeft p : planesLeft) {
-        	p.move();
-        }  
-    }
-	
-	private void updatePowerUps() {
-		for(Halt hpu : haltPowerups) {		
-			hpu.move();
-		}
-		for(Invincibility invin : invinPowerups) {	
-			invin.move();
-		}
-	}
-	
-	private void updateObstacles() {
-		for (Obstacle obst : obstacles) {
-            obst.move();
-        }
-    }
-	
-	private void generatePowerUp() { //Will show a power up n% of the time, will have a 50-50 chance of what power up will be selected
+	/*
+	 * Method that randomly spawns powerups on the gamescreen
+	 * Will show a power up n% of the time, will have a 50-50 chance of what power up will be selected
+	 */
+	private void generatePowerUp() {
 		
 		int difficulty = Sprite.getDifficulty();
 		double occurance = 20; //This means 10% of the time a power up will be shown
@@ -435,6 +409,38 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 		}
 		//else does not show a power up
 	}
+	
+    private void updateRunner() {
+        if (runner.isVisible())
+            runner.move();
+    }
+
+	private void updatePlanesRight() {
+        for (PlaneRight p : planesRight) {
+        	p.move();
+        }  
+    }
+	
+	private void updatePlanesLeft() {
+        for (PlaneLeft p : planesLeft) {
+        	p.move();
+        }  
+    }
+	
+	private void updatePowerUps() {
+		for(Halt hpu : haltPowerups) {		
+			hpu.move();
+		}
+		for(Invincibility invin : invinPowerups) {	
+			invin.move();
+		}
+	}
+	
+	private void updateObstacles() {
+		for (Obstacle obst : obstacles) {
+            obst.move();
+        }
+    }
 	
     //This private class increases the difficulty of the game at a scheduled interval
     private class Difficulty implements ActionListener {

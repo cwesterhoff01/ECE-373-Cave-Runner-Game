@@ -4,7 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.Group7_FinalProject.Framework.RunningScreen;
-import org.Group7_FinalProject.Utilities.MusicPlayOnce;
+import org.Group7_FinalProject.Utilities.SoundEffect;
 
 public final class Halt extends Powerup {
 	
@@ -15,15 +15,14 @@ public final class Halt extends Powerup {
 		
 		super(x, y, runningScreen);
 		loadImage("src/resources/halt.png");
-		soundEffectFilePath = "src/resources/powerupSound.wav";
-		soundEffectObject = new MusicPlayOnce();
+		this.soundEffect = new SoundEffect("src/resources/powerupSound.wav");
 		haltTimer = new Timer();
 		
 	}
 	
 	@Override
 	public void activate() {
-		soundEffectObject.playMusic(soundEffectFilePath);
+		soundEffect.play();
 		setActive(true);
 		Sprite.LAST_DIFFICULTY = Sprite.DIFFICULTY;
 		Sprite.setDifficulty(0);

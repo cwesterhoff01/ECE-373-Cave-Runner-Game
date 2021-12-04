@@ -14,7 +14,7 @@ import java.util.Scanner;
 import javax.swing.JOptionPane;
 import org.Group7_FinalProject.Utilities.Account;
 import org.Group7_FinalProject.Utilities.Highscore;
-import org.Group7_FinalProject.Utilities.MusicLoop;
+import org.Group7_FinalProject.Utilities.Music;
 
 /*
  * The Game class contains all fields and methods related to a Game
@@ -29,9 +29,7 @@ public final class Game {
 	//How to get music file
 	// Go to https://savenow.to/en/youtube-wav-converter.html
 	// and put in a youtube link - https://www.youtube.com/watch?v=-bTpp8PQSog
-	//Play music
-	String musicFilepath;
-	MusicLoop musicObject;
+	private Music gameMusic;
 
 	//Default no-arg constructor
 	public Game() {
@@ -50,9 +48,8 @@ public final class Game {
 		this.gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Menu Screen"));
 		
 		//Start the music!
-		musicFilepath = "src/resources/Indiana Jones Theme Song [HD].wav";
-		musicObject = new MusicLoop();
-		musicObject.playMusic(musicFilepath);
+		gameMusic = new Music("src/resources/Indiana Jones Theme Song [HD].wav");
+		gameMusic.play();
 		
 	}
 
@@ -128,35 +125,12 @@ public final class Game {
 					break;
 				}
 			}
-			
-			//Consume all keyboard input for these pop-up windows
-			//Raphael has a weird bug where when the characterdied jumping,
-			//the release of space hits the Yes button and a new game begins,
-			//without being able to decide against it
-			//TODO but has a weird ArrayOutOfBoundsExceptions sometimes...
-			
-			//Note from Elliot:
-			//I think the easier solution to this is just make the jump key be the up arrow (;
-			
-			/*AWTEventListener myListener = new AWTEventListener() {
-
-		        @Override
-		        public void eventDispatched(AWTEvent event) {
-		            if (event instanceof KeyEvent) {
-		                ((KeyEvent) event).consume();
-		            }
-		        }
-		    };
-		    Toolkit.getDefaultToolkit().addAWTEventListener(myListener, AWTEvent.KEY_EVENT_MASK);*/
-		    
 			//Give the user the option to return to the Menu Screen or play again
 			int result;
 			if (newHighscore == false)
 				result = JOptionPane.showConfirmDialog(gameWindow, "Ouch! You died at a depth of " + depth.toString() + "ft. Do you wish to play again?", "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			else
 				result = JOptionPane.showConfirmDialog(gameWindow, "Ouch! You died at a depth of " + depth.toString() + "ft.\n Congratulations, this is a new top 10 score for your account!\n Do you wish to play again?", "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-			
-		    //Toolkit.getDefaultToolkit().removeAWTEventListener(myListener);
 			
 			if (result == JOptionPane.YES_OPTION) {
 				gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Running Screen"));
