@@ -51,6 +51,7 @@ public final class HighscoreScreen extends GameScreen {
 		menubtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				buttonClick.play();
 				window.setCurrentScreen(w.getGameScreenList().get("Menu Screen"));
 			}
 		});
@@ -89,6 +90,7 @@ public final class HighscoreScreen extends GameScreen {
 		togglebtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				buttonClick.play();
 				if (togglebtn.getText().equals("All-time Highscores")) {
 					togglebtn.setText("Personal Highscores");
 					//Show all-time scores

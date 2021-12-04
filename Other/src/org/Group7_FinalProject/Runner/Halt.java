@@ -15,7 +15,7 @@ public final class Halt extends Powerup {
 		
 		super(x, y, runningScreen);
 		loadImage("src/resources/halt.png");
-		this.soundEffect = new SoundEffect("src/resources/powerupSound.wav");
+		this.soundEffect = new SoundEffect("src/resources/halt.wav");
 		haltTimer = new Timer();
 		
 	}

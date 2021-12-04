@@ -200,6 +200,9 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     	invinPowerups.clear();
 		runner.setVisible(false);
 		
+        //Hide the invincibility label, in case it was showing
+        invincibilityDisplay.setVisible(false);
+		
 	}
 
 	//Method that draws all visible sprite objects on the screen
@@ -312,6 +315,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 		
         if (Sprite.isCollided(runner, ceiling)) {
         	runnerDead = true;
+        	runner.getRunnerDying().play();
         }
         
         if (runnerDead)

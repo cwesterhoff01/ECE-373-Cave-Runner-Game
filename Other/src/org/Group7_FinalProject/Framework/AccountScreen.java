@@ -59,8 +59,10 @@ public final class AccountScreen extends GameScreen {
 		menubtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				buttonClick.play();
 				//Check to make sure the user is logged into an account, otherwise they can't play the game
 				if (window.getGame().getCurrAccount() == null) {
+					error.play();
 					JOptionPane.showMessageDialog(window, "Please select or create an account!", "Account Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
@@ -124,23 +126,27 @@ public final class AccountScreen extends GameScreen {
 		createacctbtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				buttonClick.play();
 				//When the user clicks the createacctbtn, a new account with the name entered in the textbox should be created
 				//But first, do some input verification. The name should not contain any non-alpha numeric characters
 				Pattern p = Pattern.compile("[^a-z0-9]", Pattern.CASE_INSENSITIVE);
 				Matcher m = p.matcher(accttxtbox.getText());
 				boolean b = m.find();
 				if (b) {
+					error.play();
 					JOptionPane.showMessageDialog(window, "The account name you entered is invalid. Account names cannot contain any special characters or spaces.", "Account Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				//Next, check to make sure that the textbox is not empty
 				if (accttxtbox.getText().equals("")) {
+					error.play();
 					JOptionPane.showMessageDialog(window, "The account name you entered is invalid. Account names cannot be empty.", "Account Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				//Finally, check to make sure the account name has not already been taken
 				for (Account a : window.getGame().getGameAccounts()) {
 					if (a.getName().equals(accttxtbox.getText())) {
+						error.play();
 						JOptionPane.showMessageDialog(window, "The account name you entered has already been taken. Please enter a unique account name.", "Account Error", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
@@ -205,6 +211,7 @@ public final class AccountScreen extends GameScreen {
 		selectacctbtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				buttonClick.play();
 				//When the user clicks the selectacctbtn, the current account should be set to the account currently selected in the table
 				//But first, check to make sure that the account selected in the table is not already the current account
 				if (window.getGame().getCurrAccount().equals(window.getGame().getGameAccounts().get(accttable.getSelectedRow()))) {

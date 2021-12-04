@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import org.Group7_FinalProject.Utilities.Account;
 import org.Group7_FinalProject.Utilities.Highscore;
 import org.Group7_FinalProject.Utilities.Music;
+import org.Group7_FinalProject.Utilities.SoundEffect;
 
 /*
  * The Game class contains all fields and methods related to a Game
@@ -30,6 +31,7 @@ public final class Game {
 	// Go to https://savenow.to/en/youtube-wav-converter.html
 	// and put in a youtube link - https://www.youtube.com/watch?v=-bTpp8PQSog
 	private Music gameMusic;
+	private SoundEffect whipCrack;
 
 	//Default no-arg constructor
 	public Game() {
@@ -47,9 +49,12 @@ public final class Game {
 		//Start the game on the Menu Screen
 		this.gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Menu Screen"));
 		
+		//A whipcrack sound used when starting the game
+		this.whipCrack = new SoundEffect("src/resources/whipcrack.wav");
+		
 		//Start the music!
-		gameMusic = new Music("src/resources/Indiana Jones Theme Song [HD].wav");
-		gameMusic.play();
+		this.gameMusic = new Music("src/resources/Indiana Jones Theme Song [HD].wav");
+		this.gameMusic.play();
 		
 	}
 
@@ -99,8 +104,9 @@ public final class Game {
 	
 	private void updateRunningScreen() {
 		
-		//Start the runner
+		//Start the runner, with the crack of a whip!
 		((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).startRunning();
+		whipCrack.play();
     	
     	//Continue running until the player dies
     	while(((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).isRunnerDead() == false);
@@ -277,6 +283,34 @@ public final class Game {
 	 */
 	public void setCurrAccount(Account currAccount) {
 		this.currAccount = currAccount;
+	}
+
+	/**
+	 * @return the gameMusic
+	 */
+	public Music getGameMusic() {
+		return gameMusic;
+	}
+
+	/**
+	 * @param gameMusic the gameMusic to set
+	 */
+	public void setGameMusic(Music gameMusic) {
+		this.gameMusic = gameMusic;
+	}
+
+	/**
+	 * @return the whipCrack
+	 */
+	public SoundEffect getWhipCrack() {
+		return whipCrack;
+	}
+
+	/**
+	 * @param whipCrack the whipCrack to set
+	 */
+	public void setWhipCrack(SoundEffect whipCrack) {
+		this.whipCrack = whipCrack;
 	}
 
 }

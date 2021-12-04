@@ -4,6 +4,7 @@ package org.Group7_FinalProject.Runner;
 import java.awt.event.KeyEvent;
 
 import org.Group7_FinalProject.Framework.RunningScreen;
+import org.Group7_FinalProject.Utilities.SoundEffect;
 
 /*
  * The Runner class includes all fields and methods related to a Runner
@@ -21,12 +22,14 @@ public class Runner extends Sprite {
     private long jumpStart;
     private Integer depth;
     private RunningScreen runningScreen;
+    private SoundEffect runnerDying;
 
     //Constructor that requires three arguments
     public Runner(int x, int y, RunningScreen runningScreen) {
     	
         super(x, y);
         loadImage("src/resources/runner.png");
+        this.runnerDying = new SoundEffect("src/resources/oof.wav");
         this.dx = 0;
         this.dy = 0;
         this.jumping = false;
@@ -110,6 +113,7 @@ public class Runner extends Sprite {
                 	if (invin.isActive()) {
                 		invincible = true;
                 		obst.setVisible(false);
+                		obst.destroy();
                 		break;
                 	}
                 }
@@ -358,6 +362,27 @@ public class Runner extends Sprite {
 	 */
 	public int getHORIZ_SPEED() {
 		return HORIZ_SPEED;
+	}
+
+	/**
+	 * @return the runnerDying
+	 */
+	public SoundEffect getRunnerDying() {
+		return runnerDying;
+	}
+
+	/**
+	 * @param runnerDying the runnerDying to set
+	 */
+	public void setRunnerDying(SoundEffect runnerDying) {
+		this.runnerDying = runnerDying;
+	}
+
+	/**
+	 * @return the jUMP_DURATION
+	 */
+	public int getJUMP_DURATION() {
+		return JUMP_DURATION;
 	}
     
 }

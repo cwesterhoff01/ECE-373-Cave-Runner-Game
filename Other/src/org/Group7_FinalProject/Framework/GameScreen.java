@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.*;
 
+import org.Group7_FinalProject.Utilities.SoundEffect;
+
 /*
  * The GameScreen class includes all fields and methods related to a GameScreen
  * The GameScreen class is expected to be implemented by particular subclasses
@@ -13,6 +15,9 @@ public class GameScreen extends JPanel {
 	//Fields for a GameScreen
 	protected Window window;
     private Image backgroundImage;
+    protected SoundEffect buttonClick;
+    protected SoundEffect buttonHover;
+    protected SoundEffect error;
 	
 	//Default no-arg constructor
 	public GameScreen() {
@@ -30,6 +35,9 @@ public class GameScreen extends JPanel {
   		super();
 		this.window = w;
 		this.backgroundImage = ii.getImage();
+		this.buttonClick = new SoundEffect("src/resources/buttonclick.wav");
+		this.buttonHover = new SoundEffect("src/resources/buttonhover.wav");
+		this.error = new SoundEffect("src/resources/error.wav");
 		
 	}
 	

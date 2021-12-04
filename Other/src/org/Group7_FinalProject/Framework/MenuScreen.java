@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import org.Group7_FinalProject.Framework.HighscoreScreen;
 
 /*
  * The MenuScreen class includes all fields and methods related to a MenuScreen
@@ -91,6 +90,7 @@ public final class MenuScreen extends GameScreen {
 		accountbtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				buttonClick.play();
 				window.setCurrentScreen(w.getGameScreenList().get("Account Screen"));
 			}
 		});
@@ -119,6 +119,7 @@ public final class MenuScreen extends GameScreen {
 		highscorebtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//Make sure we start by viewing the All-time highscores
 				JButton btn = ((HighscoreScreen)window.getGameScreenList().get("Highscore Screen")).getTogglebtn();
 				btn.setText("All-time Highscores");
 				btn.doClick();
@@ -149,6 +150,7 @@ public final class MenuScreen extends GameScreen {
 		exitbtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				buttonClick.play();
 				//Confirm the user's choice of action with a yes/no popup
 				int result = JOptionPane.showConfirmDialog(window, "Are you sure you want to exit the game?", "Exit Cave Runner", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if (result == JOptionPane.YES_OPTION) {
