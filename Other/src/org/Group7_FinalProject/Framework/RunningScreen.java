@@ -174,7 +174,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
             planesLeft.add(new PlaneLeft(p[0], p[1], this));
         }
         for (int[] p : posObst) {
-        	obstacles.add(new Obstacle(p[0], p[1]));
+        	obstacles.add(new Obstacle(p[0], p[1], this));
         }
         for (int[] p : posHalt) {
         	haltPowerups.add(new Halt(p[0], p[1], this));
