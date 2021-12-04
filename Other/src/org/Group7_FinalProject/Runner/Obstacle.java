@@ -4,12 +4,14 @@ import org.Group7_FinalProject.Framework.RunningScreen;
 
 public class Obstacle extends Sprite {
 	
-    protected final int INITIAL_Y = 850;
+    private final int INITIAL_Y = 850;
+    private RunningScreen runningScreen;
     
-    public Obstacle(int x, int y) {
+    public Obstacle(int x, int y, RunningScreen runningScreen) {
     	
         super(x, y);
         visible = false;
+        this.runningScreen = runningScreen;
         loadImage("src/resources/obstacle.png");
         
     }
@@ -28,4 +30,5 @@ public class Obstacle extends Sprite {
 
         y -= DIFFICULTY;
     }
+    
 }
