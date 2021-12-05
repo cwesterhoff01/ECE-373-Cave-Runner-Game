@@ -343,6 +343,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 			gameTimer.stop();
 			difficultyTimer.stop();
 			int result = JOptionPane.showConfirmDialog(null, "Game is paused. Would you like to resume?\nClick 'yes' to resume\nClick 'no' to go back to Menu (your score will not be saved)", "Pause Menu", JOptionPane.YES_NO_OPTION);
+			buttonClick.play();
 			if(result == JOptionPane.YES_OPTION) {
 				gameTimer.start();
 				difficultyTimer.start();

@@ -143,6 +143,7 @@ public final class Game {
 			}
 			else {
 				gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Menu Screen"));
+				gameWindow.getCurrentScreen().buttonClick.play();
 			}
     	}
 		

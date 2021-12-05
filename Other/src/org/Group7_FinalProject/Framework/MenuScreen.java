@@ -156,6 +156,7 @@ public final class MenuScreen extends GameScreen {
 				if (result == JOptionPane.YES_OPTION) {
 					window.getGame().terminate();
 				}
+				buttonClick.play();
 			}
 		});
 		this.add(exitbtn);
