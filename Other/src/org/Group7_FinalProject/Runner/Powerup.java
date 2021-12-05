@@ -1,5 +1,6 @@
 package org.Group7_FinalProject.Runner;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -12,13 +13,16 @@ public abstract class Powerup extends Sprite {
     protected final int INITIAL_Y = 850;
 	protected boolean isActive;
 	protected SoundEffect soundEffect;
-	protected RunningScreen runningScreen;
+	protected static RunningScreen runningScreen;
+	protected static Random rand;
 	
 	//Constructor requires three arguments
 	public Powerup(int x, int y, RunningScreen runningScreen) {
 		
 		super(x, y);
-		this.runningScreen = runningScreen;
+		Powerup.runningScreen = runningScreen;
+		Powerup.rand = new Random();
+		Powerup.rand.setSeed(System.currentTimeMillis());
 		visible = false;
 		isActive = false;
 		

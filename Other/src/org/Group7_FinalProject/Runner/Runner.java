@@ -14,10 +14,12 @@ public class Runner extends Sprite {
 	//Fields for a Runner
     private int dx;
     private int dy;
-    private final int JUMP_SPEED = 8;
+    private final int JUMP_SPEED = 9;
     private final int VERT_SPEED = 3;
     private final int HORIZ_SPEED = 3;
     private final int JUMP_DURATION = 400;
+    private boolean movingLeft;
+    private boolean movingRight;
     private boolean jumping;
     private long jumpStart;
     private Integer depth;
@@ -32,6 +34,8 @@ public class Runner extends Sprite {
         this.runnerDying = new SoundEffect("src/resources/oof.wav");
         this.dx = 0;
         this.dy = 0;
+        this.movingLeft = false;
+        this.movingRight = false;
         this.jumping = false;
         this.jumpStart = 0;
         this.depth = 0;
@@ -42,17 +46,35 @@ public class Runner extends Sprite {
 	@Override
     public void move() {
      	
+		//Determine where the user wants to move in the y direction
 		if (System.currentTimeMillis() - jumpStart > JUMP_DURATION)
-			jumping = false;
-		
+			jumping = false;	
 		//Default movement is gravity/free-fall
 		if (!jumping) {
 			dy = DIFFICULTY + VERT_SPEED;
 		}
+		
+		//Determine how the user wants to move in the x direction
+		if (movingLeft) {
+        	dx = -HORIZ_SPEED;
+        	if ((DIFFICULTY * 3) > HORIZ_SPEED) {
+        		dx = -DIFFICULTY * 3;
+        	}
+		}
+		else if (movingRight) {
+        	dx = HORIZ_SPEED;
+        	if ((DIFFICULTY * 3) > HORIZ_SPEED) {
+        		dx = DIFFICULTY * 3;
+        	}
+		}
+		else {
+			dx = 0;
+		}
         
 		/*
 		 * Now, run a whole bunch of checks to determine if and where the runner
-		 * has collided with other objects on the screen. Then set dx and dy appropriately
+		 * has collided with other objects on the screen. This may mean the user can't
+		 * move where he wants to (i.e, he is blocked). Set dx and dy accordingly
 		 */
      	for (PlaneRight plnRight : runningScreen.getPlanesRight()) {       
             if (Sprite.isCollided(this, plnRight)) {
@@ -164,11 +186,9 @@ public class Runner extends Sprite {
         
         //Prevent Runner from escaping the window
 		if (x < 1) {
-            //x = runningScreen.getWindow().getWidth();
 			x = 1;
         }
 		else if (x > runningScreen.getWindow().getWidth() - this.getWidth()) {
-			//x = 0;
 			x = runningScreen.getWindow().getWidth() - this.getWidth();
 		}
 		//Prevent Runner from moving below window limits
@@ -225,18 +245,12 @@ public class Runner extends Sprite {
 
         //Move left
         if (key == KeyEvent.VK_LEFT) {
-        	dx = -HORIZ_SPEED;
-        	if ((DIFFICULTY * 3) > HORIZ_SPEED) {
-        		dx = -DIFFICULTY * 3;
-        	}
+        	movingLeft = true;
         }
         
         //Move right
         if (key == KeyEvent.VK_RIGHT) {
-        	dx = HORIZ_SPEED;
-        	if ((DIFFICULTY * 3) > HORIZ_SPEED) {
-        		dx = DIFFICULTY * 3;
-        	}
+        	movingRight = true;
         }
         
     }
@@ -250,11 +264,11 @@ public class Runner extends Sprite {
         }
         
         if (key == KeyEvent.VK_LEFT) {
-            dx = 0;
+        	movingLeft = false;
         }
 
         if (key == KeyEvent.VK_RIGHT) {
-            dx = 0;
+        	movingRight = false;
         }
         
     }

@@ -11,15 +11,15 @@ import org.Group7_FinalProject.Framework.RunningScreen;
 public abstract class Sprite {
 
 	//Fields for a Sprite
+    protected static int DIFFICULTY = 0;
+    protected static int MAX_DIFFICULTY = 4;
+	protected static int LAST_DIFFICULTY = 0;
     protected int x;
     protected int y;
     protected int width;
     protected int height;
     protected boolean visible;
     protected Image image;
-    protected static int DIFFICULTY = 0;
-    protected static int MAX_DIFFICULTY = 4;
-	protected static int LAST_DIFFICULTY = 0;
     public static enum CollisionPosition { TOP, BOTTOM, LEFT, RIGHT, NONE };
 
     //Constructor that requires two arguments

@@ -25,6 +25,7 @@ import org.Group7_FinalProject.Runner.*;
 public class RunningScreen extends GameScreen implements ActionListener, KeyListener {
 
 	//Fields for a RunningScreen
+	private int DIFFICULTY_DELAY = 8000;
     private Timer gameTimer;
     private Timer difficultyTimer;
     private Runner runner;
@@ -34,11 +35,9 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	private List<Obstacle> obstacles;
 	private List<Halt> haltPowerups;
 	private List<Invincibility> invinPowerups;
-	private Random rand;
 	private boolean runnerDead;
 	private boolean runnerPaused;
 	private JLabel invincibilityDisplay;
-	private int DIFFICULTY_DELAY = 10000;
     
 	private final int[][] posPlnsRt = { // spawn positions for right planes
 	        {350, 140}, {500, 435}, {450, 715}
@@ -79,8 +78,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         haltPowerups = new ArrayList<>();
         invinPowerups = new ArrayList<>();
         ceiling = new Ceiling(0, 0);
-		rand = new Random();
-		rand.setSeed(System.currentTimeMillis());
         
         //The timer handles animation with ActionListener, the KeyListener handles keyboard input
         gameTimer = new Timer(15, this); //every 15 ms, actionPerformed() executed
@@ -277,7 +274,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
         updatePlanesRight();
         updatePlanesLeft();
         updateObstacles();
-        generatePowerUp();
+        generatePowerupsAndObstacles();
         updatePowerUps();
         checkInvincibility();
         checkRunnerDead();
@@ -355,64 +352,11 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 		}
 	}
 	
-	/*
-	 * Method that randomly spawns powerups on the gamescreen
-	 * Will show a power up n% of the time, will have a 50-50 chance of what power up will be selected
-	 */
-	private void generatePowerUp() {
-		
-		int difficulty = Sprite.getDifficulty();
-		double occurance = 20; //This means 10% of the time a power up will be shown
-		double rand_double = rand.nextDouble(); //Generates a float between 0.0 -> 1.0
-		
-		if(rand_double <= (occurance / 100)) {
-			//Set visible an obstacle or power up if screen not halted (difficulty > 0 -> looks better and less cluttered)
-			if (rand_double > 0.12 && difficulty > 0) {
-				int numObst = 0;
-				for (Obstacle o : obstacles) {
-					if (o.isVisible()) 
-						numObst ++;
-				}
-				//No more than 3 obstacles on map
-				if (numObst < 4) {
-					int i = rand.nextInt(posObst.length); 
-					if (obstacles.get(i).getY() > this.getWindow().getHeight() - 50) {
-						obstacles.get(i).setVisible(true);
-					}
-				}
-			}
-			else if (rand_double > 0.08 && difficulty > 0) {
-				int numHalt = 0;
-				for (Halt h : haltPowerups) {
-					if (h.isVisible()) 
-						numHalt ++;
-				}
-				//No more than 2 halt power ups
-				if (numHalt < 1) {
-					int i = rand.nextInt(posHalt.length); 
-					//Only add power up when location at bottom of screen
-					if (haltPowerups.get(i).getY() > this.getWindow().getHeight() - 50) {
-						haltPowerups.get(i).setVisible(true);
-					}
-				}
-			}
-			else {
-				int numInvin = 0;
-				for (Invincibility inv : invinPowerups) {
-					if (inv.isVisible()) 
-						numInvin ++;
-				}
-				//No more than 2 invincibility power ups
-				if (numInvin < 2 && difficulty > 0) {
-					int i = rand.nextInt(posInvin.length); 
-					//Only add power up when location at bottom of screen
-					if (invinPowerups.get(i).getY() > this.getWindow().getHeight() - 50) {
-						invinPowerups.get(i).setVisible(true);
-					}
-				}
-			}
-		}
-		//else does not show a power up
+	//Method that generates powerups and obstacles on the screen
+	private void generatePowerupsAndObstacles() {
+		Obstacle.generateObstacles();
+		Invincibility.generateInvincibilityPowerups();
+		Halt.generateHaltPowerups();
 	}
 	
     private void updateRunner() {
@@ -581,20 +525,6 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
 	 */
 	public void setInvinPowerups(List<Invincibility> invinPowerups) {
 		this.invinPowerups = invinPowerups;
-	}
-
-	/**
-	 * @return the rand
-	 */
-	public Random getRand() {
-		return rand;
-	}
-
-	/**
-	 * @param rand the rand to set
-	 */
-	public void setRand(Random rand) {
-		this.rand = rand;
 	}
 
 	/**
