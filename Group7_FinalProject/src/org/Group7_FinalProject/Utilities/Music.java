@@ -14,23 +14,45 @@ public class Music {
 	File musicFile;
 	AudioInputStream musicInputStream;
 	Clip musicClip;
+	Long currentPos;
 	
 	//Constructor that requires one argument
 	public Music(String filepath) {
 		
 		this.musicLocation = filepath;
 		this.musicFile = new File(musicLocation);
-
+		
 	}
 	
 	//Method that plays the Music
 	public void play() {
-		try {
-			if (musicFile.exists()) {
+		if (musicFile.exists()) {
+			try {
 				this.musicInputStream = AudioSystem.getAudioInputStream(musicFile);
 				this.musicClip = AudioSystem.getClip();
 				this.musicClip.open(musicInputStream);
 				this.musicClip.loop(Clip.LOOP_CONTINUOUSLY);
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void pause() {
+		this.currentPos = this.musicClip.getMicrosecondPosition();
+        musicClip.stop();	
+	}
+	
+	public void resume() {
+		try {
+			if (musicFile.exists()) {
+				musicClip.close();
+				this.musicInputStream = AudioSystem.getAudioInputStream(musicFile);
+				this.musicClip.open(musicInputStream);
+				this.musicClip.loop(Clip.LOOP_CONTINUOUSLY);
+				musicClip.setMicrosecondPosition(currentPos);
+				musicClip.start();
 			}
 		}
 		catch(Exception e) {

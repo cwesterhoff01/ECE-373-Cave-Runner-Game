@@ -28,7 +28,8 @@ public final class Game {
 	// and put in a youtube link - https://www.youtube.com/watch?v=-bTpp8PQSog
 	private Music gameMusic;
 	private SoundEffect whipCrack;
-
+	private boolean wasPaused;
+	
 	//Default no-arg constructor
 	public Game() {
 		
@@ -40,19 +41,18 @@ public final class Game {
 		this.currAccount = this.gameAccounts.get(0);
 		
 		//Create a new game window associated with this Game
-		this.gameWindow = new Window(this, 1024, 744);
+		this.gameWindow = new Window(this, 1000, 720);
 		
 		//Start the game on the Menu Screen
 		this.gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Menu Screen"));
 		
 		//A whipcrack sound used when starting the game
 		this.whipCrack = new SoundEffect("src/resources/whip crack.wav");
-		//this.whipCrack = new SoundEffect("src/resources/IndianaJonesSong.wav");
 		
 		//Start the music!
 		this.gameMusic = new Music("src/resources/IndianaJonesSong.wav");
 		
-		
+		wasPaused = false;
 	}
 
 	//Method that implements primary game flow control
@@ -105,9 +105,18 @@ public final class Game {
 		((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).startRunning();
 		whipCrack.play();
 		gameMusic.play();
-    	
-    	//Continue running until the player dies
-    	while(((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).isRunnerDead() == false);
+		wasPaused = false;
+    	//Continue running until the player dies and check if game was paused so we can pause music as well
+    	while(((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).isRunnerDead() == false) {
+    		if (((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).isRunnerPaused() == true) {
+    			gameMusic.pause();
+    			wasPaused = true;
+    		}
+    		else if (wasPaused) {
+    			gameMusic.resume();
+    			wasPaused = false;
+    		}
+    	};
     	gameMusic.stop();
     	//When the player is dead, check to see if the player quit from the pause screen or if they died in the game
     	if((((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).isRunnerPaused() == true)) {
