@@ -37,6 +37,20 @@ public final class Game {
 		this.gameAccounts = new ArrayList<Account>();
 		this.loadAccounts();
 		
+		//fixes error when account_data.txt is empty
+				if(gameAccounts.size() == 0) {
+				//System.out.println("An error occurred in loading the account data");
+				//e.printStackTrace();
+				ArrayList<Highscore> Guestscores = new ArrayList<Highscore>();
+				String name = "Guest";
+				for(int i = 0; i < 10; i++) {
+					Guestscores.add(new Highscore(0, name));
+				}
+				
+				Account acc = new Account(name, Guestscores);
+				gameAccounts.add(acc);
+		}
+		
 		//Open the game with the guest account logged in
 		this.currAccount = this.gameAccounts.get(0);
 		
