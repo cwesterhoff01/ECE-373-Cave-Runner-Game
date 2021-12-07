@@ -47,9 +47,9 @@ public final class Game {
 		this.gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Menu Screen"));
 		
 		//A whipcrack sound used when starting the game
-		this.whipCrack = new SoundEffect("src/resources/whip crack.wav");
+		this.whipCrack = new SoundEffect("src/resources/whipcrack.wav");
 		
-		//Start the music!
+		//Load the main music
 		this.gameMusic = new Music("src/resources/IndianaJonesSong.wav");
 		
 		wasPaused = false;
