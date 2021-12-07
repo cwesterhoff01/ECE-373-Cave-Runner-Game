@@ -3,7 +3,12 @@ package org.Group7_FinalProject.Framework;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -199,33 +204,20 @@ public final class Game {
 	//Method that loads in accounts from a txt file
 	private void loadAccounts() {
 		
-		try {
-			File accData = new File("/resources/account_data.txt");
-			Scanner scanner = new Scanner(accData);
-			while (scanner.hasNextLine()) {
-				ArrayList<Highscore> accScores= new ArrayList<Highscore>();
-				String name = scanner.nextLine();
-				while(scanner.hasNextInt()) {
-					Integer score = scanner.nextInt();
-					accScores.add(new Highscore(score, name));
-				}
-				String garbage = scanner.nextLine();
-				Account acc = new Account(name, accScores);
-				gameAccounts.add(acc);
+		InputStream accData = this.getClass().getResourceAsStream("/resources/account_data.txt");
+		Scanner scanner = new Scanner(accData);
+		while (scanner.hasNextLine()) {
+			ArrayList<Highscore> accScores= new ArrayList<Highscore>();
+			String name = scanner.nextLine();
+			while(scanner.hasNextInt()) {
+				Integer score = scanner.nextInt();
+				accScores.add(new Highscore(score, name));
 			}
-			scanner.close();
-		} catch(FileNotFoundException e) {
-			//System.out.println("An error occurred in loading the account data");
-			//e.printStackTrace();
-			ArrayList<Highscore> Guestscores = new ArrayList<Highscore>();
-			String name = "Guest";
-			for(int i = 0; i < 10; i++) {
-				Guestscores.add(new Highscore(0, name));
-			}
-			
-			Account acc = new Account(name, Guestscores);
+			String garbage = scanner.nextLine();
+			Account acc = new Account(name, accScores);
 			gameAccounts.add(acc);
 		}
+		scanner.close();
 
 		
 	}
@@ -234,14 +226,15 @@ public final class Game {
 	private void saveAccounts() {
 		
 		try {
-			File accData = new File("/resources/account_data.txt");
-			PrintWriter writer = new PrintWriter(accData);
+			URL accData = (this.getClass().getResource("/resources/account_data.txt"));
+			URLConnection urlConnect = accData.openConnection();
+			OutputStreamWriter writer = new OutputStreamWriter(urlConnect.getOutputStream());
 			for(Account acc : gameAccounts) {
-				writer.println(acc.getName());
+				writer.write(acc.getName() + "\n");
 				for(Highscore h : acc.getHighscores()) {
-					writer.print(h.getValue().toString() + " ");
+					writer.write(h.getValue().toString() + " ");
 				}
-				writer.println();
+				writer.write("\n");
 			}
 			writer.close();
 		} catch (IOException e) {
