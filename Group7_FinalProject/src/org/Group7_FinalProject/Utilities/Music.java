@@ -37,6 +37,18 @@ public class Music {
 			e.printStackTrace();
 		}
 	}
+	
+	public void stop() {
+		try {
+			if (musicFile.exists()) {
+				this.musicClip.stop();
+				this.musicClip.close();
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * @return the musicLocation

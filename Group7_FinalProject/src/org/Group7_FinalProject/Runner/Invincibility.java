@@ -15,7 +15,8 @@ public final class Invincibility extends Powerup {
         
 		super(x, y, runningScreen);
         loadImage("src/resources/invincibility.png");
-        this.soundEffect = new SoundEffect("src/resources/invincibility.wav");
+        //this.soundEffect = new SoundEffect("src/resources/invincibility.wav");
+        this.soundEffect = new SoundEffect("src/resources/fairySoundDeeper.wav");
         this.invincibilityTimer = new Timer();
         
     }

@@ -46,11 +46,12 @@ public final class Game {
 		this.gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Menu Screen"));
 		
 		//A whipcrack sound used when starting the game
-		this.whipCrack = new SoundEffect("src/resources/whipcrack.wav");
+		this.whipCrack = new SoundEffect("src/resources/whip crack.wav");
+		//this.whipCrack = new SoundEffect("src/resources/IndianaJonesSong.wav");
 		
 		//Start the music!
-		this.gameMusic = new Music("src/resources/Indiana Jones Theme Song [HD].wav");
-		this.gameMusic.play();
+		this.gameMusic = new Music("src/resources/IndianaJonesSong.wav");
+		
 		
 	}
 
@@ -103,10 +104,11 @@ public final class Game {
 		//Start the runner, with the crack of a whip!
 		((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).startRunning();
 		whipCrack.play();
+		gameMusic.play();
     	
     	//Continue running until the player dies
     	while(((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).isRunnerDead() == false);
-    	
+    	gameMusic.stop();
     	//When the player is dead, check to see if the player quit from the pause screen or if they died in the game
     	if((((RunningScreen)gameWindow.getGameScreenList().get("Running Screen")).isRunnerPaused() == true)) {
     		//Game was paused, go back to menu screen without recording highscore

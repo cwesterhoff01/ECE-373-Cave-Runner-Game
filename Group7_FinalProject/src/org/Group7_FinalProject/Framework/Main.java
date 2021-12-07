@@ -16,8 +16,8 @@ public class Main {
 		//Do a splash screen
 		JWindow window = new JWindow();
 		window.getContentPane().add(
-			    new JLabel("", new ImageIcon("src/resources/Welcome.jpeg"), SwingConstants.CENTER));
-		window.setBounds(500, 150, 500, 300);
+			    new JLabel("", new ImageIcon("src/resources/welcome2.jpeg"), SwingConstants.CENTER));
+		window.setBounds(500, 150, 653, 447);
 		window.setVisible(true);
 		try {
 		    Thread.sleep(3000);
