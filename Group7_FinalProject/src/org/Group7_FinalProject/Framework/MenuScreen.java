@@ -28,12 +28,12 @@ public final class MenuScreen extends GameScreen {
 	//Constructor that requires one argument
 	public MenuScreen(Window w) {
 		
-		super(w, new ImageIcon("src/resources/background_menu.jpeg"));
+		super(w, new ImageIcon("src/resources/background_menu3.jpeg"));
 		
 		//Create a JLabel to display the current account at all times
 		curracctlabel = new JLabel("Currently Logged In As:    " + window.getGame().getCurrAccount().getName());
-		curracctlabel.setFont(new Font("Arial", Font.BOLD, 19));
-		curracctlabel.setBounds(320,230,500,50); 
+		curracctlabel.setFont(new Font("Arial", Font.BOLD, 22));
+		curracctlabel.setBounds(328,238,500,50); 
 		curracctlabel.setForeground(Color.black);
 		this.add(curracctlabel);
 		
@@ -42,7 +42,7 @@ public final class MenuScreen extends GameScreen {
 				 + "</html>";
 		runningbtn = new JButton(text);
 		runningbtn.setFont(new Font("Arial", Font.BOLD, 18));
-		runningbtn.setBounds(162,396,100,50); 
+		runningbtn.setBounds(166,400,100,50); 
 		runningbtn.setContentAreaFilled(false);
 		runningbtn.setBorderPainted(false);
 		runningbtn.setBorder(new LineBorder(Color.black));
@@ -70,7 +70,7 @@ public final class MenuScreen extends GameScreen {
 				 + "</html>";
 		accountbtn = new JButton(text);
 		accountbtn.setFont(new Font("Arial", Font.BOLD, 18));
-		accountbtn.setBounds(357,396,100,50); 
+		accountbtn.setBounds(361,400,100,50); 
 		accountbtn.setContentAreaFilled(false);
 		accountbtn.setBorderPainted(false);
 		accountbtn.setBorder(new LineBorder(Color.black));
@@ -101,7 +101,7 @@ public final class MenuScreen extends GameScreen {
 				 + "</html>";
 		highscorebtn = new JButton(text);
 		highscorebtn.setFont(new Font("Arial", Font.BOLD, 18));
-		highscorebtn.setBounds(556,396,100,50); 
+		highscorebtn.setBounds(560,400,100,50); 
 		highscorebtn.setContentAreaFilled(false);
 		highscorebtn.setBorderPainted(false);
 		highscorebtn.setBorder(new LineBorder(Color.black));
@@ -131,7 +131,7 @@ public final class MenuScreen extends GameScreen {
 		//Create a button to exit the game
 		exitbtn = new JButton("Exit");
 		exitbtn.setFont(new Font("Arial", Font.BOLD, 20));
-		exitbtn.setBounds(745,430,100,50); 
+		exitbtn.setBounds(749,434,100,50); 
 		//exitbtn.setOpaque(true);
 		exitbtn.setContentAreaFilled(false);
 		exitbtn.setBorderPainted(false);

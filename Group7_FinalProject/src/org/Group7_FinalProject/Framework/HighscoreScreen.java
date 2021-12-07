@@ -28,12 +28,12 @@ public final class HighscoreScreen extends GameScreen {
 	//Constructor that requires one argument
 	public HighscoreScreen(Window w) {
 		
-		super(w, new ImageIcon("src/resources/background_highscore.jpeg"));
+		super(w, new ImageIcon("src/resources/background_highscore3.jpeg"));
 		
 		//Create a menu button
 		menubtn = new JButton("Menu");
 		menubtn.setFont(new Font("Arial", Font.BOLD, 20));
-		menubtn.setBounds(462,435,80,50); 
+		menubtn.setBounds(466,439,80,50); 
 		menubtn.setContentAreaFilled(false);
 		menubtn.setBorderPainted(false);
 		menubtn.setBorder(new LineBorder(Color.white));
@@ -62,7 +62,7 @@ public final class HighscoreScreen extends GameScreen {
 		//load in highscores into a double array & create Jtable
 		highscoreTable = new ScrollableTable(title, window.getGame().getAllTimeHighscores());
 		highscoreTable.setFont(new Font("Arial", Font.BOLD, 26));
-		highscoreTable.setBounds(585,240,300,180); 
+		highscoreTable.setBounds(589,244,300,180); 
 		highscoreTable.setBorder(new LineBorder(Color.white));
 		highscoreTable.setForeground(Color.white);
 		add(highscoreTable);
@@ -70,7 +70,7 @@ public final class HighscoreScreen extends GameScreen {
 		//Create a toggle button to switch between personal and all-time highscores display
 		togglebtn = new JButton("Personal Highscores");
 		togglebtn.setFont(new Font("Arial", Font.BOLD, 24));
-		togglebtn.setBounds(185,265,260,80); 
+		togglebtn.setBounds(189,269,260,80); 
 		togglebtn.setContentAreaFilled(false);
 		togglebtn.setBorderPainted(true);
 		togglebtn.setBorder(new LineBorder(Color.white, 2));

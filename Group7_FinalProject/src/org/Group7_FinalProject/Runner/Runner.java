@@ -192,8 +192,8 @@ public class Runner extends Sprite {
 			x = runningScreen.getWindow().getWidth() - this.getWidth();
 		}
 		//Prevent Runner from moving below window limits
-		if (y > runningScreen.getWindow().getHeight() - this.getHeight()) {
-        	y = runningScreen.getWindow().getHeight() - this.getHeight();
+		if (y > runningScreen.getWindow().getHeight() - this.getHeight() - 30) {
+        	y = runningScreen.getWindow().getHeight() - this.getHeight() - 30;
         	dy = 0;
         }
 		

@@ -17,7 +17,7 @@ public class Main {
 		JWindow window = new JWindow();
 		window.getContentPane().add(
 			    new JLabel("", new ImageIcon("src/resources/welcome2.jpeg"), SwingConstants.CENTER));
-		window.setBounds(500, 150, 653, 447);
+		window.setBounds(150, 140, 653, 447);
 		window.setVisible(true);
 		try {
 		    Thread.sleep(3000);

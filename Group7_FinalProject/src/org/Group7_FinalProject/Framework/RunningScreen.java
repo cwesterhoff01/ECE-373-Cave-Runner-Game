@@ -68,7 +68,7 @@ public class RunningScreen extends GameScreen implements ActionListener, KeyList
     public RunningScreen(Window w) {
     	
     	//Load the background image
-    	super(w, new ImageIcon("src/resources/background.jpeg"));
+    	super(w, new ImageIcon("src/resources/background2.jpeg"));
 
     	//Initialize objects
         runner = new Runner(0, 0, this);

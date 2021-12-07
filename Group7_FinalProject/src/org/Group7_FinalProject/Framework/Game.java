@@ -40,7 +40,7 @@ public final class Game {
 		this.currAccount = this.gameAccounts.get(0);
 		
 		//Create a new game window associated with this Game
-		this.gameWindow = new Window(this, 1000, 720);
+		this.gameWindow = new Window(this, 1024, 744);
 		
 		//Start the game on the Menu Screen
 		this.gameWindow.setCurrentScreen(gameWindow.getGameScreenList().get("Menu Screen"));
