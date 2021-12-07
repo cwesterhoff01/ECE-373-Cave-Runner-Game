@@ -37,7 +37,7 @@ public class Obstacle extends Sprite {
 					numObst ++;
 			}
 			//No more than 3 obstacles on running screen
-			if (numObst < 4) {
+			if (numObst < 2 + Sprite.getDIFFICULTY()) {
 				int i = rand.nextInt(runningScreen.getPosObst().length); 
 				if (runningScreen.getObstacles().get(i).getY() > runningScreen.getWindow().getHeight() - 50) {
 					runningScreen.getObstacles().get(i).setVisible(true);

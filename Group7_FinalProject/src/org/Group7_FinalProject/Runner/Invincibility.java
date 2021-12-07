@@ -29,10 +29,10 @@ public final class Invincibility extends Powerup {
 			int numInvin = 0;
 			for (Invincibility i : runningScreen.getInvinPowerups()) {
 				if (i.isVisible()) 
-					numInvin ++;
+					numInvin++;
 			}
 			//No more than 2 invincibility powerups on map
-			if (numInvin < 3) {
+			if (numInvin < 2) {
 				int i = rand.nextInt(runningScreen.getPosInvin().length); 
 				if (runningScreen.getInvinPowerups().get(i).getY() > runningScreen.getWindow().getHeight() - 50) {
 					runningScreen.getInvinPowerups().get(i).setVisible(true);

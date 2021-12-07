@@ -32,8 +32,8 @@ public final class Halt extends Powerup {
 				if (h.isVisible()) 
 					numHalt ++;
 			}
-			//No more than 2 halt powerups on map
-			if (numHalt < 3) {
+			//No more than 1 halt powerups on map
+			if (numHalt < 1) {
 				int i = rand.nextInt(runningScreen.getPosHalt().length); 
 				if (runningScreen.getHaltPowerups().get(i).getY() > runningScreen.getWindow().getHeight() - 50) {
 					runningScreen.getHaltPowerups().get(i).setVisible(true);
